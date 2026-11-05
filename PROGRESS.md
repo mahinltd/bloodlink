@@ -144,12 +144,12 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 
 ## Cross-cutting completion gates
 
-- [~] OpenAPI skeleton
-- [ ] Full OpenAPI coverage for every route and socket event
+- [~] OpenAPI contract covering current HTTP routes
+- [ ] Full OpenAPI validation and socket-event documentation
 - [~] Console/stub and real mail, push, storage, and call driver foundations
 - [~] 60-second settings cache
 - [~] Base seed foundation
-- [ ] Full CMS, notification, email template, hospital, and demo seed data
+- [~] Full CMS, notification, email template, hospital, and demo seed data
 - [ ] Bilingual template-backed user-facing text everywhere
 - [ ] Async handler wrapper and module route/controller/service/schema split
 - [ ] Rate limits for every abuse-prone flow
