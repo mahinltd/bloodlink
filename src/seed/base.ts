@@ -9,6 +9,29 @@ import { CmsString } from '../models/CmsString.js';
 import { FeatureFlag } from '../models/FeatureFlag.js';
 import { GeoArea, GeoDistrict, GeoDivision, Hospital } from '../models/Reference.js';
 import { EmailTemplate, NotificationTemplate, ReportReason } from '../models/Template.js';
+import { CmsRelease } from '../models/CmsRelease.js';
+import seedData from './cms_strings_seed.json' with { type: 'json' };
+
+type SeedString = {
+  key: string;
+  bn: string;
+  en: string;
+  screen: string;
+  status?: 'draft' | 'in_review' | 'published';
+  origin?: 'design' | 'en_written' | 'bn_written' | 'new_text';
+  needsReview?: boolean;
+  latinAllowed?: boolean;
+};
+type SeedFlag = {
+  key: string;
+  titleBn: string;
+  titleEn: string;
+  descriptionEn: string;
+  rolloutPercent: number;
+  enabled: boolean;
+};
+const seedStrings = seedData.strings as SeedString[];
+const seedFlags = seedData.featureFlags as SeedFlag[];
 
 const divisions = [
   ['barishal', 'বরিশাল', 'Barishal'],
@@ -126,34 +149,6 @@ const hospitals = [
     'mymensingh',
     'Mymensingh',
   ],
-];
-
-const cmsDefaults = [
-  ['common.appName', 'ব্লাডলিংক', 'BloodLink', 'common'],
-  ['common.bloodNeverSold', 'রক্ত কখনো বিক্রি হয় না', 'Blood is never sold', 'common'],
-  ['common.error', 'দুঃখিত, একটি সমস্যা হয়েছে', 'Sorry, something went wrong', 'common'],
-  ['common.retry', 'আবার চেষ্টা করুন', 'Try again', 'common'],
-  ['auth.verifyEmail', 'আপনার ইমেইল যাচাই করুন', 'Verify your email', 'auth'],
-  ['request.create', 'রক্তের অনুরোধ তৈরি করুন', 'Create blood request', 'requests'],
-  [
-    'request.safetyDisclaimer',
-    'এটি চিকিৎসা পরামর্শ নয়। হাসপাতালের চিকিৎসক সিদ্ধান্ত নেবেন।',
-    'This is not medical advice. Hospital staff make the final decision.',
-    'requests',
-  ],
-  [
-    'chat.safetyBanner',
-    'ব্যক্তিগত নথি, OTP বা টাকা শেয়ার করবেন না।',
-    'Do not share personal documents, OTPs, or money.',
-    'chat',
-  ],
-  [
-    'support.policy',
-    'সহায়তা স্বেচ্ছামূলক এবং রক্তের সঙ্গে যুক্ত নয়।',
-    'Support is voluntary and never tied to blood.',
-    'support',
-  ],
-  ['errors.notFound', 'অনুরোধটি পাওয়া যায়নি।', 'The requested resource was not found.', 'errors'],
 ];
 
 export async function seed(options: { disconnect?: boolean } = {}): Promise<void> {
@@ -288,31 +283,28 @@ export async function seed(options: { disconnect?: boolean } = {}): Promise<void
     { upsert: true },
   );
 
-  const flags = [
-    ['nearby_requests', true, 100],
-    ['in_app_calls', true, 25],
-    ['donation_reminders', true, 100],
-    ['support_payments', false, 10],
-    ['new_profile_layout', false, 0],
-  ] as const;
+  const flags = seedFlags.map((flag) => [flag.key, flag.enabled, flag.rolloutPercent] as const);
+  const environments = ['demo', 'staging', 'production'] as const;
   await FeatureFlag.bulkWrite(
-    flags.map(([key, enabled, rolloutPercent]) => ({
-      updateOne: {
-        filter: { key, environment: env.APP_ENV },
-        update: {
-          $set: {
-            key,
-            titleBn: key,
-            titleEn: key,
-            description: key,
-            environment: env.APP_ENV,
-            enabled,
-            rolloutPercent,
+    environments.flatMap((environment) =>
+      flags.map(([key, enabled, rolloutPercent]) => ({
+        updateOne: {
+          filter: { key, environment },
+          update: {
+            $set: {
+              key,
+              titleBn: seedFlags.find((flag) => flag.key === key)?.titleBn ?? key,
+              titleEn: seedFlags.find((flag) => flag.key === key)?.titleEn ?? key,
+              description: seedFlags.find((flag) => flag.key === key)?.descriptionEn ?? key,
+              environment,
+              enabled: environment === 'production' ? false : enabled,
+              rolloutPercent,
+            },
           },
+          upsert: true,
         },
-        upsert: true,
-      },
-    })),
+      })),
+    ),
   );
 
   const reasons = [
@@ -332,29 +324,50 @@ export async function seed(options: { disconnect?: boolean } = {}): Promise<void
       },
     })),
   );
+  const notificationKeys = new Map<
+    string,
+    { title?: { bn: string; en: string }; body?: { bn: string; en: string } }
+  >();
+  for (const string of seedStrings.filter((item) => item.key.startsWith('notify.'))) {
+    const [, type, part] = string.key.split('.');
+    if (type && (part === 'title' || part === 'body')) {
+      const current = notificationKeys.get(type) ?? {};
+      current[part] = { bn: string.bn, en: string.en };
+      notificationKeys.set(type, current);
+    }
+  }
   await NotificationTemplate.bulkWrite(
-    [
+    [...notificationKeys.entries()]
+      .filter(
+        (
+          entry,
+        ): entry is [
+          string,
+          { title: { bn: string; en: string }; body: { bn: string; en: string } },
+        ] => Boolean(entry[1].title && entry[1].body),
+      )
+      .map(([key, text]) => ({
+        updateOne: {
+          filter: { key },
+          update: { $set: { key, title: text.title, body: text.body, active: true } },
+          upsert: true,
+        },
+      })),
+  );
+  const urgentNearby = notificationKeys.get('urgent_nearby');
+  if (urgentNearby?.title && urgentNearby.body)
+    await NotificationTemplate.updateOne(
+      { key: 'request_nearby' },
       {
-        key: 'app_news',
-        title: { bn: 'নতুন খবর', en: 'App news' },
-        body: { bn: 'BloodLink-এ নতুন আপডেট এসেছে।', en: 'There is a new BloodLink update.' },
-      },
-      {
-        key: 'request_nearby',
-        title: { bn: 'নতুন রক্তের অনুরোধ', en: 'New blood request' },
-        body: {
-          bn: 'আপনার রক্তের গ্রুপের সঙ্গে মিলে এমন একটি অনুরোধ এসেছে।',
-          en: 'A blood request matches your blood group.',
+        $set: {
+          key: 'request_nearby',
+          title: urgentNearby.title,
+          body: urgentNearby.body,
+          active: true,
         },
       },
-    ].map((template) => ({
-      updateOne: {
-        filter: { key: template.key },
-        update: { $set: { ...template, active: true } },
-        upsert: true,
-      },
-    })),
-  );
+      { upsert: true },
+    );
   await EmailTemplate.updateOne(
     { key: 'verify_email' },
     {
@@ -384,6 +397,22 @@ export async function seed(options: { disconnect?: boolean } = {}): Promise<void
           en: 'Your admin verification code is: {code}',
         },
       },
+      {
+        key: 'account_deletion_confirm',
+        subject: {
+          bn: 'অ্যাকাউন্ট মুছে ফেলার অনুরোধ নিশ্চিত করুন',
+          en: 'Confirm account deletion',
+        },
+        html: {
+          bn: 'অ্যাকাউন্ট মুছে ফেলতে এই কোড ব্যবহার করুন: {code}',
+          en: 'Use this code to confirm account deletion: {code}',
+        },
+      },
+      {
+        key: 'contact',
+        subject: { bn: 'BloodLink যোগাযোগ অনুরোধ', en: 'BloodLink contact request' },
+        html: { bn: '{name}\n{message}', en: '{name}\n{message}' },
+      },
     ].map((template) => ({
       updateOne: {
         filter: { key: template.key },
@@ -393,17 +422,34 @@ export async function seed(options: { disconnect?: boolean } = {}): Promise<void
     })),
   );
   await CmsString.bulkWrite(
-    cmsDefaults.map((item) => {
-      const [key, bn, en, screen] = item;
-      if (!key || !bn || !en || !screen) throw new Error('CMS seed row is incomplete.');
+    seedStrings.map((item) => {
+      if (!item.key || !item.bn || !item.en || !item.screen)
+        throw new Error('CMS seed row is incomplete.');
       return {
         updateOne: {
-          filter: { key },
-          update: { $set: { key, bn, en, screen, status: 'published', version: 1 } },
+          filter: { key: item.key },
+          update: {
+            $set: {
+              key: item.key,
+              bn: item.bn,
+              en: item.en,
+              screen: item.screen,
+              status: item.status ?? 'published',
+              version: 1,
+              needsReview: item.needsReview ?? false,
+              latinAllowed: item.latinAllowed ?? false,
+              ...(item.origin ? { origin: item.origin } : {}),
+            },
+          },
           upsert: true,
         },
       };
     }),
+  );
+  await CmsRelease.updateOne(
+    { label: 'v1.0' },
+    { $set: { label: 'v1.0', stringCount: seedStrings.length, publishedAt: new Date() } },
+    { upsert: true },
   );
 
   const passwordHash = await argon2.hash(env.FIRST_SUPERADMIN_PASSWORD);

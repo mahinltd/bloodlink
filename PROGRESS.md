@@ -43,8 +43,8 @@ The authoritative requirement-by-requirement inventory is [TRACEABILITY.md](TRAC
 
 ## Quality and seeds
 
-- [~] Base seed foundation and partial CMS/template/demo data.
-- [ ] Seed all CMS strings, notification/email templates, eight divisions, 64 districts, 40+ hospitals and required demo data.
+- [x] Base seed loads 781 CMS strings, CMS release metadata, all 8 divisions, 64 districts, hospitals, config and flags idempotently.
+- [~] Seed notification/email templates from the CMS seed; required demo dataset remains incomplete.
 - [ ] Move all user-facing text behind bilingual templates/CMS keys.
 - [ ] Split modules into routes/controllers/services/schemas with async handler wrappers and keep files near 300 lines.
 - [~] OpenAPI, README, setup checklist and Postman cover the current implementation; complete them against the master prompt.

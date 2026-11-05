@@ -1,0 +1,6735 @@
+{
+  "meta": {
+    "name": "BloodLink CMS strings seed",
+    "version": "1.0.0",
+    "generatedFrom": "Figma exports: Mobile (33 screens) and Admin (10 screens), light theme",
+    "stringStatus": "published",
+    "howToUse": "Load with seed:base into the CmsString collection (upsert by key). Create a CmsRelease labelled v1.0 with stringCount.",
+    "placeholders": "Curly-brace tokens such as {name} are filled at runtime. Both languages must carry the same tokens.",
+    "numerals": "Dynamic numbers are inserted by the client; format them with Bengali digits when language is bn.",
+    "origin": {
+      "design": "Both Bengali and English appear on the Figma screen.",
+      "en_written": "Bengali is from the design; English was written to complete the pair.",
+      "bn_written": "English is from the design; Bengali was written to complete the pair.",
+      "new_text": "No text in the design; written for a feature the design does not show (empty states, errors, update flow, website, admin actions, etc.)."
+    },
+    "reviewNote": "Entries with needsReview=true were written during analysis. Proofread them (especially Bengali) before launch; admins can edit them in CMS strings.",
+    "ownerDecisions": [
+      "OTP strings say email, not mobile number (email OTP via Resend).",
+      "Admin overview chart is by division and includes all 8 divisions.",
+      "Admin login code is sent by email."
+    ],
+    "designMismatches": [
+      "Registration screens show 'ধাপ ১/৮' but there are 4 steps; use reg.step with total=4.",
+      "Overview chart heading in the design says district; the data is by division (key admin.overview.division_title)."
+    ],
+    "count": 781
+  },
+  "strings": [
+    {
+      "key": "common.app_name",
+      "bn": "BloodLink",
+      "en": "BloodLink",
+      "screen": "common",
+      "status": "published",
+      "origin": "design",
+      "latinAllowed": true
+    },
+    {
+      "key": "common.next",
+      "bn": "পরবর্তী",
+      "en": "Next",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.back",
+      "bn": "ফিরে যান",
+      "en": "Back",
+      "screen": "common",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "common.skip",
+      "bn": "এড়িয়ে যান",
+      "en": "Skip",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.save",
+      "bn": "সংরক্ষণ করুন",
+      "en": "Save",
+      "screen": "common",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "common.cancel",
+      "bn": "বাতিল",
+      "en": "Cancel",
+      "screen": "common",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "common.confirm",
+      "bn": "নিশ্চিত করুন",
+      "en": "Confirm",
+      "screen": "common",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "common.close",
+      "bn": "বন্ধ করুন",
+      "en": "Close",
+      "screen": "common",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "common.delete",
+      "bn": "মুছুন",
+      "en": "Delete",
+      "screen": "common",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "common.yes",
+      "bn": "হ্যাঁ",
+      "en": "Yes",
+      "screen": "common",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "common.no",
+      "bn": "না",
+      "en": "No",
+      "screen": "common",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "common.retry",
+      "bn": "আবার চেষ্টা করুন",
+      "en": "Try again",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.loading",
+      "bn": "তথ্য আনা হচ্ছে...",
+      "en": "Loading…",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.search",
+      "bn": "খুঁজুন",
+      "en": "Search",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.filter",
+      "bn": "ফিল্টার",
+      "en": "Filter",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.see_all",
+      "bn": "সব দেখুন",
+      "en": "See all",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.details",
+      "bn": "বিস্তারিত",
+      "en": "Details",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.verified",
+      "bn": "যাচাইকৃত",
+      "en": "Verified",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.phone_verified",
+      "bn": "ফোন যাচাইকৃত",
+      "en": "Phone verified",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.km_away",
+      "bn": "{km} কিমি দূরে",
+      "en": "{km} km away",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.units_needed",
+      "bn": "{n} ব্যাগ",
+      "en": "{n} unit needed",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.now",
+      "bn": "এখন",
+      "en": "Now",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.today",
+      "bn": "আজ",
+      "en": "Today",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.yesterday",
+      "bn": "গতকাল",
+      "en": "Yesterday",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.minutes_ago",
+      "bn": "{n} মিনিট আগে",
+      "en": "{n} min ago",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.language_bn",
+      "bn": "বাংলা",
+      "en": "Bengali",
+      "screen": "common",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "common.language_en",
+      "bn": "English",
+      "en": "English",
+      "screen": "common",
+      "status": "published",
+      "origin": "new_text",
+      "latinAllowed": true,
+      "needsReview": true
+    },
+    {
+      "key": "common.blood_never_sold",
+      "bn": "রক্ত কখনো বিক্রি হয় না",
+      "en": "Blood is never sold",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.voluntary_only",
+      "bn": "রক্ত বিনামূল্যে",
+      "en": "Voluntary only",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "common.free_voluntary_always",
+      "bn": "বিনামূল্যে। স্বেচ্ছায়। সবসময়।",
+      "en": "Free. Voluntary. Always.",
+      "screen": "common",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "common.support_hint",
+      "bn": "সহায়তার জন্য {support_email}-এ লিখুন।",
+      "en": "For help, write to {support_email}.",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "priority.urgent",
+      "bn": "জরুরি",
+      "en": "Urgent",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "priority.routine",
+      "bn": "নিয়মিত",
+      "en": "Routine",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "gender.male",
+      "bn": "পুরুষ",
+      "en": "Male",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "gender.female",
+      "bn": "মহিলা",
+      "en": "Female",
+      "screen": "common",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "gender.other",
+      "bn": "অন্যান্য",
+      "en": "Other",
+      "screen": "common",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "nav.home",
+      "bn": "হোম",
+      "en": "Home",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "nav.requests",
+      "bn": "অনুরোধ",
+      "en": "Requests",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "nav.chat",
+      "bn": "চ্যাট",
+      "en": "Chat",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "nav.profile",
+      "bn": "প্রোফাইল",
+      "en": "Profile",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.create",
+      "bn": "অনুরোধ তৈরি করুন",
+      "en": "Create a request",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "donor.available",
+      "bn": "রক্তদানে প্রস্তুত আছি",
+      "en": "Available to donate",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "pledge.no_sale",
+      "bn": "রক্ত কখনো বিক্রি হয় না",
+      "en": "blood is never sold",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "state.offline",
+      "bn": "সংযোগটি নেই। পাশে আছি।",
+      "en": "You're offline. We're here.",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "home.greeting",
+      "bn": "শুভ সকাল",
+      "en": "Good morning",
+      "screen": "common",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "home.greeting_afternoon",
+      "bn": "শুভ অপরাহ্ন",
+      "en": "Good afternoon",
+      "screen": "common",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "home.greeting_evening",
+      "bn": "শুভ সন্ধ্যা",
+      "en": "Good evening",
+      "screen": "common",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "home.greeting_night",
+      "bn": "শুভ রাত্রি",
+      "en": "Good night",
+      "screen": "common",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "splash.tagline",
+      "bn": "জীবনের সাথে সংযোগ।",
+      "en": "Connecting people. Sharing life.",
+      "screen": "splash",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "splash.badge",
+      "bn": "বাংলাদেশের স্বেচ্ছা রক্তদাতা নেটওয়ার্ক",
+      "en": "Bangladesh's voluntary blood-donor network",
+      "screen": "splash",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "splash.footer",
+      "bn": "বিনামূল্যে · স্বেচ্ছায় · সবার জন্য",
+      "en": "Free blood connections, always.",
+      "screen": "splash",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "onboarding.1.tag",
+      "bn": "০১ / জীবন",
+      "en": "01 / LIFE",
+      "screen": "onboarding",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "onboarding.1.title",
+      "bn": "আপনার রক্তে নতুন আশা।",
+      "en": "A little of you. A new chance at life.",
+      "screen": "onboarding",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "onboarding.1.body",
+      "bn": "একটি স্বেচ্ছা রক্তদান, কারও জীবনে নতুন সকাল। প্রয়োজনে মানুষের পাশে দাঁড়ান।",
+      "en": "One voluntary donation can bring someone a new morning. Stand beside people when they need you.",
+      "screen": "onboarding",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "onboarding.1.footer",
+      "bn": "রক্ত বিনামূল্যে, ভালোবাসা অমূল্য।",
+      "en": "Blood is free; love is priceless.",
+      "screen": "onboarding",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "onboarding.2.tag",
+      "bn": "০২ / কাছে",
+      "en": "02 / NEARBY",
+      "screen": "onboarding",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "onboarding.2.title",
+      "bn": "কাছের মানুষ, দ্রুত সংযোগ।",
+      "en": "Find help in your neighborhood.",
+      "screen": "onboarding",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "onboarding.2.body",
+      "bn": "আপনার এলাকার রক্তদাতা ও জরুরি অনুরোধ খুঁজুন। সঠিক সময়ে, কাছের মানুষকে পাশে পান।",
+      "en": "Find donors and urgent requests in your area. Have someone close by at the right moment.",
+      "screen": "onboarding",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "onboarding.3.tag",
+      "bn": "০৩ / আস্থা",
+      "en": "03 / TRUST",
+      "screen": "onboarding",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "onboarding.3.title",
+      "bn": "আস্থায় গড়া, সবার জন্য।",
+      "en": "Voluntary. Respectful. Always free.",
+      "screen": "onboarding",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "onboarding.3.body",
+      "bn": "যাচাইকৃত ফোন, নিরাপদ যোগাযোগ ও আপনার সম্মতি—প্রতিটি সংযোগে আপনিই নিয়ন্ত্রণে।",
+      "en": "Verified accounts, safe contact and your consent: you stay in control of every connection.",
+      "screen": "onboarding",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "onboarding.3.note",
+      "bn": "রক্ত কখনো বিক্রি হয় না",
+      "en": "Blood is never sold. No payments or rewards.",
+      "screen": "onboarding",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "onboarding.cta_start",
+      "bn": "শুরু করুন",
+      "en": "Get started",
+      "screen": "onboarding",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "onboarding.have_account",
+      "bn": "অ্যাকাউন্ট আছে? লগইন করুন",
+      "en": "Have an account? Log in",
+      "screen": "onboarding",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "login.title",
+      "bn": "আবার স্বাগতম।",
+      "en": "Welcome back.",
+      "screen": "login",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "login.eyebrow",
+      "bn": "ব্লাডলিংকে আবার স্বাগতম",
+      "en": "Welcome back to BloodLink",
+      "screen": "login",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "login.subtitle",
+      "bn": "আপনার একটি সংযোগ, কারও জন্য নতুন আশা।",
+      "en": "Your one connection is someone's new hope.",
+      "screen": "login",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "login.email_label",
+      "bn": "ইমেইল",
+      "en": "Email",
+      "screen": "login",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "login.password_label",
+      "bn": "পাসওয়ার্ড",
+      "en": "Password",
+      "screen": "login",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "login.remember",
+      "bn": "মনে রাখুন",
+      "en": "Remember me",
+      "screen": "login",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "login.forgot",
+      "bn": "পাসওয়ার্ড ভুলে গেছেন?",
+      "en": "Forgot password?",
+      "screen": "login",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "login.submit",
+      "bn": "লগইন",
+      "en": "Sign in",
+      "screen": "login",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "login.or",
+      "bn": "অথবা",
+      "en": "OR",
+      "screen": "login",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "login.google",
+      "bn": "Google দিয়ে চালিয়ে যান",
+      "en": "Continue with Google",
+      "screen": "login",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "login.new_here",
+      "bn": "নতুন সদস্য?",
+      "en": "New here?",
+      "screen": "login",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "login.create_account",
+      "bn": "অ্যাকাউন্ট খুলুন",
+      "en": "Create account",
+      "screen": "login",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "login.safety_title",
+      "bn": "নিরাপদ, স্বেচ্ছা রক্তদানের সংযোগ",
+      "en": "Safe, voluntary blood-donor connections",
+      "screen": "login",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "login.safety_body",
+      "bn": "আপনার অনুমতি ছাড়া যোগাযোগের তথ্য প্রকাশ করা হয় না।",
+      "en": "Your contact details are never shown without your permission.",
+      "screen": "login",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "signup.title",
+      "bn": "একসাথে পাশে দাঁড়াই।",
+      "en": "Let's stand together.",
+      "screen": "signup",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "signup.eyebrow",
+      "bn": "আপনার বিনামূল্যের অ্যাকাউন্ট খুলুন",
+      "en": "Create your free account",
+      "screen": "signup",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "signup.subtitle",
+      "bn": "রক্তদাতা বা রোগীর স্বজন—সবার জন্য বিনামূল্যে।",
+      "en": "Free for donors and patients' families alike.",
+      "screen": "signup",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "signup.name_label",
+      "bn": "পুরো নাম",
+      "en": "Full name",
+      "screen": "signup",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "signup.mobile_label",
+      "bn": "মোবাইল",
+      "en": "Mobile number",
+      "screen": "signup",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "signup.password_hint",
+      "bn": "কমপক্ষে ৮ অক্ষর",
+      "en": "At least 8 characters",
+      "screen": "signup",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "signup.terms",
+      "bn": "আমি ব্যবহারের শর্তাবলি ও গোপনীয়তা নীতিতে সম্মত।",
+      "en": "I agree to the Terms and Privacy Policy.",
+      "screen": "signup",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "signup.submit",
+      "bn": "অ্যাকাউন্ট খুলুন",
+      "en": "Create account",
+      "screen": "signup",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "signup.have_account",
+      "bn": "অ্যাকাউন্ট আছে? লগইন করুন",
+      "en": "Already have an account? Log in",
+      "screen": "signup",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "otp.title",
+      "bn": "ইমেইলটি আপনার তো?",
+      "en": "Is this your email?",
+      "screen": "otp",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "otp.eyebrow",
+      "bn": "আপনার ইমেইল যাচাই করুন",
+      "en": "Verify your email address",
+      "screen": "otp",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "otp.body",
+      "bn": "{email} ঠিকানায় পাঠানো ৬ সংখ্যার কোডটি লিখুন।",
+      "en": "Enter the 6-digit code we sent to {email}.",
+      "screen": "otp",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "otp.resend_in",
+      "bn": "{seconds} সেকেন্ড পরে আবার পাঠান",
+      "en": "Resend in {seconds}s",
+      "screen": "otp",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "otp.resend",
+      "bn": "আবার পাঠান",
+      "en": "Resend code",
+      "screen": "otp",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "otp.verify",
+      "bn": "যাচাই করুন",
+      "en": "Verify",
+      "screen": "otp",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "otp.change_email",
+      "bn": "ইমেইল পরিবর্তন করুন",
+      "en": "Change email",
+      "screen": "otp",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "otp.warning_title",
+      "bn": "কোড কাউকে দেবেন না",
+      "en": "Never share this code",
+      "screen": "otp",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "otp.warning_body",
+      "bn": "BloodLink কখনো ফোন করে আপনার OTP চাইবে না।",
+      "en": "BloodLink will never call you to ask for your OTP.",
+      "screen": "otp",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "otp.valid_for",
+      "bn": "কোড ৫ মিনিট পর্যন্ত কার্যকর।",
+      "en": "The code is valid for 5 minutes.",
+      "screen": "otp",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "forgot.title",
+      "bn": "নতুন করে শুরু করুন।",
+      "en": "Start fresh.",
+      "screen": "forgot_password",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "forgot.eyebrow",
+      "bn": "পাসওয়ার্ড রিসেট করুন",
+      "en": "Reset your password",
+      "screen": "forgot_password",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "forgot.subtitle",
+      "bn": "আপনার অ্যাকাউন্টের ইমেইল লিখুন। পাসওয়ার্ড বদলানোর নিরাপদ লিংক পাঠাব।",
+      "en": "Enter your account email. We'll send a secure link to change your password.",
+      "screen": "forgot_password",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "forgot.email_label",
+      "bn": "ইমেইল",
+      "en": "Email address",
+      "screen": "forgot_password",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "forgot.submit",
+      "bn": "রিসেট লিংক পাঠান",
+      "en": "Send link",
+      "screen": "forgot_password",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "forgot.back",
+      "bn": "লগইনে ফিরে যান",
+      "en": "Back to log in",
+      "screen": "forgot_password",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "forgot.secure_title",
+      "bn": "আপনার অ্যাকাউন্ট সুরক্ষিত",
+      "en": "Your account is safe",
+      "screen": "forgot_password",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "forgot.secure_body",
+      "bn": "লিংকটি ১৫ মিনিট কার্যকর থাকবে। অনুরোধ না করলে ইমেইলটি উপেক্ষা করুন।",
+      "en": "The link works for 15 minutes. If you didn't ask for it, ignore the email.",
+      "screen": "forgot_password",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "forgot.spam_hint",
+      "bn": "ইমেইল না পেলে স্প্যাম ফোল্ডার দেখুন। সহায়তার জন্য {support_email}-এ লিখুন।",
+      "en": "If you don't see the email, check your spam folder. For help, write to {support_email}.",
+      "screen": "forgot_password",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "forgot.sent_title",
+      "bn": "লিংক পাঠানো হয়েছে",
+      "en": "Link sent",
+      "screen": "forgot_password",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "forgot.sent_body",
+      "bn": "ঠিকানাটি আমাদের কাছে থাকলে একটি রিসেট লিংক পাবেন।",
+      "en": "If this address is registered with us, you will get a reset link.",
+      "screen": "forgot_password",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "reg.step",
+      "bn": "ধাপ {step}/{total}",
+      "en": "Step {step} of {total}",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "reg.personal.title",
+      "bn": "আপনাকে একটু জানি।",
+      "en": "Let us get to know you.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.personal.eyebrow",
+      "bn": "ব্যক্তিগত তথ্য",
+      "en": "Personal information",
+      "screen": "registration",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.personal.subtitle",
+      "bn": "সঠিক তথ্য নিরাপদ রক্তদানের প্রথম ধাপ।",
+      "en": "Accurate details are the first step to safe donation.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.personal.dob_label",
+      "bn": "জন্মতারিখ",
+      "en": "Date of birth",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "reg.personal.gender_label",
+      "bn": "লিঙ্গ",
+      "en": "Gender",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "reg.personal.mobile_label",
+      "bn": "মোবাইল",
+      "en": "Mobile",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "reg.personal.privacy_title",
+      "bn": "আপনার গোপনীয়তা গুরুত্বপূর্ণ",
+      "en": "Your privacy matters",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.personal.privacy_body",
+      "bn": "জন্মতারিখ ও ফোন নম্বর প্রকাশ্যে দেখানো হবে না।",
+      "en": "Your date of birth and phone number are never shown publicly.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.personal.underage",
+      "bn": "রক্তদাতা হতে আপনার বয়স কমপক্ষে ১৮ বছর হতে হবে।",
+      "en": "You must be at least 18 years old to become a donor.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "reg.location.title",
+      "bn": "আপনার এলাকা কোথায়?",
+      "en": "Where is your area?",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.location.eyebrow",
+      "bn": "সাহায্য শুরু হয় কাছ থেকেই",
+      "en": "Help starts close to home",
+      "screen": "registration",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.location.use_current",
+      "bn": "বর্তমান অবস্থান ব্যবহার করুন",
+      "en": "Use current location",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "reg.location.division",
+      "bn": "বিভাগ",
+      "en": "Division",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "reg.location.district",
+      "bn": "জেলা",
+      "en": "District",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "reg.location.area",
+      "bn": "এলাকা",
+      "en": "Area",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "reg.location.note",
+      "bn": "শুধু আনুমানিক এলাকা দেখানো হবে, আপনার সঠিক ঠিকানা নয়।",
+      "en": "Only your approximate area is shared, not your exact address.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "reg.health.title",
+      "bn": "রক্তের গ্রুপ ও সুস্থতা।",
+      "en": "Blood group and health.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.health.eyebrow",
+      "bn": "রক্তের গ্রুপ ও স্বাস্থ্য",
+      "en": "Blood group & health",
+      "screen": "registration",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.health.subtitle",
+      "bn": "রক্তদানের আগে হাসপাতাল আপনার যোগ্যতা যাচাই করবে।",
+      "en": "The hospital will check your eligibility before donation.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.health.blood_group",
+      "bn": "রক্তের গ্রুপ",
+      "en": "Select blood group",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "reg.health.last_donation",
+      "bn": "সর্বশেষ রক্তদান",
+      "en": "Last donation",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "reg.health.weight",
+      "bn": "ওজন",
+      "en": "Weight",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "reg.health.kg",
+      "bn": "কেজি",
+      "en": "kg",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "reg.health.declaration",
+      "bn": "আমি বর্তমানে সুস্থ বোধ করছি এবং তথ্য সঠিক দিয়েছি।",
+      "en": "I feel healthy right now and the information I gave is correct.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.health.disclaimer_title",
+      "bn": "চূড়ান্ত সিদ্ধান্ত চিকিৎসকের",
+      "en": "The doctor makes the final decision",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.health.disclaimer_body",
+      "bn": "এই অ্যাপ চিকিৎসা পরামর্শ বা যোগ্যতার নিশ্চয়তা দেয় না।",
+      "en": "This app does not give medical advice or guarantee eligibility.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.consent.title",
+      "bn": "আমাদের অঙ্গীকার।",
+      "en": "Our promise.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.consent.eyebrow",
+      "bn": "আপনার সম্মতি, আমাদের যৌথ অঙ্গীকার",
+      "en": "Your consent. Our shared promise.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "reg.consent.pledge_title",
+      "bn": "রক্ত কখনো বিক্রি হয় না",
+      "en": "Blood is never sold",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "reg.consent.pledge_body",
+      "bn": "আমি স্বেচ্ছায়, বিনামূল্যে রক্তদান করব। রক্তের বিনিময়ে অর্থ, উপহার বা পুরস্কার নেব না।",
+      "en": "I will donate voluntarily and free of charge. I will not accept money, gifts or rewards in exchange for blood.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.consent.item_profile",
+      "bn": "আমার প্রোফাইল ও আনুমানিক এলাকা রক্তপ্রার্থীরা দেখতে পারবেন।",
+      "en": "People who need blood can see my profile and approximate area.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.consent.item_pause",
+      "bn": "আমি চাইলে যেকোনো সময় রক্তদানে বিরতি নিতে পারব।",
+      "en": "I can pause donating at any time.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.consent.item_policy",
+      "bn": "আমি গোপনীয়তা নীতি ও কমিউনিটি নির্দেশিকায় সম্মত।",
+      "en": "I agree to the Privacy Policy and Community Guidelines.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.consent.respect_title",
+      "bn": "আপনার সিদ্ধান্তকে সম্মান করি",
+      "en": "We respect your decision",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.consent.respect_body",
+      "bn": "রক্তদানের আগে প্রতিবার আপনার সম্মতি নেওয়া হবে।",
+      "en": "We will ask for your consent before every donation.",
+      "screen": "registration",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "reg.consent.submit",
+      "bn": "সম্মতি দিয়ে নিবন্ধন করুন",
+      "en": "Agree and register",
+      "screen": "registration",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "home.name_greeting",
+      "bn": "শুভ সকাল, {name}।",
+      "en": "Good morning, {name}.",
+      "screen": "home",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "home.available_title",
+      "bn": "রক্তদানে প্রস্তুত আছি",
+      "en": "Available to donate",
+      "screen": "home",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "home.need_title",
+      "bn": "রক্তের প্রয়োজন?",
+      "en": "Need blood?",
+      "screen": "home",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "home.need_body",
+      "bn": "আপনার অনুরোধ কাছের রক্তদাতার কাছে পৌঁছে দিন।",
+      "en": "Get your request to nearby donors.",
+      "screen": "home",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "home.create_urgent",
+      "bn": "জরুরি অনুরোধ তৈরি করুন",
+      "en": "Create an urgent request",
+      "screen": "home",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "home.nearby_requests",
+      "bn": "কাছের অনুরোধ",
+      "en": "Nearby requests",
+      "screen": "home",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "home.nearby_donors",
+      "bn": "আপনার কাছের রক্তদাতা",
+      "en": "Donors near you",
+      "screen": "home",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "home.find_donors",
+      "bn": "খুঁজুন",
+      "en": "Find",
+      "screen": "home",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "home.donor_ready",
+      "bn": "রক্তদানে প্রস্তুত",
+      "en": "Ready to donate",
+      "screen": "home",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "home.footer",
+      "bn": "রক্ত বিনামূল্যে, স্বেচ্ছায়, কখনো বিক্রি হয় না।",
+      "en": "Blood is free, voluntary and never sold.",
+      "screen": "home",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "home.unavailable_warning",
+      "bn": "আপনার সর্বশেষ রক্তদান সম্প্রতি হয়েছে। রক্তদানের আগে হাসপাতালের পরামর্শ নিন।",
+      "en": "Your last donation was recent. Check with the hospital before donating.",
+      "screen": "home",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "requests.title",
+      "bn": "প্রয়োজনে পাশে থাকুন।",
+      "en": "Be there when it's needed.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "requests.eyebrow",
+      "bn": "আপনার কাছের রক্তের অনুরোধ",
+      "en": "Blood requests near you",
+      "screen": "requests",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "requests.tab_all",
+      "bn": "সব অনুরোধ",
+      "en": "All requests",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "requests.tab_urgent",
+      "bn": "জরুরি",
+      "en": "Urgent",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "requests.tab_mine",
+      "bn": "আমার",
+      "en": "Mine",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "requests.search_label",
+      "bn": "খুঁজুন",
+      "en": "Search",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "requests.search_placeholder",
+      "bn": "হাসপাতাল বা এলাকা",
+      "en": "Hospital or area",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "requests.sort_nearest",
+      "bn": "কাছের আগে",
+      "en": "Nearest first",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "requests.urgent_count",
+      "bn": "{n}টি জরুরি অনুরোধ",
+      "en": "{n} urgent requests",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "requests.empty",
+      "bn": "এখন কোনো অনুরোধ নেই।",
+      "en": "There are no requests right now.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "requests.loading_eyebrow",
+      "bn": "আপনার কাছের অনুরোধ খুঁজছি",
+      "en": "Finding requests near you",
+      "screen": "requests",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "requests.loading_title",
+      "bn": "কাছের অনুরোধ",
+      "en": "Nearby requests",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.card.details",
+      "bn": "বিস্তারিত",
+      "en": "Details",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.new.title",
+      "bn": "সহায়তা চেয়ে জানান।",
+      "en": "Ask for help.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.new.eyebrow",
+      "bn": "রক্তের অনুরোধ তৈরি করুন",
+      "en": "Create a blood request",
+      "screen": "requests",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.new.subtitle",
+      "bn": "সঠিক তথ্য দিন। রোগীর ব্যক্তিগত নথি প্রকাশ করবেন না।",
+      "en": "Give accurate details. Do not share the patient's private documents.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.new.patient_name",
+      "bn": "রোগীর নাম",
+      "en": "Patient name",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.new.group",
+      "bn": "রক্তের গ্রুপ",
+      "en": "Blood group",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.new.units",
+      "bn": "ব্যাগ",
+      "en": "Units",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.new.hospital",
+      "bn": "হাসপাতাল",
+      "en": "Hospital",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.new.needed_by",
+      "bn": "কখন লাগবে",
+      "en": "Needed by",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.new.priority",
+      "bn": "অগ্রাধিকার",
+      "en": "Priority",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.new.contact",
+      "bn": "স্বজনের ফোন",
+      "en": "Contact number",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.new.notes",
+      "bn": "অতিরিক্ত তথ্য",
+      "en": "Notes",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.new.notes_placeholder",
+      "bn": "যেমন: অস্ত্রোপচারের জন্য রক্ত প্রয়োজন। রক্তদাতার সাথে হাসপাতালে দেখা করব।",
+      "en": "e.g. Blood is needed for surgery. I will meet the donor at the hospital.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.new.no_money_title",
+      "bn": "রক্তের জন্য কোনো অর্থ নয়",
+      "en": "No money for blood",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.new.no_money_body",
+      "bn": "স্বেচ্ছা রক্তদানের সংযোগ তৈরি হবে। রক্ত কেনাবেচা নিষিদ্ধ।",
+      "en": "This creates a voluntary donor connection. Buying or selling blood is prohibited.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.new.publish",
+      "bn": "অনুরোধ প্রকাশ করুন",
+      "en": "Publish request",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.new.check_first",
+      "bn": "প্রকাশের আগে তথ্য যাচাই করুন।",
+      "en": "Check the details before publishing.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.success.badge",
+      "bn": "অনুরোধ প্রকাশিত",
+      "en": "Request published",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.success.title",
+      "bn": "আপনার কথা পৌঁছে গেছে।",
+      "en": "Your message has reached people.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.success.body",
+      "bn": "আপনার এলাকার {group} রক্তদাতারা অনুরোধটি দেখতে পারবেন। সাড়া পেলে আপনাকে জানাব।",
+      "en": "{group} donors in your area can now see your request. We'll tell you when someone responds.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.success.tagline",
+      "bn": "আপনার অনুরোধ লাইভ। সাহায্য শুরু হলো এখান থেকেই।",
+      "en": "Your request is live. Help starts here.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.success.view",
+      "bn": "অনুরোধ দেখুন",
+      "en": "View request",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.success.share",
+      "bn": "অনুরোধ শেয়ার করুন",
+      "en": "Share request",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.success.note",
+      "bn": "রক্তদাতার সাড়া নিশ্চিত নয়। জরুরি প্রয়োজনে হাসপাতালের সাথেও যোগাযোগ রাখুন।",
+      "en": "A donor's reply is not guaranteed. In an emergency, also stay in touch with the hospital.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.review.title",
+      "bn": "আপনার অনুরোধ পর্যালোচনায় আছে।",
+      "en": "Your request is under review.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "request.review.body",
+      "bn": "অনুমোদনের পর অনুরোধটি প্রকাশিত হবে। প্রয়োজনে আমরা আপনার কাছে আরও তথ্য চাইব।",
+      "en": "It will be published after approval. We may ask you for more information.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "request.detail.title",
+      "bn": "অনুরোধের বিস্তারিত",
+      "en": "Request details",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.detail.deadline",
+      "bn": "আজ, {time}-এর মধ্যে",
+      "en": "Today, by {time}",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.detail.donate_at_hospital",
+      "bn": "হাসপাতালেই রক্তদান করুন",
+      "en": "Donate at the hospital",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.detail.location",
+      "bn": "হাসপাতালের অবস্থান",
+      "en": "Hospital location",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.detail.directions",
+      "bn": "দিকনির্দেশনা",
+      "en": "Directions",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.detail.free_title",
+      "bn": "রক্তদান সম্পূর্ণ স্বেচ্ছামূলক",
+      "en": "Blood donation is entirely voluntary",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.detail.free_body",
+      "bn": "অর্থ চাইলে রিপোর্ট করুন। জরুরি চিকিৎসার জন্য সরাসরি হাসপাতালে যোগাযোগ করুন।",
+      "en": "Report anyone who asks for money. For urgent treatment, contact the hospital directly.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.detail.help",
+      "bn": "আমি রক্ত দিতে চাই",
+      "en": "I can help",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.detail.withdraw",
+      "bn": "সাড়া প্রত্যাহার করুন",
+      "en": "Withdraw my offer",
+      "screen": "requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "request.detail.chat",
+      "bn": "চ্যাট",
+      "en": "Chat",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.detail.call",
+      "bn": "কল",
+      "en": "Call",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "request.detail.requester_phone_verified",
+      "bn": "স্বজন · ফোন যাচাইকৃত",
+      "en": "Family · Phone verified",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "my_requests.title",
+      "bn": "আমার অনুরোধ",
+      "en": "My requests",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "my_requests.tab_active",
+      "bn": "সক্রিয়",
+      "en": "Active",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "my_requests.tab_completed",
+      "bn": "সম্পন্ন",
+      "en": "Completed",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "my_requests.empty_title",
+      "bn": "এখনও কোনো অনুরোধ নেই।",
+      "en": "No requests yet.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "my_requests.empty_body",
+      "bn": "আপনার বা প্রিয়জনের রক্তের প্রয়োজন হলে এখানে অনুরোধ তৈরি করতে পারেন।",
+      "en": "If you or a loved one needs blood, you can create a request here.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "my_requests.empty_tagline",
+      "bn": "এখনও কোনো অনুরোধ নেই। সাহায্য মাত্র একটি সংযোগ দূরে।",
+      "en": "No requests yet. Help is a connection away.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "my_requests.create_first",
+      "bn": "প্রথম অনুরোধ তৈরি করুন",
+      "en": "Create your first request",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "my_requests.see_nearby",
+      "bn": "কাছের অনুরোধ দেখুন",
+      "en": "See nearby requests",
+      "screen": "requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "my_requests.free_title",
+      "bn": "স্বেচ্ছায়, বিনামূল্যে",
+      "en": "Voluntary and free",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "my_requests.free_body",
+      "bn": "সব রক্তদানের সংযোগ বিনামূল্যে। রক্ত কেনাবেচা নিষিদ্ধ।",
+      "en": "All blood-donor connections are free. Buying or selling blood is prohibited.",
+      "screen": "requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "request.status.pending_review",
+      "bn": "পর্যালোচনায়",
+      "en": "Under review",
+      "screen": "requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "request.status.needs_info",
+      "bn": "তথ্য চাওয়া হয়েছে",
+      "en": "Information requested",
+      "screen": "requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "request.status.approved",
+      "bn": "সক্রিয়",
+      "en": "Active",
+      "screen": "requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "request.status.rejected",
+      "bn": "প্রত্যাখ্যাত",
+      "en": "Rejected",
+      "screen": "requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "request.status.fulfilled",
+      "bn": "সম্পন্ন",
+      "en": "Completed",
+      "screen": "requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "request.status.cancelled",
+      "bn": "বাতিল",
+      "en": "Cancelled",
+      "screen": "requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "request.status.expired",
+      "bn": "মেয়াদ শেষ",
+      "en": "Expired",
+      "screen": "requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "request.fulfill.title",
+      "bn": "রক্ত পাওয়া গেছে?",
+      "en": "Did you get the blood?",
+      "screen": "requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "request.fulfill.submit",
+      "bn": "সম্পন্ন হিসেবে চিহ্নিত করুন",
+      "en": "Mark as completed",
+      "screen": "requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "request.cancel",
+      "bn": "অনুরোধ বাতিল করুন",
+      "en": "Cancel request",
+      "screen": "requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "donor.stat_donations",
+      "bn": "রক্তদান",
+      "en": "Donations",
+      "screen": "donor_profile",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "donor.stat_distance",
+      "bn": "দূরত্ব",
+      "en": "Distance",
+      "screen": "donor_profile",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "donor.stat_status",
+      "bn": "অবস্থা",
+      "en": "Status",
+      "screen": "donor_profile",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "donor.status_ready",
+      "bn": "প্রস্তুত",
+      "en": "Ready",
+      "screen": "donor_profile",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "donor.last_donation",
+      "bn": "সর্বশেষ রক্তদান",
+      "en": "Last donation",
+      "screen": "donor_profile",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "donor.approx_area",
+      "bn": "আনুমানিক অবস্থান",
+      "en": "Approximate area",
+      "screen": "donor_profile",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "donor.languages",
+      "bn": "পছন্দের ভাষা",
+      "en": "Languages",
+      "screen": "donor_profile",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "donor.bio_title",
+      "bn": "রক্তদাতার কথা",
+      "en": "In the donor's words",
+      "screen": "donor_profile",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "donor.consent_title",
+      "bn": "সম্মতি নিয়ে যোগাযোগ করুন",
+      "en": "Contact with consent",
+      "screen": "donor_profile",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "donor.consent_body",
+      "bn": "রক্তদাতা চাইলে অনুরোধ ফিরিয়ে দিতে পারেন। তাঁর সিদ্ধান্তকে সম্মান করুন।",
+      "en": "A donor may decline a request. Please respect their decision.",
+      "screen": "donor_profile",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "donor.message",
+      "bn": "বার্তা পাঠান",
+      "en": "Message",
+      "screen": "donor_profile",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "donor.send_request",
+      "bn": "রক্তদানের অনুরোধ পাঠান",
+      "en": "Send donation request",
+      "screen": "donor_profile",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "donor.report",
+      "bn": "ব্যবহারকারী রিপোর্ট করুন",
+      "en": "Report user",
+      "screen": "donor_profile",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "chat.list.title",
+      "bn": "কথা হোক, পাশে থাকুন।",
+      "en": "Let's talk, stay close.",
+      "screen": "chat",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "chat.list.eyebrow",
+      "bn": "বার্তা",
+      "en": "Messages",
+      "screen": "chat",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "chat.list.search_label",
+      "bn": "কথোপকথন খুঁজুন",
+      "en": "Search conversations",
+      "screen": "chat",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "chat.list.search_placeholder",
+      "bn": "নাম বা বার্তা",
+      "en": "Name or message",
+      "screen": "chat",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "chat.list.tab_all",
+      "bn": "সব বার্তা",
+      "en": "All messages",
+      "screen": "chat",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "chat.list.tab_unread",
+      "bn": "অপঠিত ({n})",
+      "en": "Unread ({n})",
+      "screen": "chat",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "chat.list.safety_title",
+      "bn": "নিরাপদ যোগাযোগ রাখুন",
+      "en": "Keep your communication safe",
+      "screen": "chat",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "chat.list.safety_body",
+      "bn": "ব্যক্তিগত নথি, OTP বা অর্থ শেয়ার করবেন না। সন্দেহ হলে রিপোর্ট করুন।",
+      "en": "Do not share personal documents, OTP or money. Report anything suspicious.",
+      "screen": "chat",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "chat.list.empty",
+      "bn": "এখনও কোনো বার্তা নেই।",
+      "en": "No messages yet.",
+      "screen": "chat",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "chat.status_active",
+      "bn": "সক্রিয়",
+      "en": "Active",
+      "screen": "chat",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "chat.composer_placeholder",
+      "bn": "বার্তা লিখুন...",
+      "en": "Write a message…",
+      "screen": "chat",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "chat.preview_voice",
+      "bn": "ভয়েস মেসেজ · {duration}",
+      "en": "Voice message · {duration}",
+      "screen": "chat",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "chat.preview_image",
+      "bn": "ছবি",
+      "en": "Photo",
+      "screen": "chat",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "chat.preview_file",
+      "bn": "ফাইল",
+      "en": "File",
+      "screen": "chat",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "chat.preview_location",
+      "bn": "অবস্থান",
+      "en": "Location",
+      "screen": "chat",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "chat.location_label",
+      "bn": "শেয়ার করা অবস্থান",
+      "en": "Shared location",
+      "screen": "chat",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "chat.download",
+      "bn": "ডাউনলোড",
+      "en": "Download",
+      "screen": "chat",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "chat.call_log_done",
+      "bn": "অডিও কল · {duration}",
+      "en": "Audio call · {duration}",
+      "screen": "chat",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "chat.call_log_missed",
+      "bn": "মিসড কল",
+      "en": "Missed call",
+      "screen": "chat",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "chat.call_log_declined",
+      "bn": "কল প্রত্যাখ্যাত",
+      "en": "Call declined",
+      "screen": "chat",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "chat.attach",
+      "bn": "সংযুক্ত করুন",
+      "en": "Attach",
+      "screen": "chat",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "chat.block_notice",
+      "bn": "এই ব্যবহারকারীর সাথে যোগাযোগ করা যাচ্ছে না।",
+      "en": "You can't contact this user.",
+      "screen": "chat",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "chat.flagged_notice",
+      "bn": "এই বার্তায় অর্থের কথা আছে। রক্ত কেনাবেচা নিষিদ্ধ।",
+      "en": "This message mentions money. Buying or selling blood is prohibited.",
+      "screen": "chat",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "call.badge",
+      "bn": "BloodLink অডিও কল",
+      "en": "BloodLink audio call",
+      "screen": "call",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "call.incoming",
+      "bn": "কল আসছে...",
+      "en": "Incoming call",
+      "screen": "call",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "call.decline",
+      "bn": "প্রত্যাখ্যান",
+      "en": "Decline",
+      "screen": "call",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "call.accept",
+      "bn": "গ্রহণ করুন",
+      "en": "Accept",
+      "screen": "call",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "call.reply_message",
+      "bn": "বার্তা দিয়ে উত্তর দিন",
+      "en": "Reply with a message",
+      "screen": "call",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "call.no_share",
+      "bn": "কোনো OTP বা অর্থ শেয়ার করবেন না।",
+      "en": "Do not share any OTP or money.",
+      "screen": "call",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "call.banner_title",
+      "bn": "BloodLink · ইনকামিং কল",
+      "en": "BloodLink · Incoming call",
+      "screen": "call",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "call.banner_subtitle",
+      "bn": "অডিও কল · {group} / {code}",
+      "en": "Audio call · {group} / {code}",
+      "screen": "call",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "call.calling",
+      "bn": "কল করা হচ্ছে...",
+      "en": "Calling…",
+      "screen": "call",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "call.ringing",
+      "bn": "রিং হচ্ছে...",
+      "en": "Ringing…",
+      "screen": "call",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "call.connected",
+      "bn": "সংযুক্ত",
+      "en": "Connected",
+      "screen": "call",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "call.ended",
+      "bn": "কল শেষ",
+      "en": "Call ended",
+      "screen": "call",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "call.busy",
+      "bn": "ব্যবহারকারী অন্য কলে ব্যস্ত।",
+      "en": "The user is on another call.",
+      "screen": "call",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "call.unavailable",
+      "bn": "এই ব্যবহারকারী এখন কল গ্রহণ করছেন না।",
+      "en": "This user is not accepting calls right now.",
+      "screen": "call",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "call.mic_permission",
+      "bn": "কল করতে মাইক্রোফোনের অনুমতি দিন।",
+      "en": "Allow microphone access to make calls.",
+      "screen": "call",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "profile.edit",
+      "bn": "প্রোফাইল সম্পাদনা",
+      "en": "Edit profile",
+      "screen": "profile",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "profile.available",
+      "bn": "রক্তদানে প্রস্তুত",
+      "en": "Available to donate",
+      "screen": "profile",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "profile.available_note",
+      "bn": "সর্বশেষ রক্তদান: {date}। চূড়ান্ত যোগ্যতা হাসপাতাল যাচাই করবে।",
+      "en": "Last donation: {date}. The hospital will confirm final eligibility.",
+      "screen": "profile",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "profile.stat_donations",
+      "bn": "মোট রক্তদান",
+      "en": "Donations",
+      "screen": "profile",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "profile.stat_joined",
+      "bn": "সদস্য হয়েছেন",
+      "en": "Joined",
+      "screen": "profile",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "profile.menu_history",
+      "bn": "রক্তদানের ইতিহাস",
+      "en": "Donation history",
+      "screen": "profile",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "profile.menu_requests",
+      "bn": "আমার অনুরোধ",
+      "en": "My requests",
+      "screen": "profile",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "profile.menu_settings",
+      "bn": "সেটিংস",
+      "en": "Settings & privacy",
+      "screen": "profile",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "profile.menu_help",
+      "bn": "সহায়তা কেন্দ্র",
+      "en": "Help & safety",
+      "screen": "profile",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "profile.thanks_title",
+      "bn": "আপনার অবদান অমূল্য",
+      "en": "Your contribution is priceless",
+      "screen": "profile",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "profile.thanks_body",
+      "bn": "রক্তদান স্বেচ্ছামূলক। কোনো অর্থ বা পুরস্কার নয়।",
+      "en": "Blood donation is voluntary. No money or rewards.",
+      "screen": "profile",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "profile.bio_label",
+      "bn": "রক্তদাতার কথা",
+      "en": "About you",
+      "screen": "profile",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "profile.bio_hint",
+      "bn": "সর্বোচ্চ ২৪০ অক্ষর",
+      "en": "Up to 240 characters",
+      "screen": "profile",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "profile.languages_label",
+      "bn": "পছন্দের ভাষা",
+      "en": "Preferred languages",
+      "screen": "profile",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "settings.title",
+      "bn": "আপনার মতো করে।",
+      "en": "Your way.",
+      "screen": "settings",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "settings.eyebrow",
+      "bn": "সেটিংস ও গোপনীয়তা",
+      "en": "Settings & privacy",
+      "screen": "settings",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "settings.section_preferences",
+      "bn": "পছন্দ",
+      "en": "Preferences",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.appearance",
+      "bn": "অ্যাপের চেহারা",
+      "en": "Appearance",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.appearance_current",
+      "bn": "অ্যাপের চেহারা · {theme}",
+      "en": "Appearance · {theme}",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.notifications",
+      "bn": "নোটিফিকেশন",
+      "en": "Notifications",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.notifications_sub",
+      "bn": "অনুরোধ, বার্তা ও রিমাইন্ডার",
+      "en": "Requests, messages & reminders",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.language",
+      "bn": "ভাষা",
+      "en": "Language",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.language_current",
+      "bn": "বাংলা নির্বাচিত",
+      "en": "Bengali selected",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.section_safety",
+      "bn": "নিরাপত্তা",
+      "en": "Safety",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.share_area",
+      "bn": "আনুমানিক এলাকা দেখান",
+      "en": "Show approximate area",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.share_area_sub",
+      "bn": "শুধু আনুমানিক এলাকা শেয়ার করুন",
+      "en": "Share approximate area only",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.accept_calls",
+      "bn": "কল গ্রহণ করুন",
+      "en": "Accept calls",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.accept_calls_sub",
+      "bn": "সংযোগ থেকে অ্যাপের ভেতর কল",
+      "en": "In-app calls from connections",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.blocked",
+      "bn": "ব্লক করা ব্যবহারকারী",
+      "en": "Blocked people",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.blocked_sub",
+      "bn": "ব্লক করা ব্যবহারকারী · {n}",
+      "en": "Blocked people · {n}",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.change_password",
+      "bn": "পাসওয়ার্ড পরিবর্তন",
+      "en": "Change password",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.terms",
+      "bn": "শর্তাবলি ও গোপনীয়তা",
+      "en": "Terms & privacy",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.about",
+      "bn": "BloodLink সম্পর্কে",
+      "en": "About BloodLink",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.about_sub",
+      "bn": "বিনামূল্যে স্বেচ্ছা সংযোগ · v{version}",
+      "en": "Free voluntary connections · v{version}",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.sign_out",
+      "bn": "লগআউট",
+      "en": "Sign out",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.delete_account",
+      "bn": "অ্যাকাউন্ট মুছে ফেলুন",
+      "en": "Delete account",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "settings.delete_confirm_title",
+      "bn": "অ্যাকাউন্ট মুছে ফেলবেন?",
+      "en": "Delete your account?",
+      "screen": "settings",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "settings.delete_confirm_body",
+      "bn": "আপনার ব্যক্তিগত তথ্য মুছে ফেলা হবে। এটি ফেরানো যাবে না।",
+      "en": "Your personal data will be removed. This cannot be undone.",
+      "screen": "settings",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "settings.current_password",
+      "bn": "বর্তমান পাসওয়ার্ড",
+      "en": "Current password",
+      "screen": "settings",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "settings.new_password",
+      "bn": "নতুন পাসওয়ার্ড",
+      "en": "New password",
+      "screen": "settings",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "settings.blocked_empty",
+      "bn": "আপনি কাউকে ব্লক করেননি।",
+      "en": "You haven't blocked anyone.",
+      "screen": "settings",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "settings.unblock",
+      "bn": "আনব্লক",
+      "en": "Unblock",
+      "screen": "settings",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "appearance.title",
+      "bn": "চোখের আরাম, আপনার পছন্দ।",
+      "en": "Easy on the eyes, your choice.",
+      "screen": "settings",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "appearance.eyebrow",
+      "bn": "অ্যাপের চেহারা",
+      "en": "Appearance",
+      "screen": "settings",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "appearance.subtitle",
+      "bn": "পড়তে স্বাচ্ছন্দ্য লাগে এমন থিম বেছে নিন।",
+      "en": "Choose the theme that feels comfortable to read.",
+      "screen": "settings",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "appearance.light",
+      "bn": "লাইট",
+      "en": "Light",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "appearance.dark",
+      "bn": "ডার্ক",
+      "en": "Dark",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "appearance.follow_device",
+      "bn": "ডিভাইসের থিম অনুসরণ",
+      "en": "Use device appearance",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "appearance.text_size",
+      "bn": "লেখার আকার",
+      "en": "Text size",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "appearance.text_size_default",
+      "bn": "ডিফল্ট",
+      "en": "Default",
+      "screen": "settings",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "appearance.high_contrast",
+      "bn": "উচ্চ কনট্রাস্ট",
+      "en": "High contrast",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "appearance.high_contrast_sub",
+      "bn": "বর্ধিত কনট্রাস্ট",
+      "en": "Enhanced contrast",
+      "screen": "settings",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "appearance.note_title",
+      "bn": "দুই থিমেই স্পষ্ট ও পাঠযোগ্য",
+      "en": "Clear and readable in both themes",
+      "screen": "settings",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "appearance.note_body",
+      "bn": "বাংলা ও ইংরেজি লেখার পাঠযোগ্যতা বজায় রাখা হয়েছে।",
+      "en": "Bengali and English text stay easy to read.",
+      "screen": "settings",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "appearance.save",
+      "bn": "পছন্দ সংরক্ষণ করুন",
+      "en": "Save preferences",
+      "screen": "settings",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "notifications.title",
+      "bn": "প্রয়োজনের খবর রাখুন।",
+      "en": "Stay informed when it matters.",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "notifications.eyebrow",
+      "bn": "নোটিফিকেশন",
+      "en": "Notifications",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "notifications.tab_all",
+      "bn": "সব",
+      "en": "All",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "notifications.tab_requests",
+      "bn": "অনুরোধ",
+      "en": "Requests",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "notifications.tab_system",
+      "bn": "সিস্টেম",
+      "en": "System",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "notifications.empty",
+      "bn": "কোনো নোটিফিকেশন নেই।",
+      "en": "No notifications.",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "notifications.mark_all_read",
+      "bn": "সব পড়া হয়েছে",
+      "en": "Mark all as read",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "notifications.prefs_title",
+      "bn": "নোটিফিকেশন পছন্দ",
+      "en": "Notification preferences",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "notifications.pref_urgent",
+      "bn": "জরুরি রক্তের অনুরোধ",
+      "en": "Urgent blood requests",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "notifications.pref_urgent_sub",
+      "bn": "কাছের জরুরি অনুরোধ",
+      "en": "Nearby urgent requests",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "notifications.pref_messages",
+      "bn": "বার্তা ও কল",
+      "en": "Messages and calls",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "notifications.pref_messages_sub",
+      "bn": "বার্তা ও কল",
+      "en": "Messages & calls",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "notifications.pref_reminders",
+      "bn": "রক্তদানের স্মরণিকা",
+      "en": "Donation reminders",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "notifications.pref_reminders_sub",
+      "bn": "ঐচ্ছিক স্মরণিকা",
+      "en": "Opt-in reminders",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "notifications.pref_news",
+      "bn": "অ্যাপের খবর",
+      "en": "App news",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "notifications.pref_news_sub",
+      "bn": "অ্যাপের নতুন খবর",
+      "en": "Product updates",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "notify.urgent_nearby.title",
+      "bn": "কাছেই {group} রক্তের জরুরি প্রয়োজন",
+      "en": "{group} blood urgently needed nearby",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "notify.urgent_nearby.body",
+      "bn": "{patient} · {hospital} · {distance} কিমি",
+      "en": "{patient} · {hospital} · {distance} km",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "notify.chat_message.title",
+      "bn": "{name} বার্তা পাঠিয়েছেন",
+      "en": "{name} sent you a message",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "notify.thanks.title",
+      "bn": "পাশে থাকার জন্য ধন্যবাদ",
+      "en": "Thank you for standing by",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "notify.thanks.body",
+      "bn": "আপনার রক্তদানের অভিজ্ঞতা জানাতে পারেন।",
+      "en": "You can share your donation experience.",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "notify.incoming_call.title",
+      "bn": "{name} আপনাকে কল করছেন",
+      "en": "{name} is calling you",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "notify.missed_call.title",
+      "bn": "{name}-এর মিসড কল",
+      "en": "Missed call from {name}",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "notify.request_approved.title",
+      "bn": "আপনার অনুরোধ অনুমোদিত হয়েছে",
+      "en": "Your request has been approved",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "notify.request_rejected.title",
+      "bn": "আপনার অনুরোধ প্রকাশ করা যায়নি",
+      "en": "Your request could not be published",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "notify.request_needs_info.title",
+      "bn": "অনুরোধ নিয়ে আরও তথ্য প্রয়োজন",
+      "en": "More information is needed about your request",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "notify.pledge_received.title",
+      "bn": "কেউ রক্ত দিতে চেয়েছেন",
+      "en": "Someone offered to donate",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "notify.pledge_accepted.title",
+      "bn": "আপনার প্রস্তাব গ্রহণ করা হয়েছে",
+      "en": "Your offer was accepted",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "notify.donation_reminder.title",
+      "bn": "আবার রক্তদানের সময় হতে পারে",
+      "en": "It may be time to donate again",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "notify.donation_reminder.body",
+      "bn": "চূড়ান্ত যোগ্যতা হাসপাতাল যাচাই করবে।",
+      "en": "The hospital will confirm your final eligibility.",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "notify.review_prompt.title",
+      "bn": "অভিজ্ঞতা কেমন ছিল?",
+      "en": "How was your experience?",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "notify.report_update.title",
+      "bn": "আপনার রিপোর্টের হালনাগাদ",
+      "en": "An update on your report",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "notify.app_update.title",
+      "bn": "BloodLink-এর নতুন আপডেট এসেছে",
+      "en": "A new BloodLink update is available",
+      "screen": "notifications",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "history.title",
+      "bn": "পাশে থাকার গল্প।",
+      "en": "Stories of standing by.",
+      "screen": "donations",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "history.eyebrow",
+      "bn": "আপনার রক্তদানের ইতিহাস",
+      "en": "Your donation history",
+      "screen": "donations",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "history.count",
+      "bn": "{n} বার",
+      "en": "{n} times",
+      "screen": "donations",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "history.self_reported",
+      "bn": "স্বেচ্ছায় রক্তদান",
+      "en": "Self-reported",
+      "screen": "donations",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "history.recent",
+      "bn": "সাম্প্রতিক রক্তদান",
+      "en": "Recent donations",
+      "screen": "donations",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "history.see_all",
+      "bn": "সব ({n})",
+      "en": "All ({n})",
+      "screen": "donations",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "history.completed",
+      "bn": "সম্পন্ন",
+      "en": "Completed",
+      "screen": "donations",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "history.view_review",
+      "bn": "অভিজ্ঞতা দেখুন",
+      "en": "View experience",
+      "screen": "donations",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "history.add_record",
+      "bn": "রক্তদানের তথ্য যোগ করুন",
+      "en": "Add a donation record",
+      "screen": "donations",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "history.personal_title",
+      "bn": "এটি ব্যক্তিগত রেকর্ড",
+      "en": "This is a personal record",
+      "screen": "donations",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "history.personal_body",
+      "bn": "অ্যাপের ইতিহাস চিকিৎসা-সংক্রান্ত নথি নয়। রক্তদানের সঠিক সময় চিকিৎসকের সাথে নিশ্চিত করুন।",
+      "en": "The app's history is not a medical document. Confirm the right time to donate with a doctor.",
+      "screen": "donations",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "history.empty",
+      "bn": "এখনও কোনো রক্তদান যোগ করা হয়নি।",
+      "en": "No donations added yet.",
+      "screen": "donations",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "history.add_date",
+      "bn": "রক্তদানের তারিখ",
+      "en": "Donation date",
+      "screen": "donations",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "history.add_hospital",
+      "bn": "হাসপাতালের নাম",
+      "en": "Hospital name",
+      "screen": "donations",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "review.title",
+      "bn": "অভিজ্ঞতা কেমন ছিল?",
+      "en": "How was the experience?",
+      "screen": "donations",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "review.eyebrow",
+      "bn": "আপনার রক্তদান পর্যালোচনা করুন",
+      "en": "Review your donation",
+      "screen": "donations",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "review.subtitle",
+      "bn": "আপনার মতামত নিরাপদ সংযোগ গড়তে সাহায্য করে।",
+      "en": "Your feedback helps build safe connections.",
+      "screen": "donations",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "review.contact_with",
+      "bn": "যোগাযোগ: {name}",
+      "en": "Contact: {name}",
+      "screen": "donations",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "review.rating_label",
+      "bn": "যোগাযোগের অভিজ্ঞতা",
+      "en": "Communication",
+      "screen": "donations",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "review.rating_good",
+      "bn": "{n} / ৫ · ভালো অভিজ্ঞতা",
+      "en": "{n} / 5 · Good experience",
+      "screen": "donations",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "review.feedback_label",
+      "bn": "আপনার মন্তব্য",
+      "en": "Your feedback",
+      "screen": "donations",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "review.feedback_placeholder",
+      "bn": "যোগাযোগ কেমন ছিল লিখুন।",
+      "en": "Tell us how the communication was.",
+      "screen": "donations",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "review.anonymous",
+      "bn": "নাম গোপন রাখুন",
+      "en": "Hide my name",
+      "screen": "donations",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "review.anonymous_sub",
+      "bn": "বেনামে জমা দিন",
+      "en": "Submit anonymously",
+      "screen": "donations",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "review.note_title",
+      "bn": "মানুষকে নয়, অভিজ্ঞতাকে মূল্যায়ন করুন",
+      "en": "Rate the experience, not the person",
+      "screen": "donations",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "review.note_body",
+      "bn": "ব্যক্তিগত চিকিৎসা তথ্য বা ফোন নম্বর লিখবেন না।",
+      "en": "Do not write personal medical information or phone numbers.",
+      "screen": "donations",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "review.submit",
+      "bn": "মতামত জমা দিন",
+      "en": "Submit review",
+      "screen": "donations",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "review.thanks",
+      "bn": "মতামত জমা হয়েছে। ধন্যবাদ।",
+      "en": "Review submitted. Thank you.",
+      "screen": "donations",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "report.title",
+      "bn": "নিরাপত্তার জন্য জানান।",
+      "en": "Report for safety.",
+      "screen": "report",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "report.eyebrow",
+      "bn": "ব্যবহারকারী রিপোর্ট করুন",
+      "en": "Report a user",
+      "screen": "report",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "report.subtitle",
+      "bn": "অভিযোগটি গোপন থাকবে। আমাদের দল তথ্য পর্যালোচনা করবে।",
+      "en": "Your report stays confidential. Our team will review it.",
+      "screen": "report",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "report.reporting",
+      "bn": "যাঁকে রিপোর্ট করছেন",
+      "en": "Reporting",
+      "screen": "report",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "report.reason.money_demand",
+      "bn": "রক্তের বিনিময়ে অর্থ চাওয়া",
+      "en": "Asking for money for blood",
+      "screen": "report",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "report.reason.fake_or_misleading",
+      "bn": "ভুয়া পরিচয় বা অনুরোধ",
+      "en": "Fake identity or request",
+      "screen": "report",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "report.reason.harassment",
+      "bn": "অশোভন আচরণ বা হয়রানি",
+      "en": "Inappropriate behavior or harassment",
+      "screen": "report",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "report.reason.spam_other",
+      "bn": "স্প্যাম বা অন্য কারণ",
+      "en": "Spam or other reason",
+      "screen": "report",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "report.details_label",
+      "bn": "বিস্তারিত",
+      "en": "What happened?",
+      "screen": "report",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "report.details_placeholder",
+      "bn": "কী ঘটেছে সংক্ষেপে লিখুন।",
+      "en": "Briefly describe what happened.",
+      "screen": "report",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "report.add_evidence",
+      "bn": "প্রমাণ সংযুক্ত করুন",
+      "en": "Add evidence",
+      "screen": "report",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "report.note_title",
+      "bn": "রক্ত কখনো বিক্রি হয় না",
+      "en": "Blood is never sold",
+      "screen": "report",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "report.note_body",
+      "bn": "তাৎক্ষণিক বিপদে স্থানীয় জরুরি সেবার সাহায্য নিন। এই অ্যাপ জরুরি সেবা নয়।",
+      "en": "In immediate danger, call local emergency services. This app is not an emergency service.",
+      "screen": "report",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "report.submit",
+      "bn": "রিপোর্ট জমা দিন",
+      "en": "Submit report",
+      "screen": "report",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "report.block",
+      "bn": "ব্যবহারকারীকে ব্লক করুন",
+      "en": "Block user",
+      "screen": "report",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "report.thanks",
+      "bn": "রিপোর্ট জমা হয়েছে। আমরা পর্যালোচনা করব।",
+      "en": "Report submitted. We will review it.",
+      "screen": "report",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "error.title",
+      "bn": "কিছু একটা ঠিক হয়নি।",
+      "en": "Something went wrong.",
+      "screen": "states",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "error.body",
+      "bn": "এই মুহূর্তে অনুরোধ লোড করা যাচ্ছে না। একটু পরে আবার চেষ্টা করুন।",
+      "en": "We can't load requests right now. Please try again in a moment.",
+      "screen": "states",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "error.safe",
+      "bn": "তথ্য নিরাপদ আছে।",
+      "en": "Your information is safe.",
+      "screen": "states",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "error.retry",
+      "bn": "আবার চেষ্টা করুন",
+      "en": "Try again",
+      "screen": "states",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "error.go_home",
+      "bn": "হোমে ফিরে যান",
+      "en": "Back to home",
+      "screen": "states",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "error.reference",
+      "bn": "রেফারেন্স: {ref}",
+      "en": "Reference: {ref}",
+      "screen": "states",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "error.contact",
+      "bn": "সমস্যা চলতে থাকলে {support_email}-এ জানান।",
+      "en": "If the problem continues, write to {support_email}.",
+      "screen": "states",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "error.urgent_title",
+      "bn": "জরুরি প্রয়োজনে অপেক্ষা করবেন না",
+      "en": "Don't wait in an emergency",
+      "screen": "states",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "error.urgent_body",
+      "bn": "রক্তের জরুরি প্রয়োজনে সরাসরি হাসপাতালের ব্লাড ব্যাংকে যোগাযোগ করুন।",
+      "en": "For an urgent blood need, contact the hospital blood bank directly.",
+      "screen": "states",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "offline.badge",
+      "bn": "অফলাইন",
+      "en": "Offline",
+      "screen": "states",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "offline.title",
+      "bn": "সংযোগটি নেই। পাশে আছি।",
+      "en": "No connection. We're here.",
+      "screen": "states",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "offline.body",
+      "bn": "ইন্টারনেট চালু করে আবার চেষ্টা করুন। সংযোগ ফিরে এলে নতুন অনুরোধ দেখা যাবে।",
+      "en": "Turn on the internet and try again. New requests will appear when you're back online.",
+      "screen": "states",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "offline.subtitle",
+      "bn": "আপনি অফলাইনে আছেন। সংযোগ পরীক্ষা করুন।",
+      "en": "You're offline. Check your connection.",
+      "screen": "states",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "offline.retry",
+      "bn": "আবার সংযোগ করুন",
+      "en": "Retry",
+      "screen": "states",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "offline.last_synced",
+      "bn": "সর্বশেষ আপডেট",
+      "en": "Last synced",
+      "screen": "states",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "offline.limit",
+      "bn": "অফলাইনে নতুন অনুরোধ প্রকাশ বা বার্তা পাঠানো যাবে না।",
+      "en": "You can't publish requests or send messages while offline.",
+      "screen": "states",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "offline.urgent_title",
+      "bn": "জরুরি প্রয়োজনে হাসপাতালে যোগাযোগ করুন",
+      "en": "Contact the hospital in an emergency",
+      "screen": "states",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "offline.urgent_body",
+      "bn": "BloodLink জরুরি চিকিৎসা বা অ্যাম্বুলেন্স সেবা নয়।",
+      "en": "BloodLink is not an emergency medical or ambulance service.",
+      "screen": "states",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "update.available_title",
+      "bn": "নতুন আপডেট এসেছে",
+      "en": "A new update is available",
+      "screen": "update",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "update.available_body",
+      "bn": "BloodLink-এর নতুন সংস্করণ {version} ডাউনলোড করা যাবে।",
+      "en": "BloodLink version {version} is ready to download.",
+      "screen": "update",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "update.required_title",
+      "bn": "আপডেট প্রয়োজন",
+      "en": "Update required",
+      "screen": "update",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "update.required_body",
+      "bn": "চালিয়ে যেতে অ্যাপের নতুন সংস্করণ ইনস্টল করুন।",
+      "en": "Install the latest version to keep using the app.",
+      "screen": "update",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "update.download_install",
+      "bn": "ডাউনলোড ও ইনস্টল",
+      "en": "Download and install",
+      "screen": "update",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "update.later",
+      "bn": "পরে",
+      "en": "Later",
+      "screen": "update",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "update.downloading",
+      "bn": "ডাউনলোড হচ্ছে... {percent}%",
+      "en": "Downloading… {percent}%",
+      "screen": "update",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "update.verifying",
+      "bn": "ফাইল যাচাই করা হচ্ছে...",
+      "en": "Verifying the file…",
+      "screen": "update",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "update.failed",
+      "bn": "আপডেট করা যায়নি। আবার চেষ্টা করুন।",
+      "en": "Update failed. Please try again.",
+      "screen": "update",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "update.allow_install",
+      "bn": "এই উৎস থেকে অ্যাপ ইনস্টলের অনুমতি দিন।",
+      "en": "Allow installing apps from this source.",
+      "screen": "update",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "update.verify_failed",
+      "bn": "ফাইলটি যাচাই করা যায়নি, তাই ইনস্টল করা হয়নি।",
+      "en": "The file could not be verified, so it was not installed.",
+      "screen": "update",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "update.notes_title",
+      "bn": "এই সংস্করণে নতুন যা আছে",
+      "en": "What's new in this version",
+      "screen": "update",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "support.instruction.bkash",
+      "bn": "বিকাশ অ্যাপ থেকে {number} নম্বরে টাকা পাঠান, তারপর ট্রানজেকশন আইডি জমা দিন।",
+      "en": "Send money to {number} from your bKash app, then submit the transaction ID.",
+      "screen": "support",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "support.instruction.nagad",
+      "bn": "নগদ অ্যাপ থেকে {number} নম্বরে টাকা পাঠান, তারপর ট্রানজেকশন আইডি জমা দিন।",
+      "en": "Send money to {number} from your Nagad app, then submit the transaction ID.",
+      "screen": "support",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "support.instruction.rocket",
+      "bn": "রকেট থেকে {number} নম্বরে টাকা পাঠান, তারপর ট্রানজেকশন আইডি জমা দিন।",
+      "en": "Send money to {number} from your Rocket app, then submit the transaction ID.",
+      "screen": "support",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "support.notice",
+      "bn": "এটি শুধু ঐচ্ছিক অ্যাপ সহায়তা। রক্তের জন্য কোনো অর্থ নয়।",
+      "en": "This is optional app support only. Nothing is paid for blood.",
+      "screen": "support",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "support.trx_id",
+      "bn": "ট্রানজেকশন আইডি",
+      "en": "Transaction ID",
+      "screen": "support",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "support.amount",
+      "bn": "পরিমাণ",
+      "en": "Amount",
+      "screen": "support",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "support.submit",
+      "bn": "সহায়তা জমা দিন",
+      "en": "Submit support",
+      "screen": "support",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "support.pending",
+      "bn": "যাচাই চলছে",
+      "en": "Awaiting confirmation",
+      "screen": "support",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.download.title",
+      "bn": "BloodLink ডাউনলোড করুন",
+      "en": "Download BloodLink",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.download.subtitle",
+      "bn": "অ্যান্ড্রয়েডের জন্য বিনামূল্যে। সরাসরি আমাদের ওয়েবসাইট থেকে ইনস্টল করুন।",
+      "en": "Free for Android. Install directly from our website.",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.download.button",
+      "bn": "APK ডাউনলোড করুন",
+      "en": "Download APK",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.download.version",
+      "bn": "সংস্করণ {version}",
+      "en": "Version {version}",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.download.size",
+      "bn": "আকার: {size}",
+      "en": "Size: {size}",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.download.sha",
+      "bn": "SHA-256 যাচাই কোড",
+      "en": "SHA-256 checksum",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.download.step1",
+      "bn": "ফাইলটি ডাউনলোড করুন।",
+      "en": "Download the file.",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.download.step2",
+      "bn": "ফোনে ‘এই উৎস থেকে অ্যাপ ইনস্টল’ অনুমতি দিন।",
+      "en": "Allow ‘install apps from this source’ on your phone.",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.download.step3",
+      "bn": "ফাইলটি খুলে ইনস্টল করুন।",
+      "en": "Open the file and install it.",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.download.updates",
+      "bn": "পরবর্তী আপডেট অ্যাপ নিজেই জানাবে।",
+      "en": "The app will tell you about future updates itself.",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.download.older",
+      "bn": "পুরোনো সংস্করণ",
+      "en": "Older versions",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.home.hero_title",
+      "bn": "জীবনের সাথে সংযোগ।",
+      "en": "Connecting people. Sharing life.",
+      "screen": "website",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "web.home.hero_body",
+      "bn": "বাংলাদেশের স্বেচ্ছা রক্তদাতা নেটওয়ার্ক। রক্ত কখনো বিক্রি হয় না।",
+      "en": "Bangladesh's voluntary blood-donor network. Blood is never sold.",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.share.cta",
+      "bn": "অ্যাপে দেখুন",
+      "en": "Open in the app",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.share.install",
+      "bn": "অ্যাপ নেই? ডাউনলোড করুন",
+      "en": "Don't have the app? Download it",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.reset.title",
+      "bn": "নতুন পাসওয়ার্ড দিন",
+      "en": "Set a new password",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.reset.success",
+      "bn": "পাসওয়ার্ড বদলানো হয়েছে। অ্যাপে লগইন করুন।",
+      "en": "Your password was changed. Log in from the app.",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.delete.title",
+      "bn": "অ্যাকাউন্ট মুছে ফেলার অনুরোধ",
+      "en": "Account deletion request",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.delete.body",
+      "bn": "আপনার ইমেইল দিন। নিশ্চিত করার জন্য একটি লিংক পাঠানো হবে।",
+      "en": "Enter your email. We will send a link to confirm.",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.contact.title",
+      "bn": "যোগাযোগ করুন",
+      "en": "Contact us",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.nav.about",
+      "bn": "আমাদের সম্পর্কে",
+      "en": "About",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.nav.safety",
+      "bn": "নিরাপত্তা",
+      "en": "Safety",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.nav.download",
+      "bn": "ডাউনলোড",
+      "en": "Download",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.nav.contact",
+      "bn": "যোগাযোগ",
+      "en": "Contact",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.nav.privacy",
+      "bn": "গোপনীয়তা নীতি",
+      "en": "Privacy policy",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "web.nav.terms",
+      "bn": "ব্যবহারের শর্তাবলি",
+      "en": "Terms of use",
+      "screen": "website",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.login.headline",
+      "bn": "প্রতিটি সংযোগে মানুষের পাশে।",
+      "en": "Beside people in every connection.",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.login.sub",
+      "bn": "কমিউনিটির যত্ন নিন। প্রতিটি সংযোগ রক্ষা করুন।",
+      "en": "Care for the community. Protect every connection.",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.login.point1",
+      "bn": "বিনামূল্যে রক্তদানের সংযোগ",
+      "en": "Free blood-donor connections",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.login.point2",
+      "bn": "সম্মতি ও গোপনীয়তা আগে",
+      "en": "Consent and privacy first",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.login.point3",
+      "bn": "রক্ত কখনো বিক্রি হয় না",
+      "en": "Blood is never sold",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.login.badge",
+      "bn": "শুধু অনুমোদিত পরিচালক",
+      "en": "Authorized admins only",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.login.title",
+      "bn": "দায়িত্বশীল পরিচালনায় স্বাগতম।",
+      "en": "Welcome to responsible administration.",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.login.eyebrow",
+      "bn": "অ্যাডমিন ওয়ার্কস্পেসে সাইন ইন করুন",
+      "en": "Sign in to the admin workspace",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "bn_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.login.subtitle",
+      "bn": "শুধু অনুমোদিত পরিচালকদের জন্য। সব প্রশাসনিক কাজ অডিট লগে সংরক্ষিত হয়।",
+      "en": "For authorized admins only. Every administrative action is saved in the audit log.",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.login.email",
+      "bn": "কর্মস্থলের ইমেইল",
+      "en": "Work email",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.login.password",
+      "bn": "পাসওয়ার্ড",
+      "en": "Password",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.login.remember_device",
+      "bn": "এই ডিভাইস মনে রাখুন",
+      "en": "Remember this device",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.login.reset",
+      "bn": "পাসওয়ার্ড রিসেট",
+      "en": "Reset password",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.login.submit",
+      "bn": "নিরাপদে লগইন করুন",
+      "en": "Sign in securely",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.login.extra_title",
+      "bn": "অতিরিক্ত নিরাপত্তা যাচাই",
+      "en": "Extra security check",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.login.extra_body",
+      "bn": "লগইনের পরে আপনার ইমেইলে ৬ সংখ্যার কোড পাঠানো হবে।",
+      "en": "After you sign in, we'll send a 6-digit code to your email.",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.login.code_label",
+      "bn": "৬ সংখ্যার কোড",
+      "en": "6-digit code",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.login.verify",
+      "bn": "কোড যাচাই করুন",
+      "en": "Verify code",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.login.locked",
+      "bn": "বারবার ভুল হওয়ায় কিছুক্ষণের জন্য লগইন বন্ধ আছে।",
+      "en": "Sign-in is paused for a while after repeated failures.",
+      "screen": "admin.login",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.nav.workspace",
+      "bn": "অ্যাডমিন ওয়ার্কস্পেস",
+      "en": "Admin workspace",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.nav.environment",
+      "bn": "বাংলাদেশ · {environment}",
+      "en": "Bangladesh · {environment}",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.nav.overview",
+      "bn": "সারসংক্ষেপ",
+      "en": "Overview",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.nav.users",
+      "bn": "ব্যবহারকারী",
+      "en": "Users",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.nav.requests",
+      "bn": "অনুরোধ",
+      "en": "Requests",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.nav.reports",
+      "bn": "অভিযোগ",
+      "en": "Reports",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.nav.app_config",
+      "bn": "অ্যাপ কনফিগ",
+      "en": "App config",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.nav.cms",
+      "bn": "ভাষার কনটেন্ট",
+      "en": "CMS strings",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.nav.flags",
+      "bn": "ফিচার ফ্ল্যাগ",
+      "en": "Feature flags",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.nav.support",
+      "bn": "অ্যাপ সহায়তা",
+      "en": "Support payments",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.nav.audit",
+      "bn": "অডিট লগ",
+      "en": "Audit log",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.nav.releases",
+      "bn": "অ্যাপ রিলিজ",
+      "en": "App releases",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.nav.sign_out",
+      "bn": "সাইন আউট",
+      "en": "Sign out",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.role.super_admin",
+      "bn": "সুপার অ্যাডমিন",
+      "en": "Super admin",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.role.admin",
+      "bn": "অ্যাডমিনিস্ট্রেটর",
+      "en": "Administrator",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.role.moderator",
+      "bn": "মডারেটর",
+      "en": "Moderator",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.role.content_editor",
+      "bn": "কনটেন্ট এডিটর",
+      "en": "Content editor",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.role.finance",
+      "bn": "ফাইন্যান্স",
+      "en": "Finance",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.demo_badge",
+      "bn": "ডেমো ডেটা",
+      "en": "Demo data",
+      "screen": "admin.nav",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.overview.title",
+      "bn": "সবার পাশে, এক নজরে।",
+      "en": "Beside everyone, at a glance.",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.overview.subtitle",
+      "bn": "সারসংক্ষেপ · বাংলাদেশের রক্তদাতা নেটওয়ার্ক",
+      "en": "Overview · Bangladesh donor network",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.overview.download_report",
+      "bn": "রিপোর্ট ডাউনলোড",
+      "en": "Download report",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.overview.range_30d",
+      "bn": "গত ৩০ দিন",
+      "en": "Last 30 days",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.overview.kpi_donors",
+      "bn": "নিবন্ধিত রক্তদাতা",
+      "en": "Registered donors",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.overview.kpi_donors_delta",
+      "bn": "+{n} এই মাসে",
+      "en": "+{n} this month",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.overview.kpi_active",
+      "bn": "সক্রিয় অনুরোধ",
+      "en": "Active requests",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.overview.kpi_active_sub",
+      "bn": "{n}টি জরুরি অনুরোধ",
+      "en": "{n} urgent requests",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.overview.kpi_connections",
+      "bn": "সম্পন্ন সংযোগ",
+      "en": "Completed connections",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.overview.kpi_connections_sub",
+      "bn": "স্ব-প্রতিবেদিত",
+      "en": "Self-reported",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.overview.kpi_reports",
+      "bn": "অপেক্ষমাণ রিপোর্ট",
+      "en": "Pending reports",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.overview.kpi_reports_sub",
+      "bn": "{n}টি উচ্চ অগ্রাধিকার",
+      "en": "{n} high priority",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.overview.division_title",
+      "bn": "বিভাগভিত্তিক সংযোগ",
+      "en": "Connections by division",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.overview.division_sub",
+      "bn": "গত ৩০ দিনে স্ব-প্রতিবেদিত সংযোগ",
+      "en": "Self-reported connections in the last 30 days",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.overview.division_legend",
+      "bn": "সম্পন্ন সংযোগ",
+      "en": "Completed connections",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.overview.activity_title",
+      "bn": "সাম্প্রতিক কার্যক্রম",
+      "en": "Recent activity",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.overview.attention_title",
+      "bn": "এখন নজর দেওয়া প্রয়োজন",
+      "en": "Needs attention now",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.overview.open_moderation",
+      "bn": "মডারেশন খুলুন",
+      "en": "Open moderation",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.overview.col_request",
+      "bn": "অনুরোধ",
+      "en": "Request",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.overview.col_hospital",
+      "bn": "হাসপাতাল",
+      "en": "Hospital",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.overview.col_group",
+      "bn": "রক্ত",
+      "en": "Group",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.overview.col_due",
+      "bn": "সময়",
+      "en": "Due",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.overview.col_status",
+      "bn": "অবস্থা",
+      "en": "Status",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.overview.showing",
+      "bn": "{from}–{to} দেখানো হচ্ছে",
+      "en": "Showing {from}–{to}",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.activity.donor_verified",
+      "bn": "রক্তদাতা যাচাই সম্পন্ন",
+      "en": "Donor verification completed",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.activity.urgent_published",
+      "bn": "জরুরি অনুরোধ প্রকাশিত",
+      "en": "Urgent request published",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.activity.new_report",
+      "bn": "নতুন অভিযোগ জমা",
+      "en": "New report submitted",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.activity.content_updated",
+      "bn": "বাংলা কনটেন্ট আপডেট",
+      "en": "Bengali content updated",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.activity.safety_review",
+      "bn": "নিরাপত্তা পর্যালোচনা",
+      "en": "Safety review",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.division.barishal",
+      "bn": "বরিশাল",
+      "en": "Barishal",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.division.chattogram",
+      "bn": "চট্টগ্রাম",
+      "en": "Chattogram",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.division.dhaka",
+      "bn": "ঢাকা",
+      "en": "Dhaka",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.division.khulna",
+      "bn": "খুলনা",
+      "en": "Khulna",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.division.mymensingh",
+      "bn": "ময়মনসিংহ",
+      "en": "Mymensingh",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.division.rajshahi",
+      "bn": "রাজশাহী",
+      "en": "Rajshahi",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.division.rangpur",
+      "bn": "রংপুর",
+      "en": "Rangpur",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.division.sylhet",
+      "bn": "সিলেট",
+      "en": "Sylhet",
+      "screen": "admin.overview",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.title",
+      "bn": "মানুষ ও আস্থার নেটওয়ার্ক।",
+      "en": "A network of people and trust.",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.users.subtitle",
+      "bn": "ব্যবহারকারী · বাংলাদেশের রক্তদাতা নেটওয়ার্ক",
+      "en": "Users · Bangladesh donor network",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.users.export",
+      "bn": "তালিকা এক্সপোর্ট",
+      "en": "Export list",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.kpi_donors",
+      "bn": "রক্তদাতা",
+      "en": "Donors",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.kpi_available",
+      "bn": "রক্তদানে প্রস্তুত",
+      "en": "Available",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.kpi_available_sub",
+      "bn": "নিজে নির্বাচিত অবস্থা",
+      "en": "Self-selected status",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.users.kpi_pending",
+      "bn": "যাচাই অপেক্ষমাণ",
+      "en": "Pending verification",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.kpi_pending_sub",
+      "bn": "ফোন যাচাই প্রয়োজন",
+      "en": "Phone verification needed",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.users.search_label",
+      "bn": "অনুসন্ধান",
+      "en": "Search",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.search_placeholder",
+      "bn": "নাম, ফোন বা আইডি খুঁজুন",
+      "en": "Search by name, phone or ID",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.tab_all",
+      "bn": "সব",
+      "en": "All",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.tab_active",
+      "bn": "সক্রিয়",
+      "en": "Active",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.tab_review",
+      "bn": "পর্যালোচনা",
+      "en": "Under review",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.col_name",
+      "bn": "ব্যবহারকারী",
+      "en": "Name",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.col_phone",
+      "bn": "ফোন",
+      "en": "Phone",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.col_group",
+      "bn": "রক্ত",
+      "en": "Group",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.col_district",
+      "bn": "জেলা",
+      "en": "District",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.col_status",
+      "bn": "অবস্থা",
+      "en": "Status",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.status_verified",
+      "bn": "ফোন যাচাইকৃত",
+      "en": "Phone verified",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.status_review",
+      "bn": "পর্যালোচনা",
+      "en": "Under review",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.status_paused",
+      "bn": "বিরতিতে",
+      "en": "Paused",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.status_suspended",
+      "bn": "স্থগিত",
+      "en": "Suspended",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.users.selected_profile",
+      "bn": "নির্বাচিত প্রোফাইল",
+      "en": "Selected profile",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.member_since",
+      "bn": "সদস্য: {date}",
+      "en": "Member since {date}",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.users.donations_count",
+      "bn": "{n}টি স্ব-প্রতিবেদিত রক্তদান",
+      "en": "{n} self-reported donations",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.users.latest",
+      "bn": "সর্বশেষ: {date}",
+      "en": "Latest: {date}",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.users.view_profile",
+      "bn": "প্রোফাইল দেখুন",
+      "en": "View profile",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.review_account",
+      "bn": "অ্যাকাউন্ট পর্যালোচনা",
+      "en": "Review account",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.users.verify_phone",
+      "bn": "ফোন যাচাই করুন",
+      "en": "Verify phone",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.users.reveal_phone",
+      "bn": "ফোন নম্বর দেখুন",
+      "en": "Reveal phone number",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.users.reveal_reason",
+      "bn": "কারণ লিখুন (অডিট লগে থাকবে)",
+      "en": "Enter a reason (saved in the audit log)",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.users.suspend",
+      "bn": "স্থগিত করুন",
+      "en": "Suspend",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.users.restore",
+      "bn": "পুনরুদ্ধার করুন",
+      "en": "Restore",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.users.footer",
+      "bn": "প্রয়োজন ছাড়া ব্যক্তিগত তথ্য প্রকাশ করবেন না। সব প্রশাসনিক কাজ অডিট লগে সংরক্ষিত হয়।",
+      "en": "Don't reveal personal data unless necessary. All admin actions are saved in the audit log.",
+      "screen": "admin.users",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.requests.title",
+      "bn": "অনুরোধ যাচাই, নিরাপদ সংযোগ।",
+      "en": "Verify requests, keep connections safe.",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.requests.subtitle",
+      "bn": "অনুরোধ · বাংলাদেশের রক্তদাতা নেটওয়ার্ক",
+      "en": "Requests · Bangladesh donor network",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.requests.tab_all",
+      "bn": "সব অনুরোধ ({n})",
+      "en": "All requests ({n})",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.tab_review",
+      "bn": "পর্যালোচনা ({n})",
+      "en": "Under review ({n})",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.tab_urgent",
+      "bn": "জরুরি ({n})",
+      "en": "Urgent ({n})",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.tab_done",
+      "bn": "সম্পন্ন",
+      "en": "Completed",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.search_placeholder",
+      "bn": "অনুরোধ আইডি, রোগী বা হাসপাতাল",
+      "en": "Request ID, patient or hospital",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.all_districts",
+      "bn": "সব জেলা",
+      "en": "All districts",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.col_id",
+      "bn": "আইডি",
+      "en": "ID",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.col_patient",
+      "bn": "রোগী",
+      "en": "Patient",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.col_units",
+      "bn": "রক্ত",
+      "en": "Units",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.col_hospital",
+      "bn": "হাসপাতাল",
+      "en": "Hospital",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.col_status",
+      "bn": "অবস্থা",
+      "en": "Status",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.badge_urgent",
+      "bn": "জরুরি",
+      "en": "Urgent",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.badge_review",
+      "bn": "পর্যালোচনা",
+      "en": "Under review",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.badge_approved",
+      "bn": "অনুমোদিত",
+      "en": "Approved",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.badge_done",
+      "bn": "সম্পন্ন",
+      "en": "Completed",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.badge_rejected",
+      "bn": "প্রত্যাখ্যাত",
+      "en": "Rejected",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.requests.badge_needs_info",
+      "bn": "তথ্য চাওয়া হয়েছে",
+      "en": "Info requested",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.requests.approve",
+      "bn": "অনুমোদন করুন",
+      "en": "Approve",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.ask_info",
+      "bn": "তথ্য চান",
+      "en": "Ask for info",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.reject",
+      "bn": "প্রত্যাখ্যান",
+      "en": "Reject",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.reject_reason",
+      "bn": "প্রত্যাখ্যানের কারণ",
+      "en": "Reason for rejection",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.requests.checklist_title",
+      "bn": "যাচাই তালিকা",
+      "en": "Checklist",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.check_hospital",
+      "bn": "হাসপাতালের নাম আছে",
+      "en": "Hospital name exists",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.check_phone",
+      "bn": "ফোন যাচাই সম্পন্ন",
+      "en": "Phone verified",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.check_no_money",
+      "bn": "অর্থের দাবি নেই",
+      "en": "No money demand",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.check_family",
+      "bn": "স্বজনের সম্মতি পর্যালোচনা",
+      "en": "Family consent reviewed",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.notice_title",
+      "bn": "রক্ত কেনাবেচা নিষিদ্ধ",
+      "en": "Buying or selling blood is prohibited",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.requests.notice_body",
+      "bn": "অর্থের দাবি, ভুয়া নম্বরের অপব্যবহার বা অসঙ্গত তথ্য থাকলে অনুরোধ স্থগিত করে যাচাই করুন।",
+      "en": "If there is a demand for money, misuse of a fake number or inconsistent information, pause the request and verify it.",
+      "screen": "admin.requests",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.reports.title",
+      "bn": "সবার নিরাপত্তা, সবার আস্থা।",
+      "en": "Everyone's safety, everyone's trust.",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.reports.subtitle",
+      "bn": "অভিযোগ · বাংলাদেশের রক্তদাতা নেটওয়ার্ক",
+      "en": "Reports · Bangladesh donor network",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.reports.notice_title",
+      "bn": "অর্থ চাওয়ার অভিযোগে অগ্রাধিকার দিন",
+      "en": "Prioritise reports of asking for money",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.notice_body",
+      "bn": "রক্ত কখনো বিক্রি হয় না। অভিযোগ যাচাই না করে কোনো ব্যবহারকারীকে অভিযুক্ত হিসেবে চিহ্নিত করবেন না।",
+      "en": "Blood is never sold. Do not label a user as guilty before verifying the report.",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.search_placeholder",
+      "bn": "রিপোর্ট আইডি বা অভিযোগের কারণ",
+      "en": "Report ID or reason",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.tab_all",
+      "bn": "সব ({n})",
+      "en": "All ({n})",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.tab_high",
+      "bn": "উচ্চ ({n})",
+      "en": "High ({n})",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.tab_closed",
+      "bn": "নিষ্পত্তি",
+      "en": "Closed",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.col_report",
+      "bn": "রিপোর্ট",
+      "en": "Report",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.col_reason",
+      "bn": "কারণ",
+      "en": "Reason",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.col_linked",
+      "bn": "সংযুক্ত",
+      "en": "Linked",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.col_received",
+      "bn": "প্রাপ্তি",
+      "en": "Received",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.col_priority",
+      "bn": "অগ্রাধিকার",
+      "en": "Priority",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.priority_high",
+      "bn": "উচ্চ অগ্রাধিকার",
+      "en": "High priority",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.priority_review",
+      "bn": "পর্যালোচনা",
+      "en": "Under review",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.priority_closed",
+      "bn": "নিষ্পত্তি",
+      "en": "Closed",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.detail_title",
+      "bn": "অভিযোগের বিবরণ",
+      "en": "Report details",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.open_evidence",
+      "bn": "প্রমাণ খুলুন",
+      "en": "Open evidence",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.reporter",
+      "bn": "অভিযোগকারী",
+      "en": "Reporter",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.reported",
+      "bn": "রিপোর্টকৃত",
+      "en": "Reported",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.statement",
+      "bn": "রিপোর্টের বক্তব্য",
+      "en": "User statement",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.internal_note",
+      "bn": "পর্যালোচনার নোট",
+      "en": "Internal note",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.safe_actions",
+      "bn": "নিরাপদ পদক্ষেপ",
+      "en": "Safe actions",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.safe_actions_hint",
+      "bn": "প্রমাণ অনুযায়ী সিদ্ধান্ত নিন। ব্যবহারকারীকে কারণ জানাতে হবে।",
+      "en": "Decide based on the evidence. The user must be told the reason.",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.reports.ask_more",
+      "bn": "আরও তথ্য চান",
+      "en": "Ask for more info",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.restrict",
+      "bn": "সাময়িক সীমাবদ্ধ করুন",
+      "en": "Restrict temporarily",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.resolve",
+      "bn": "নিষ্পত্তি করুন",
+      "en": "Resolve",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.reports.assigned",
+      "bn": "নিযুক্ত: {name}। সিদ্ধান্ত অডিট লগে সংরক্ষিত হবে।",
+      "en": "Assigned: {name}. The decision will be saved in the audit log.",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.reports.assign",
+      "bn": "দায়িত্ব দিন",
+      "en": "Assign",
+      "screen": "admin.reports",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.title",
+      "bn": "এক পরিচয়, যত্নের প্রতিটি স্পর্শে।",
+      "en": "One identity, in every touch of care.",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.save",
+      "bn": "পরিবর্তন সংরক্ষণ",
+      "en": "Save changes",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.config.publish",
+      "bn": "প্রকাশ করুন",
+      "en": "Publish",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.tab_brand",
+      "bn": "ব্র্যান্ড",
+      "en": "Brand",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.config.tab_theme",
+      "bn": "থিম",
+      "en": "Theme",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.config.tab_safety",
+      "bn": "নিরাপত্তা",
+      "en": "Safety",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.config.brand_colors",
+      "bn": "ব্র্যান্ডের রং",
+      "en": "Brand colors",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.config.gradient",
+      "bn": "রুবি → রোজ / প্রাথমিক গ্র্যাডিয়েন্ট",
+      "en": "Ruby → Rose / Primary gradient",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.theme_card",
+      "bn": "থিম ও পাঠযোগ্যতা",
+      "en": "Theme and readability",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.config.light_dark",
+      "bn": "লাইট ও ডার্ক থিম",
+      "en": "Light and dark themes",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.config.light_dark_sub",
+      "bn": "দুটি চেহারার বিকল্পই চালু রাখুন",
+      "en": "Enable both appearance options",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.system_theme",
+      "bn": "সিস্টেম থিম অনুসরণ",
+      "en": "Follow system theme",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.config.system_theme_sub",
+      "bn": "ডিভাইসের চেহারা ডিফল্ট ধরুন",
+      "en": "Default to device appearance",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.bn_font",
+      "bn": "বাংলা ফন্ট",
+      "en": "Bengali font",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.config.en_font",
+      "bn": "ইংরেজি ফন্ট",
+      "en": "English font",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.config.card_radius",
+      "bn": "কার্ড রেডিয়াস",
+      "en": "Card radius",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.config.control_radius",
+      "bn": "কন্ট্রোল রেডিয়াস",
+      "en": "Control radius",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.config.preview",
+      "bn": "অ্যাপ প্রিভিউ",
+      "en": "Preview",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.config.preview_note",
+      "bn": "স্ট্যাটিক প্রিভিউ · কোনো পরিবর্তন প্রকাশিত হয়নি।",
+      "en": "Static preview · No change has been published.",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.reset",
+      "bn": "ডিফল্টে ফিরুন",
+      "en": "Restore default",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.config.review_title",
+      "bn": "প্রকাশের আগে পর্যালোচনা করুন",
+      "en": "Review before publishing",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.config.review_body",
+      "bn": "দুটি থিমেই কনট্রাস্ট ও বাংলা লেখার পাঠযোগ্যতা যাচাই করুন।",
+      "en": "Check contrast and Bengali text readability in both themes.",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.contrast_warning",
+      "bn": "এই রঙে কনট্রাস্ট কম হতে পারে।",
+      "en": "This color may not have enough contrast.",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.safety_interval",
+      "bn": "রক্তদানের বিরতি (দিন)",
+      "en": "Donation interval (days)",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.safety_radius",
+      "bn": "সাধারণ খোঁজার ব্যাসার্ধ (কিমি)",
+      "en": "Search radius (km)",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.safety_urgent_radius",
+      "bn": "জরুরি খোঁজার ব্যাসার্ধ (কিমি)",
+      "en": "Urgent search radius (km)",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.safety_match",
+      "bn": "রক্তের গ্রুপ মেলানো",
+      "en": "Blood group matching",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.safety_auto_publish",
+      "bn": "অনুরোধ স্বয়ংক্রিয়ভাবে প্রকাশ",
+      "en": "Auto-publish requests",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.safety_keywords",
+      "bn": "অর্থ-সংক্রান্ত শব্দের তালিকা",
+      "en": "Money keyword list",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.safety_support_email",
+      "bn": "সহায়তার ইমেইল",
+      "en": "Support email",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.config.safety_disclaimer",
+      "bn": "জরুরি সেবা সংক্রান্ত সতর্কবার্তা",
+      "en": "Emergency disclaimer",
+      "screen": "admin.app_config",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.cms.title",
+      "bn": "দুই ভাষায়, একই যত্ন।",
+      "en": "Two languages, the same care.",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.cms.add",
+      "bn": "নতুন স্ট্রিং যোগ",
+      "en": "Add new string",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.cms.search_placeholder",
+      "bn": "স্ট্রিং কী, বাংলা বা English খুঁজুন",
+      "en": "Search string key, Bengali or English",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.cms.tab_all",
+      "bn": "সব ({n})",
+      "en": "All ({n})",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.cms.tab_draft",
+      "bn": "খসড়া ({n})",
+      "en": "Draft ({n})",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.cms.tab_published",
+      "bn": "প্রকাশিত",
+      "en": "Published",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.cms.col_key",
+      "bn": "কী",
+      "en": "Key",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "en_written",
+      "latinAllowed": true,
+      "needsReview": true
+    },
+    {
+      "key": "admin.cms.col_bn",
+      "bn": "বাংলা",
+      "en": "Bengali",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.cms.col_en",
+      "bn": "ইংরেজি",
+      "en": "English",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.cms.col_screen",
+      "bn": "স্ক্রিন",
+      "en": "Screen",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.cms.col_status",
+      "bn": "অবস্থা",
+      "en": "Status",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.cms.status_published",
+      "bn": "প্রকাশিত",
+      "en": "Published",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.cms.status_draft",
+      "bn": "খসড়া",
+      "en": "Draft",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.cms.status_in_review",
+      "bn": "পর্যালোচনায়",
+      "en": "In review",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.cms.edit_title",
+      "bn": "স্ট্রিং সম্পাদনা",
+      "en": "Edit string",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.cms.translator_note",
+      "bn": "অনুবাদকের নোট",
+      "en": "Translator note",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.cms.save_draft",
+      "bn": "খসড়া সংরক্ষণ",
+      "en": "Save draft",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.cms.send_review",
+      "bn": "পর্যালোচনায় পাঠান",
+      "en": "Send for review",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.cms.approve",
+      "bn": "অনুমোদন দিন",
+      "en": "Approve",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.cms.publish_release",
+      "bn": "নতুন ভার্সন প্রকাশ করুন",
+      "en": "Publish new version",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.cms.notice_title",
+      "bn": "বাংলা ও ইংরেজি একসাথে",
+      "en": "Bengali and English together",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.cms.notice_body",
+      "bn": "কোনো ভাষা লেখা খালি রাখা যাবে না। আসল বাংলা ব্যবহার করুন, রোমান হরফে বাংলা নয়।",
+      "en": "Neither language can be left empty. Use real Bengali script, not Roman letters.",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.cms.version",
+      "bn": "ভার্সন / v{version} খসড়া",
+      "en": "Version / v{version} draft",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.cms.last_change",
+      "bn": "সর্বশেষ পরিবর্তন: {name}, {date}। প্রকাশের আগে দ্বিতীয় পর্যালোচনা প্রয়োজন।",
+      "en": "Last change: {name}, {date}. A second review is needed before publishing.",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.cms.complete",
+      "bn": "২ ভাষা পূর্ণ",
+      "en": "Both languages complete",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.cms.err_bengali",
+      "bn": "বাংলা লেখায় বাংলা হরফ থাকতে হবে।",
+      "en": "The Bengali text must contain Bengali script.",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.cms.err_placeholders",
+      "bn": "দুই ভাষায় {…} চিহ্নিত অংশ মিলতে হবে।",
+      "en": "The {…} placeholders must match in both languages.",
+      "screen": "admin.cms",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.flags.title",
+      "bn": "সতর্ক পরিবর্তন, নিরাপদ অভিজ্ঞতা।",
+      "en": "Careful changes, safe experience.",
+      "screen": "admin.flags",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.flags.new",
+      "bn": "নতুন ফ্ল্যাগ",
+      "en": "New flag",
+      "screen": "admin.flags",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.flags.env_demo",
+      "bn": "ডেমো",
+      "en": "Demo",
+      "screen": "admin.flags",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.flags.env_staging",
+      "bn": "স্টেজিং",
+      "en": "Staging",
+      "screen": "admin.flags",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.flags.env_production",
+      "bn": "প্রোডাকশন",
+      "en": "Production",
+      "screen": "admin.flags",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.flags.col_feature",
+      "bn": "ফিচার",
+      "en": "Feature",
+      "screen": "admin.flags",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.flags.col_rollout",
+      "bn": "রোলআউট",
+      "en": "Rollout",
+      "screen": "admin.flags",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.flags.col_env",
+      "bn": "পরিবেশ",
+      "en": "Environment",
+      "screen": "admin.flags",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.flags.col_state",
+      "bn": "অবস্থা",
+      "en": "State",
+      "screen": "admin.flags",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.flags.reason_label",
+      "bn": "পরিবর্তনের কারণ",
+      "en": "Change reason",
+      "screen": "admin.flags",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.flags.reason_required",
+      "bn": "কারণ লেখা আবশ্যক।",
+      "en": "A reason is required.",
+      "screen": "admin.flags",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.flags.last_change",
+      "bn": "শেষ পরিবর্তন: {name} · {date} · অডিট লগে রেকর্ড রাখা হবে।",
+      "en": "Last change: {name} · {date} · It will be recorded in the audit log.",
+      "screen": "admin.flags",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.support.title",
+      "bn": "অ্যাপের পাশে, সম্পূর্ণ ঐচ্ছিক।",
+      "en": "Beside the app, entirely optional.",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.support.notice_title",
+      "bn": "শুধু ঐচ্ছিক অ্যাপ সহায়তা",
+      "en": "Optional app support only",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.notice_body",
+      "bn": "এটি রক্তের মূল্য নয়। রক্ত কেনাবেচা, দাতাকে অর্থ বা পুরস্কার দেওয়া নিষিদ্ধ। সহায়তা না করলেও সব রক্তদানের সংযোগ বিনামূল্যে।",
+      "en": "This is not the price of blood. Buying or selling blood and giving money or rewards to donors is prohibited. All blood-donor connections stay free even without support.",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.support.kpi_total",
+      "bn": "মোট অ্যাপ সহায়তা",
+      "en": "Total app support",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.kpi_contrib",
+      "bn": "ঐচ্ছিক সহায়তা",
+      "en": "Voluntary contributions",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.kpi_contrib_sub",
+      "bn": "কোনো রক্তদানের সাথে সংযুক্ত নয়",
+      "en": "Not linked to any blood donation",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.support.kpi_pending",
+      "bn": "অপেক্ষমাণ",
+      "en": "Pending",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.kpi_pending_sub",
+      "bn": "প্রদানকারীর নিশ্চিতকরণ বাকি",
+      "en": "Provider confirmation pending",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.support.provider_bkash",
+      "bn": "বিকাশ",
+      "en": "bKash",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.provider_nagad",
+      "bn": "নগদ",
+      "en": "Nagad",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.provider_rocket",
+      "bn": "রকেট",
+      "en": "Rocket",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.provider_badge",
+      "bn": "শুধু অ্যাপ সহায়তা",
+      "en": "App support only",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.support.receiver_number",
+      "bn": "গ্রহণের নম্বর",
+      "en": "Receiver number",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.support.search_placeholder",
+      "bn": "সহায়তা আইডি বা প্রদানকারীর নাম",
+      "en": "Support ID or provider name",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.tab_all",
+      "bn": "সব",
+      "en": "All",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.tab_success",
+      "bn": "সফল",
+      "en": "Successful",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.tab_pending",
+      "bn": "অপেক্ষমাণ",
+      "en": "Pending",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.col_id",
+      "bn": "সহায়তা আইডি",
+      "en": "Support ID",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.col_supporter",
+      "bn": "সহায়তাকারী",
+      "en": "Supporter",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.col_provider",
+      "bn": "মাধ্যম",
+      "en": "Provider",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.col_amount",
+      "bn": "পরিমাণ",
+      "en": "Amount",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.col_status",
+      "bn": "অবস্থা",
+      "en": "Status",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.confirm",
+      "bn": "নিশ্চিত করুন",
+      "en": "Confirm",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.support.fail",
+      "bn": "ব্যর্থ করুন",
+      "en": "Mark failed",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.support.policy_title",
+      "bn": "অর্থ ব্যবহারের নীতি",
+      "en": "Fund usage policy",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.support.policy_body",
+      "bn": "অ্যাপের হোস্টিং, নিরাপত্তা ও পরিচালনার ব্যয় মেটাতে ঐচ্ছিক সহায়তা। দাতা বা রোগীর জন্য কোনো পেমেন্ট নয়। কোনো অগ্রাধিকার সুবিধাও দেওয়া হয় না।",
+      "en": "Optional support covers app hosting, security and operating costs. No payment is made for donors or patients. No priority benefits are given.",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.support.receipt_title",
+      "bn": "নির্বাচিত রসিদ / {id}",
+      "en": "Selected receipt / {id}",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.support.view_receipt",
+      "bn": "সহায়তার রসিদ দেখুন",
+      "en": "View support receipt",
+      "screen": "admin.support",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.title",
+      "bn": "প্রতিটি সিদ্ধান্তে জবাবদিহি।",
+      "en": "Accountability in every decision.",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.audit.export",
+      "bn": "লগ এক্সপোর্ট",
+      "en": "Export log",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.notice_title",
+      "bn": "পরিবর্তন-অযোগ্য প্রশাসনিক রেকর্ড",
+      "en": "Tamper-proof administrative record",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.notice_body",
+      "bn": "কে, কখন, কী পরিবর্তন করেছেন—স্পষ্ট রেকর্ড রাখুন।",
+      "en": "Keep a clear record of who changed what and when.",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.audit.search_placeholder",
+      "bn": "পরিচালক, ইভেন্ট বা রিসোর্স আইডি",
+      "en": "Admin, event or resource ID",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.range_today",
+      "bn": "আজ",
+      "en": "Today",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.range_7d",
+      "bn": "৭ দিন",
+      "en": "7 days",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.range_30d",
+      "bn": "৩০ দিন",
+      "en": "30 days",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.col_time",
+      "bn": "সময়",
+      "en": "Time",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.col_actor",
+      "bn": "পরিচালক",
+      "en": "Actor",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.col_event",
+      "bn": "কাজ",
+      "en": "Event",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.col_resource",
+      "bn": "রিসোর্স",
+      "en": "Resource",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.col_result",
+      "bn": "ফল",
+      "en": "Result",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.result_success",
+      "bn": "সফল",
+      "en": "Success",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.result_failed",
+      "bn": "ব্যর্থ",
+      "en": "Failed",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.audit.detail_title",
+      "bn": "ইভেন্টের বিবরণ",
+      "en": "Event details",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.read_only",
+      "bn": "শুধু পড়া",
+      "en": "Read only",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.before",
+      "bn": "আগে",
+      "en": "Before",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.after",
+      "bn": "পরে",
+      "en": "After",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.no_delete_title",
+      "bn": "রেকর্ড মুছতে পারবেন না",
+      "en": "Records cannot be deleted",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.audit.no_delete_body",
+      "bn": "সংশোধন প্রয়োজন হলে নতুন ইভেন্ট যোগ হবে। সংবেদনশীল তথ্য মাস্ক করা আছে।",
+      "en": "If a correction is needed, a new event is added. Sensitive data is masked.",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "en_written",
+      "needsReview": true
+    },
+    {
+      "key": "admin.audit.integrity",
+      "bn": "অখণ্ডতা সুরক্ষিত",
+      "en": "Integrity protected",
+      "screen": "admin.audit",
+      "status": "published",
+      "origin": "design"
+    },
+    {
+      "key": "admin.releases.title",
+      "bn": "অ্যাপ রিলিজ ও আপডেট",
+      "en": "App releases and updates",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.new",
+      "bn": "নতুন রিলিজ",
+      "en": "New release",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.version_code",
+      "bn": "ভার্সন কোড",
+      "en": "Version code",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.version_name",
+      "bn": "ভার্সনের নাম",
+      "en": "Version name",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.apk_url",
+      "bn": "APK-এর HTTPS লিংক",
+      "en": "APK HTTPS link",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.verify",
+      "bn": "যাচাই করুন",
+      "en": "Verify",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.publish",
+      "bn": "প্রকাশ করুন",
+      "en": "Publish",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.revoke",
+      "bn": "প্রত্যাহার করুন",
+      "en": "Revoke",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.mandatory",
+      "bn": "বাধ্যতামূলক আপডেট",
+      "en": "Mandatory update",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.min_supported",
+      "bn": "সর্বনিম্ন সমর্থিত ভার্সন",
+      "en": "Minimum supported version",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.rollout",
+      "bn": "রোলআউট শতাংশ",
+      "en": "Rollout percentage",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.notes_bn",
+      "bn": "বাংলা রিলিজ নোট",
+      "en": "Bengali release notes",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.notes_en",
+      "bn": "ইংরেজি রিলিজ নোট",
+      "en": "English release notes",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.downloads",
+      "bn": "ডাউনলোড",
+      "en": "Downloads",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.installs",
+      "bn": "ইনস্টল",
+      "en": "Installs",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.failures",
+      "bn": "ব্যর্থ",
+      "en": "Failures",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.status_draft",
+      "bn": "খসড়া",
+      "en": "Draft",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.status_verified",
+      "bn": "যাচাইকৃত",
+      "en": "Verified",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.status_published",
+      "bn": "প্রকাশিত",
+      "en": "Published",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    },
+    {
+      "key": "admin.releases.status_revoked",
+      "bn": "প্রত্যাহৃত",
+      "en": "Revoked",
+      "screen": "admin.releases",
+      "status": "published",
+      "origin": "new_text",
+      "needsReview": true
+    }
+  ],
+  "featureFlags": [
+    {
+      "key": "nearby_requests",
+      "titleBn": "কাছের অনুরোধ",
+      "titleEn": "Nearby requests",
+      "descriptionBn": "অবস্থানভিত্তিক খোঁজ",
+      "descriptionEn": "Location-based discovery",
+      "rolloutPercent": 100,
+      "enabled": true
+    },
+    {
+      "key": "in_app_calls",
+      "titleBn": "অ্যাপের ভেতর কল",
+      "titleEn": "In-app calls",
+      "descriptionBn": "সম্মতি আবশ্যক",
+      "descriptionEn": "Consent required",
+      "rolloutPercent": 25,
+      "enabled": true
+    },
+    {
+      "key": "donation_reminders",
+      "titleBn": "রক্তদানের স্মরণিকা",
+      "titleEn": "Donation reminders",
+      "descriptionBn": "ঐচ্ছিক স্মরণিকা, চিকিৎসা যোগ্যতা নয়",
+      "descriptionEn": "Opt-in reminders · Not medical eligibility",
+      "rolloutPercent": 100,
+      "enabled": true
+    },
+    {
+      "key": "support_payments",
+      "titleBn": "ঐচ্ছিক অ্যাপ সহায়তা",
+      "titleEn": "Optional app support",
+      "descriptionBn": "শুধু অ্যাপ সহায়তা, রক্তের জন্য কোনো পেমেন্ট নয়",
+      "descriptionEn": "Optional app support only · No blood payments",
+      "rolloutPercent": 10,
+      "enabled": true
+    },
+    {
+      "key": "new_profile_layout",
+      "titleBn": "নতুন প্রোফাইল লেআউট",
+      "titleEn": "New profile layout",
+      "descriptionBn": "প্রোফাইলের নতুন রূপ · অভ্যন্তরীণ প্রিভিউ",
+      "descriptionEn": "Profile refresh · Internal preview",
+      "rolloutPercent": 0,
+      "enabled": false
+    }
+  ]
+}

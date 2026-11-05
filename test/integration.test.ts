@@ -585,6 +585,10 @@ describe('real HTTP integration journey', () => {
     assertNoSensitiveFields(publicDonors.body);
     assertNoSensitiveFields(publicContent.body);
     const strings = await request(app).get('/api/v1/app/strings?lang=en');
+    const bengaliStrings = await request(app).get('/api/v1/app/strings?lang=bn');
+    const cachedStrings = await request(app)
+      .get('/api/v1/app/strings?lang=en')
+      .set('if-none-match', strings.headers.etag);
     const config = await request(app).get('/api/v1/app/config');
     const flags = await request(app).get('/api/v1/app/flags');
     const update = await request(app).get(
@@ -596,10 +600,34 @@ describe('real HTTP integration journey', () => {
       event: 'seen',
     });
     expect(strings.status).toBe(200);
+    expect(bengaliStrings.status).toBe(200);
+    expect(cachedStrings.status).toBe(304);
     expect(config.status).toBe(200);
     expect(flags.status).toBe(200);
     expect(update.status).toBe(200);
     expect(updateEvent.status).toBe(202);
+  });
+
+  it('seeds the complete bilingual CMS and environment flags idempotently', async () => {
+    const { CmsString } = await import('../src/models/CmsString.js');
+    const { CmsRelease } = await import('../src/models/CmsRelease.js');
+    const { FeatureFlag } = await import('../src/models/FeatureFlag.js');
+    const { AppConfig } = await import('../src/models/AppConfig.js');
+    const strings = await CmsString.find().lean();
+    expect(strings).toHaveLength(781);
+    for (const string of strings) {
+      expect(string.bn).toBeTruthy();
+      expect(string.en).toBeTruthy();
+      if (!string.latinAllowed) expect(string.bn).toMatch(/[\u0980-\u09ff]/);
+      const placeholders = (value: string) => value.match(/\{[^}]+\}/g)?.sort() ?? [];
+      expect(placeholders(string.bn)).toEqual(placeholders(string.en));
+    }
+    expect(await CmsRelease.findOne({ label: 'v1.0' })).toMatchObject({ stringCount: 781 });
+    expect(await FeatureFlag.countDocuments()).toBe(15);
+    expect(await FeatureFlag.countDocuments({ environment: 'production', enabled: true })).toBe(0);
+    expect(await AppConfig.findOne({ status: 'published' })).toMatchObject({
+      contact: { supportEmail: expect.any(String) },
+    });
   });
 
   it('covers admin 2FA, RBAC, moderation, settings, flags, releases, support, and audit APIs', async () => {
@@ -737,6 +765,13 @@ describe('real HTTP integration journey', () => {
       .get('/api/v1/admin/cms/strings')
       .set('authorization', `Bearer ${adminToken}`);
     expect(cms.status).toBe(200);
+    const cmsReview = await request(app)
+      .get('/api/v1/admin/cms/strings?needsReview=true')
+      .set('authorization', `Bearer ${adminToken}`);
+    expect(cmsReview.status).toBe(200);
+    expect(cmsReview.body.data.every((item: { needsReview: boolean }) => item.needsReview)).toBe(
+      true,
+    );
     const cmsDraft = await request(app)
       .post('/api/v1/admin/cms/strings')
       .set('authorization', `Bearer ${adminToken}`)

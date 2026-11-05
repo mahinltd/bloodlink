@@ -537,9 +537,10 @@ router.post(
     }
   },
 );
-router.get('/cms/strings', requireAdmin, async (_req, res, next) => {
+router.get('/cms/strings', requireAdmin, async (req, res, next) => {
   try {
-    const items = await CmsString.find().sort({ key: 1 }).limit(100).lean();
+    const filter = req.query.needsReview === 'true' ? { needsReview: true } : {};
+    const items = await CmsString.find(filter).sort({ key: 1 }).limit(100).lean();
     res.json({ success: true, data: items, meta: { total: items.length } });
   } catch (error) {
     next(error);

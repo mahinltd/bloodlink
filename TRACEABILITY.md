@@ -4,8 +4,8 @@ Status rule: `[x]` means a passing test exercises the requirement through real H
 
 ## Summary
 
-- Done: 4
-- Partial: 39
+- Done: 5
+- Partial: 38
 - Missing: 16
 
 | Requirement                                                                                                        | Route or file                                                   | Test file                  | Status |
@@ -62,8 +62,8 @@ Status rule: `[x]` means a passing test exercises the requirement through real H
 | Accepted-pledge-only contact phone reveal                                                                          | `src/modules/requests`, `src/modules/chat`, `src/modules/calls` | none                       | [ ]    |
 | Blocking enforced in every list, chat, call and notification query                                                 | `src/modules`                                                   | none                       | [ ]    |
 | NoSQL injection, error leak and public sensitive-field scans                                                       | `src/app.ts`, `src/middleware/error.ts`                         | `test/integration.test.ts` | [~]    |
-| Base seed: all divisions/districts/hospitals/config/flags/admin                                                    | `src/seed/base.ts`                                              | none                       | [~]    |
-| CMS, notification, email templates and demo seed                                                                   | `src/seed`                                                      | none                       | [~]    |
+| Base seed: all divisions/districts/hospitals/config/flags/admin                                                    | `src/seed/base.ts`                                              | `test/integration.test.ts` | [x]    |
+| CMS, notification, email templates and demo seed                                                                   | `src/seed`                                                      | `test/integration.test.ts` | [~]    |
 | Template-backed bilingual user-facing text                                                                         | `src/services`, `src/modules`                                   | none                       | [ ]    |
 | Module route/controller/service/schema split and async wrapper                                                     | `src/modules`                                                   | none                       | [ ]    |
 | OpenAPI documents every real route and aliases                                                                     | `openapi.yaml`, `src/openapi`                                   | `test/openapi.test.ts`     | [~]    |
