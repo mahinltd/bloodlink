@@ -63,4 +63,11 @@ describe('P0 foundation API', () => {
     expect(response.status).toBe(400);
     expect(response.body.error).toMatchObject({ code: 'VALIDATION_ERROR', ref: 'BL-400' });
   });
+
+  it('exposes the UptimeRobot tick guard', async () => {
+    const response = await request(app).post('/internal/tick');
+
+    expect(response.status).toBe(401);
+    expect(response.body.error).toMatchObject({ code: 'UNAUTHORIZED', ref: 'BL-401' });
+  });
 });
