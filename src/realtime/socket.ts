@@ -8,6 +8,7 @@ import { scanMoneyKeywords } from '../services/moderation.js';
 type Ack = (response: { success: boolean; data?: unknown; error?: { code: string } }) => void;
 export function attachSocket(server: HttpServer): Server {
   const io = new Server(server, { cors: { origin: true, credentials: true } });
+  const connectedUsers = new Map<string, number>();
   io.use((socket, next) => {
     try {
       const token =
@@ -22,6 +23,9 @@ export function attachSocket(server: HttpServer): Server {
   io.on('connection', (socket) => {
     const userId = socket.data.userId as string;
     socket.join(`user:${userId}`);
+    const connectionCount = (connectedUsers.get(userId) ?? 0) + 1;
+    connectedUsers.set(userId, connectionCount);
+    if (connectionCount === 1) io.emit('presence:online', { userId });
     socket.on('presence:ping', (ack?: Ack) =>
       ack?.({ success: true, data: { at: new Date().toISOString() } }),
     );
@@ -49,6 +53,13 @@ export function attachSocket(server: HttpServer): Server {
           },
           { $set: { status: 'read', readAt: new Date() } },
         );
+        const peer = conversation.participants.find((item) => item.toString() !== userId);
+        if (peer)
+          io.to(`user:${peer.toString()}`).emit('message:seen', {
+            conversationId: conversation.id,
+            upToMessageId: payload.upToMessageId,
+            userId,
+          });
         ack?.({ success: true });
       },
     );
@@ -80,14 +91,43 @@ export function attachSocket(server: HttpServer): Server {
           const message = await Message.create({ ...payload, senderId: userId, flags });
           ack?.({ success: true, data: message });
           const peer = conversation.participants.find((item) => item.toString() !== userId);
-          if (peer) io.to(`user:${peer.toString()}`).emit('message:new', message);
+          if (peer) {
+            io.to(`user:${peer.toString()}`).emit('message:new', message);
+            io.to(`user:${peer.toString()}`).emit('message:delivered', {
+              conversationId: conversation.id,
+              messageId: message.id,
+            });
+          }
         } catch {
           ack?.({ success: false, error: { code: 'INTERNAL_ERROR' } });
         }
       },
     );
+    for (const event of ['call:invite', 'call:accept', 'call:decline', 'call:end'] as const) {
+      socket.on(event, (payload: { userId: string; callId: string }, ack?: Ack) => {
+        if (!payload?.userId || !payload.callId)
+          return ack?.({ success: false, error: { code: 'VALIDATION_ERROR' } });
+        io.to(`user:${payload.userId}`).emit(event, {
+          callId: payload.callId,
+          userId,
+        });
+        ack?.({ success: true });
+      });
+    }
+    socket.on('disconnect', () => {
+      const remaining = (connectedUsers.get(userId) ?? 1) - 1;
+      if (remaining > 0) connectedUsers.set(userId, remaining);
+      else {
+        connectedUsers.delete(userId);
+        io.emit('presence:offline', { userId });
+      }
+    });
   });
   return io;
+}
+
+export function emitFlagChanged(io: Server, key: string, enabled: boolean): void {
+  io.emit('flag:changed', { key, enabled });
 }
 
 async function relayToPeer(

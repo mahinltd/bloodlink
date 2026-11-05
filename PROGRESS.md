@@ -72,9 +72,9 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [~] `typing:stop`
 - [~] `message:send`
 - [~] `message:read`
-- [ ] `presence:online` and `presence:offline` fan-out
-- [ ] `message:delivered` and `message:seen` receipts
-- [ ] `call:invite`, `call:accept`, `call:decline`, `call:end`
+- [~] `presence:online` and `presence:offline` fan-out
+- [~] `message:delivered` and `message:seen` receipts
+- [~] `call:invite`, `call:accept`, `call:decline`, `call:end`
 - [ ] `flag:changed`
 
 ## Admin API checklist (section 11)
