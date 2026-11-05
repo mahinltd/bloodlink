@@ -12,6 +12,7 @@ let clearSettingsCache: typeof import('../src/services/settings.js').clearSettin
 let User: typeof import('../src/models/User.js').User;
 let BloodRequest: typeof import('../src/models/BloodRequest.js').BloodRequest;
 let Pledge: typeof import('../src/models/Pledge.js').Pledge;
+let Notification: typeof import('../src/models/Community.js').Notification;
 let moderatedRequestId = '';
 let supportPaymentId = '';
 let socketToken = '';
@@ -84,6 +85,7 @@ describe('real HTTP integration journey', () => {
     ({ User } = await import('../src/models/User.js'));
     ({ BloodRequest } = await import('../src/models/BloodRequest.js'));
     ({ Pledge } = await import('../src/models/Pledge.js'));
+    ({ Notification } = await import('../src/models/Community.js'));
     await seed({ disconnect: false });
     clearSettingsCache();
   }, 600_000);
@@ -803,6 +805,37 @@ describe('real HTTP integration journey', () => {
       .set('x-job-secret', 'test-job-secret-that-is-at-least-32-characters');
     expect(audit.status).toBe(200);
     expect(maintenance.status).toBe(200);
+  });
+
+  it('fans out approved requests only to compatible available donors', async () => {
+    const requestResponse = await request(app)
+      .post('/api/v1/requests')
+      .set('authorization', `Bearer ${requesterToken}`)
+      .send({
+        patientName: 'Fanout patient',
+        bloodGroup: 'A+',
+        units: 1,
+        hospitalNameText: 'Dhaka Medical College Hospital',
+        division: 'dhaka',
+        district: 'Dhaka',
+        area: 'Dhanmondi',
+        neededBy: new Date(Date.now() + 86_400_000).toISOString(),
+        priority: 'urgent',
+        contactPhone: '01711111111',
+      });
+    expect(requestResponse.status).toBe(201);
+    const before = await Notification.countDocuments({
+      userId: donorUserId,
+      type: 'request_nearby',
+    });
+    const response = await request(app)
+      .post('/internal/jobs/notification-fanout')
+      .set('x-job-secret', 'test-job-secret-that-is-at-least-32-characters');
+    expect(response.status).toBe(200);
+    expect(response.body.data.status).toBe('completed');
+    await expect(
+      Notification.countDocuments({ userId: donorUserId, type: 'request_nearby' }),
+    ).resolves.toBeGreaterThan(before);
   });
 
   it('covers authenticated realtime presence and flag events', async () => {

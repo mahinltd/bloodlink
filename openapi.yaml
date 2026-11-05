@@ -34,6 +34,7 @@ paths:
     {
       get: { operationId: getMe, responses: { '200': { description: OK } } },
       patch: { operationId: updateMe, responses: { '200': { description: OK } } },
+      delete: { operationId: deleteMe, responses: { '200': { description: OK } } },
     }
   /me/preferences:
     { patch: { operationId: updatePreferences, responses: { '200': { description: OK } } } }
@@ -131,6 +132,17 @@ paths:
     { get: { operationId: downloadLatest, responses: { '302': { description: Redirect } } } }
   /download/{versionCode}:
     { get: { operationId: downloadVersion, responses: { '302': { description: Redirect } } } }
+  /internal/tick:
+    { post: { operationId: runScheduledJobs, responses: { '200': { description: OK } } } }
+  /internal/jobs/{name}:
+    {
+      post:
+        {
+          operationId: runJob,
+          parameters: [{ $ref: '#/components/parameters/jobName' }],
+          responses: { '200': { description: OK } },
+        },
+    }
   /admin/auth/login:
     { post: { operationId: adminLogin, responses: { '200': { description: OK } } } }
   /admin/auth/verify-2fa:
@@ -205,6 +217,7 @@ paths:
 components:
   parameters:
     userId: { name: userId, in: path, required: true, schema: { type: string } }
+    jobName: { name: name, in: path, required: true, schema: { type: string } }
   securitySchemes:
     bearerAuth: { type: http, scheme: bearer, bearerFormat: JWT }
 x-socket-events:

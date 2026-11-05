@@ -139,15 +139,15 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [x] JobRun persistence and idempotent execution
 - [x] OTP cleanup
 - [x] expired request cleanup
-- [~] notification fan-out with compatibility filtering and caps
+- [x] notification fan-out with compatibility filtering and caps
 - [x] 45-second call timeout
 - [x] release/update maintenance
 - [x] audit integrity monitoring
 
 ## Cross-cutting completion gates
 
-- [~] OpenAPI contract covering current HTTP routes
-- [ ] Full OpenAPI validation and socket-event documentation
+- [x] OpenAPI contract covering current HTTP routes
+- [x] Full OpenAPI validation and socket-event documentation
 - [~] Console/stub and real mail, push, storage, and call driver foundations
 - [~] 60-second settings cache
 - [~] Base seed foundation
