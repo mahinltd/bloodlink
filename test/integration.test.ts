@@ -218,6 +218,9 @@ describe('real HTTP integration journey', () => {
     expect(districts.status).toBe(200);
     expect(areas.status).toBe(200);
     expect(hospitals.status).toBe(200);
+    expect(divisions.body.data).toHaveLength(8);
+    expect(districts.body.data.length).toBeGreaterThan(0);
+    expect(hospitals.body.data.length).toBeGreaterThan(0);
     const donorCard = await request(app).get(`/api/v1/donors/${donorId}`);
     expect(donorCard.status).toBe(200);
     const donorSearch = await request(app)

@@ -150,7 +150,7 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [x] Full OpenAPI validation and socket-event documentation
 - [x] Console/stub and real mail, push, storage, and call driver foundations
 - [x] 60-second settings cache
-- [~] Base seed foundation
+- [x] Base seed foundation
 - [~] Full CMS, notification, email template, hospital, and demo seed data
 - [ ] Bilingual template-backed user-facing text everywhere
 - [ ] Async handler wrapper and module route/controller/service/schema split
