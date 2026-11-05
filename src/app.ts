@@ -23,6 +23,7 @@ import communityRoutes from './modules/community/routes.js';
 import adminRoutes from './modules/admin/routes.js';
 import publicRoutes from './modules/public/routes.js';
 import jobRoutes from './modules/jobs/routes.js';
+import { apiRateLimit } from './middleware/rateLimit.js';
 
 export function createApp() {
   const app = express();
@@ -101,6 +102,7 @@ export function createApp() {
   });
 
   app.use(`${API_PREFIX}/auth`, authRoutes);
+  app.use(API_PREFIX, apiRateLimit);
   app.use(`${API_PREFIX}/app`, appRoutes);
   app.use(`${API_PREFIX}/geo`, geoRoutes);
   app.use(`${API_PREFIX}`, donorRoutes);

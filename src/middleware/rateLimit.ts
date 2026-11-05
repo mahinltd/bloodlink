@@ -32,3 +32,11 @@ export const adminOtpRateLimit = rateLimit({
   legacyHeaders: false,
   skip: () => env.NODE_ENV === 'test',
 });
+
+export const apiRateLimit = rateLimit({
+  windowMs: 60 * 1000,
+  limit: env.API_RATE_LIMIT,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  skip: () => env.NODE_ENV === 'test',
+});

@@ -154,8 +154,8 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [~] Full CMS, notification, email template, hospital, and demo seed data
 - [ ] Bilingual template-backed user-facing text everywhere
 - [ ] Async handler wrapper and module route/controller/service/schema split
-- [ ] Rate limits for every abuse-prone flow
-- [~] Authentication and OTP route rate limits
+- [x] Rate limits for every abuse-prone flow
+- [x] Authentication and OTP route rate limits
 - [ ] 80% service/module coverage target
 - [x] Public response sensitive-field scan
 - [x] Security review against sections 7 and 15

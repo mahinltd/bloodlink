@@ -9,6 +9,7 @@ const booleanFromEnv = z
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().min(1).max(65535).default(3000),
+  API_RATE_LIMIT: z.coerce.number().int().positive().default(120),
   APP_ENV: z.enum(['demo', 'staging', 'production']).default('demo'),
   APP_DOMAIN: z.string().min(1),
   API_URL: z.string().url(),
