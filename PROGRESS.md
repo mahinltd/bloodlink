@@ -75,13 +75,13 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 ## Socket events (section 9)
 
 - [x] `presence:ping`
-- [~] `typing:start`
-- [~] `typing:stop`
-- [~] `message:send`
-- [~] `message:read`
-- [~] `presence:online` and `presence:offline` fan-out
-- [~] `message:delivered` and `message:seen` receipts
-- [~] `call:invite`, `call:accept`, `call:decline`, `call:end`
+- [x] `typing:start`
+- [x] `typing:stop`
+- [x] `message:send`
+- [x] `message:read`
+- [x] `presence:online` and `presence:offline` fan-out
+- [x] `message:delivered` and `message:seen` receipts
+- [x] `call:invite`, `call:accept`, `call:decline`, `call:end`
 - [x] `flag:changed`
 
 ## Admin API checklist (section 11)

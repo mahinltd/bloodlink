@@ -15,6 +15,9 @@ let Pledge: typeof import('../src/models/Pledge.js').Pledge;
 let moderatedRequestId = '';
 let supportPaymentId = '';
 let socketToken = '';
+let requesterToken = '';
+let conversationIdForRealtime = '';
+let donorUserId = '';
 
 function configureTestEnvironment(uri: string): void {
   process.env.NODE_ENV = 'test';
@@ -111,7 +114,7 @@ describe('real HTTP integration journey', () => {
       code: requesterCode,
     });
     expect(requesterVerified.status).toBe(200);
-    const requesterToken = requesterVerified.body.data.tokens.accessToken as string;
+    requesterToken = requesterVerified.body.data.tokens.accessToken as string;
     const requesterId = requesterVerified.body.data.user.id as string;
 
     const donorRegistration = await request(app).post('/api/v1/auth/register').send({
@@ -133,6 +136,7 @@ describe('real HTTP integration journey', () => {
     const donorToken = donorVerified.body.data.tokens.accessToken as string;
     socketToken = donorToken;
     const donorId = donorVerified.body.data.user.id as string;
+    donorUserId = donorId;
     info.mockRestore();
 
     const donorSteps = [
@@ -313,6 +317,7 @@ describe('real HTTP integration journey', () => {
       .send({ userId: donorId, requestId });
     expect(conversation.status).toBe(201);
     const conversationId = conversation.body.data.id as string;
+    conversationIdForRealtime = conversationId;
     const message = await request(app)
       .post(`/api/v1/conversations/${conversationId}/messages`)
       .set('authorization', `Bearer ${requesterToken}`)
@@ -750,6 +755,116 @@ describe('real HTTP integration journey', () => {
     broadcastFlagChanged('integration_flag', true);
     await expect(flagChanged).resolves.toEqual({ key: 'integration_flag', enabled: true });
     socket.close();
+    await new Promise<void>((resolve) => ioServer.close(() => resolve()));
+    await new Promise<void>((resolve) => httpServer.close(() => resolve()));
+  });
+
+  it('covers realtime messaging, typing, receipts, presence, and call signalling', async () => {
+    const { attachSocket } = await import('../src/realtime/socket.js');
+    const httpServer = createServer(app);
+    const ioServer = attachSocket(httpServer);
+    await new Promise<void>((resolve) => httpServer.listen(0, resolve));
+    const address = httpServer.address();
+    if (!address || typeof address === 'string') throw new Error('Socket server did not start.');
+    const url = `http://127.0.0.1:${address.port}`;
+    const requesterSocket = connectSocket(url, { auth: { token: requesterToken } });
+    const donorOnline = new Promise<{ userId: string }>((resolve) => {
+      requesterSocket.once('presence:online', resolve);
+    });
+    const donorSocket = connectSocket(url, { auth: { token: socketToken } });
+    await Promise.all([
+      new Promise<void>((resolve, reject) => {
+        requesterSocket.once('connect', () => resolve());
+        requesterSocket.once('connect_error', reject);
+      }),
+      new Promise<void>((resolve, reject) => {
+        donorSocket.once('connect', () => resolve());
+        donorSocket.once('connect_error', reject);
+      }),
+    ]);
+    await expect(donorOnline).resolves.toHaveProperty('userId');
+
+    const typing = new Promise<{ conversationId: string; userId: string; active: boolean }>(
+      (resolve) => donorSocket.once('typing', resolve),
+    );
+    const typingAck = await new Promise<{ success: boolean }>((resolve) => {
+      requesterSocket.emit('typing:start', { conversationId: conversationIdForRealtime }, resolve);
+    });
+    expect(typingAck.success).toBe(true);
+    await expect(typing).resolves.toMatchObject({
+      conversationId: conversationIdForRealtime,
+      active: true,
+    });
+
+    const message = new Promise<{
+      conversationId: string;
+      clientMessageId: string;
+      _id: string;
+    }>((resolve) => {
+      donorSocket.once('message:new', resolve);
+    });
+    const delivered = new Promise<{ conversationId: string; messageId: string }>((resolve) => {
+      donorSocket.once('message:delivered', resolve);
+    });
+    const sent = await new Promise<{ success: boolean; data: { id: string } }>((resolve) => {
+      requesterSocket.emit(
+        'message:send',
+        {
+          conversationId: conversationIdForRealtime,
+          clientMessageId: 'realtime-message-1',
+          type: 'text',
+          text: 'Realtime message',
+        },
+        resolve,
+      );
+    });
+    expect(sent.success).toBe(true);
+    await expect(message).resolves.toMatchObject({
+      conversationId: conversationIdForRealtime,
+      clientMessageId: 'realtime-message-1',
+    });
+    const receivedMessage = await message;
+    await expect(delivered).resolves.toMatchObject({
+      conversationId: conversationIdForRealtime,
+      messageId: receivedMessage._id,
+    });
+
+    const seen = new Promise<{ conversationId: string; upToMessageId: string }>((resolve) => {
+      requesterSocket.once('message:seen', resolve);
+    });
+    const readAck = await new Promise<{ success: boolean }>((resolve) => {
+      donorSocket.emit(
+        'message:read',
+        { conversationId: conversationIdForRealtime, upToMessageId: receivedMessage._id },
+        resolve,
+      );
+    });
+    expect(readAck.success).toBe(true);
+    await expect(seen).resolves.toMatchObject({
+      conversationId: conversationIdForRealtime,
+      upToMessageId: receivedMessage._id,
+    });
+
+    const callEvents = ['call:invite', 'call:accept', 'call:decline', 'call:end'] as const;
+    for (const event of callEvents) {
+      const received = new Promise<{ callId: string; userId: string }>((resolve) => {
+        donorSocket.once(event, resolve);
+      });
+      const ack = await new Promise<{ success: boolean }>((resolve) => {
+        requesterSocket.emit(event, { userId: donorUserId, callId: `call-${event}` }, resolve);
+      });
+      expect(ack.success).toBe(true);
+      await expect(received).resolves.toMatchObject({
+        callId: `call-${event}`,
+      });
+    }
+
+    const offline = new Promise<{ userId: string }>((resolve) => {
+      requesterSocket.once('presence:offline', resolve);
+    });
+    donorSocket.close();
+    await expect(offline).resolves.toHaveProperty('userId');
+    requesterSocket.close();
     await new Promise<void>((resolve) => ioServer.close(() => resolve()));
     await new Promise<void>((resolve) => httpServer.close(() => resolve()));
   });

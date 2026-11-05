@@ -25,7 +25,10 @@ export function verifyAuditChain(items: Array<Record<string, unknown>>): {
     const timeOrder = String(a.ts).localeCompare(String(b.ts));
     return timeOrder || String(a.code).localeCompare(String(b.code));
   })) {
-    const { hash, prevHash, code, _id, __v, ...payload } = item;
+    const { hash, prevHash, ...payload } = item;
+    delete payload.code;
+    delete payload._id;
+    delete payload.__v;
     const expected = createHash('sha256')
       .update(previousHash + canonical(payload))
       .digest('hex');
