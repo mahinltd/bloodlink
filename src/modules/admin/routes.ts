@@ -181,6 +181,42 @@ router.post('/auth/refresh', async (req, res, next) => {
     next(error);
   }
 });
+router.post('/auth/forgot-password', adminAuthRateLimit, async (req, res, next) => {
+  try {
+    const input = z.object({ email: z.string().email() }).parse(req.body);
+    const admin = await AdminUser.exists({ email: input.email.toLowerCase(), status: 'active' });
+    if (admin) await sendOtp(input.email.toLowerCase(), 'reset');
+    res.status(202).json({ success: true, data: { accepted: true }, meta: {} });
+  } catch (error) {
+    next(error);
+  }
+});
+router.post('/auth/reset-password', adminOtpRateLimit, async (req, res, next) => {
+  try {
+    const input = z
+      .object({
+        email: z.string().email(),
+        code: z.string().regex(/^\d{6}$/),
+        password: z.string().min(12),
+      })
+      .parse(req.body);
+    await verifyOtp(input.email.toLowerCase(), 'reset', input.code);
+    const admin = await AdminUser.findOne({ email: input.email.toLowerCase(), status: 'active' });
+    if (admin) {
+      admin.passwordHash = await argon2.hash(input.password);
+      admin.failedLoginAttempts = 0;
+      admin.lockedUntil = null;
+      await admin.save();
+      await Session.updateMany(
+        { subjectId: admin._id, subjectType: 'admin' },
+        { $set: { revokedAt: new Date() } },
+      );
+    }
+    res.json({ success: true, data: { reset: true }, meta: {} });
+  } catch (error) {
+    next(error);
+  }
+});
 router.post('/auth/logout', requireAdmin, async (req, res, next) => {
   try {
     await Session.updateOne(

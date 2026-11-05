@@ -26,6 +26,7 @@ The authoritative requirement-by-requirement inventory is [TRACEABILITY.md](TRAC
 - [ ] Add public stats, releases, contact, deletion confirmation and asset links.
 - [ ] Add ETag/304 and `updatedSince` behavior to all specified endpoints.
 - [ ] Add cursor pagination and idempotency behavior to all specified creates.
+- [x] Add the exact `/api/v1/hospitals` compatibility alias.
 
 ## Admin contract
 

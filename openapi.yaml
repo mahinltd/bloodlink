@@ -186,6 +186,10 @@ paths:
     { post: { operationId: adminRefresh, responses: { '200': { description: OK } } } }
   /admin/auth/logout:
     { post: { operationId: adminLogout, responses: { '200': { description: OK } } } }
+  /admin/auth/forgot-password:
+    { post: { operationId: adminForgotPassword, responses: { '202': { description: Accepted } } } }
+  /admin/auth/reset-password:
+    { post: { operationId: adminResetPassword, responses: { '200': { description: OK } } } }
   /admin/me: { get: { operationId: adminMe, responses: { '200': { description: OK } } } }
   /admin/overview:
     { get: { operationId: adminOverview, responses: { '200': { description: OK } } } }

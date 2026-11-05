@@ -2,6 +2,12 @@
 
 Status rule: `[x]` means a passing test exercises the requirement through real HTTP or sockets; `[~]` means implementation exists but is incomplete or not proven; `[ ]` means missing.
 
+## Summary
+
+- Done: 4
+- Partial: 39
+- Missing: 16
+
 | Requirement                                                                                                        | Route or file                                                   | Test file                  | Status |
 | ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------- | -------------------------- | ------ |
 | Bootstrap returns config, flags, strings version, update and server time                                           | `src/app.ts`, `src/modules/app/routes.ts`                       | `test/integration.test.ts` | [~]    |
