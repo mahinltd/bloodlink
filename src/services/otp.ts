@@ -1,6 +1,9 @@
 import argon2 from 'argon2';
 import { Otp } from '../models/Otp.js';
+import { EmailTemplate } from '../models/Template.js';
+import { User } from '../models/User.js';
 import { createDrivers } from './drivers.js';
+import { randomInt } from 'node:crypto';
 
 const drivers = createDrivers();
 
@@ -15,7 +18,7 @@ export async function sendOtp(
     sentAt: { $gt: new Date(Date.now() - 30_000) },
   });
   if (recent) throw new Error('OTP_COOLDOWN');
-  const code = String(Math.floor(100000 + Math.random() * 900000));
+  const code = String(randomInt(100000, 1000000));
   await Otp.deleteMany({ subject, purpose });
   await Otp.create({
     subject,
@@ -25,10 +28,19 @@ export async function sendOtp(
     expiresAt: new Date(Date.now() + 300_000),
     sentAt: new Date(),
   });
+  const templateKey = purpose === 'reset' ? 'reset_password' : purpose;
+  const template = await EmailTemplate.findOne({ key: templateKey, active: { $ne: false } }).lean();
+  if (!template?.subject?.bn || !template.subject.en || !template.html?.bn || !template.html.en)
+    throw new Error(`EMAIL_TEMPLATE_MISSING:${templateKey}`);
+  const user =
+    purpose === 'admin_2fa'
+      ? null
+      : await User.findOne({ email: subject }).select('language').lean();
+  const language = user?.language === 'en' ? 'en' : 'bn';
   await drivers.mailer.send({
     to: recipient,
-    subject: 'BloodLink verification code',
-    html: `<p>Your verification code is ${code}</p>`,
+    subject: template.subject[language].replaceAll('{code}', code),
+    html: template.html[language].replaceAll('{code}', code),
   });
   if (process.env.NODE_ENV !== 'production')
     console.info('[otp:console]', { subject, purpose, code });

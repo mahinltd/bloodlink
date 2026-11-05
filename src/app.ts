@@ -112,6 +112,7 @@ export function createApp() {
   app.use(`${API_PREFIX}/admin`, adminRoutes);
   app.use(`${API_PREFIX}`, publicRoutes);
   app.use('/internal/jobs', jobRoutes);
+  app.use('/internal', jobRoutes);
 
   app.use(notFound);
   app.use(errorHandler);

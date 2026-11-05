@@ -355,6 +355,32 @@ async function seed(): Promise<void> {
     },
     { upsert: true },
   );
+  await EmailTemplate.bulkWrite(
+    [
+      {
+        key: 'reset_password',
+        subject: { bn: 'পাসওয়ার্ড পরিবর্তন করুন', en: 'Reset your password' },
+        html: {
+          bn: 'আপনার পাসওয়ার্ড পরিবর্তনের কোড: {code}',
+          en: 'Your password reset code is: {code}',
+        },
+      },
+      {
+        key: 'admin_2fa',
+        subject: { bn: 'অ্যাডমিন যাচাইকরণ কোড', en: 'Admin verification code' },
+        html: {
+          bn: 'আপনার অ্যাডমিন যাচাইকরণ কোড: {code}',
+          en: 'Your admin verification code is: {code}',
+        },
+      },
+    ].map((template) => ({
+      updateOne: {
+        filter: { key: template.key },
+        update: { $set: { ...template, active: true } },
+        upsert: true,
+      },
+    })),
+  );
   await CmsString.bulkWrite(
     cmsDefaults.map((item) => {
       const [key, bn, en, screen] = item;

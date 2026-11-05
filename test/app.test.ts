@@ -56,4 +56,11 @@ describe('P0 foundation API', () => {
       },
     });
   });
+
+  it('mounts API routers during app creation', async () => {
+    const response = await request(app).post('/api/v1/auth/register').send({});
+
+    expect(response.status).toBe(400);
+    expect(response.body.error).toMatchObject({ code: 'VALIDATION_ERROR', ref: 'BL-400' });
+  });
 });

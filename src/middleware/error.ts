@@ -25,7 +25,7 @@ export class AppError extends Error {
 }
 
 export const notFound: RequestHandler = (_req, _res, next) => {
-  next(new AppError(404, 'NOT_FOUND', 'BL-404', 'The requested resource was not found.'));
+  next(new AppError(404, 'NOT_FOUND', errorCatalogue.NOT_FOUND.ref, errorCatalogue.NOT_FOUND.en));
 };
 
 export const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
