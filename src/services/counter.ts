@@ -5,6 +5,7 @@ const prefixes: Record<string, string> = {
   request: 'REQ',
   report: 'RPT',
   support: 'SUP',
+  support_payment: 'SUPPAY',
   audit: 'AUD',
   call: 'CALL',
   session: 'SESSION',

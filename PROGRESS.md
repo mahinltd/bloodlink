@@ -20,11 +20,11 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [x] `POST /api/v1/auth/logout`
 - [x] `POST /api/v1/auth/forgot-password`
 - [x] `POST /api/v1/auth/reset-password`
-- [~] `GET /api/v1/app/strings`
-- [~] `GET /api/v1/app/config`
-- [~] `GET /api/v1/app/flags`
-- [~] `GET /api/v1/app/update/check`
-- [~] `POST /api/v1/app/update/events`
+- [x] `GET /api/v1/app/strings`
+- [x] `GET /api/v1/app/config`
+- [x] `GET /api/v1/app/flags`
+- [x] `GET /api/v1/app/update/check`
+- [x] `POST /api/v1/app/update/events`
 - [x] `GET /api/v1/geo/divisions`
 - [x] `GET /api/v1/geo/districts`
 - [x] `GET /api/v1/geo/areas`
@@ -65,6 +65,7 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [x] `POST /api/v1/notifications/read`
 - [~] `DELETE /api/v1/me`
 - [ ] Missing mobile preferences, home, donor search, request fulfillment, support payment, and complete notification-tab APIs
+- [~] `POST /api/v1/support/payments`
 
 ## Socket events (section 9)
 
@@ -102,6 +103,7 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [~] `GET /api/v1/admin/support/providers`
 - [~] `GET /api/v1/admin/support/payments`
 - [~] `POST /api/v1/admin/support/payments`
+- [~] `POST /api/v1/admin/support/payments/:id/confirm`
 - [ ] Admin refresh, logout, session management, user actions, request moderation, CMS publish validation, audit verify/export, release verify/publish/revoke/stats, and reference-data APIs
 
 ## Public API checklist (section 12)

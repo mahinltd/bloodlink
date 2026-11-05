@@ -18,6 +18,7 @@ import { issueTokens } from '../../services/tokens.js';
 import { verifyAuditChain, writeAudit } from '../../services/audit.js';
 import { clearSettingsCache } from '../../services/settings.js';
 import { AppError } from '../../middleware/error.js';
+import { nextCode } from '../../services/counter.js';
 
 const router = Router();
 router.post('/auth/login', async (req, res, next) => {
@@ -453,6 +454,39 @@ router.get(
     try {
       const items = await SupportPayment.find().sort({ createdAt: -1 }).limit(100).lean();
       res.json({ success: true, data: items, meta: { total: items.length } });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+router.post(
+  '/support/payments',
+  requireAdmin,
+  requireRole('super_admin', 'finance'),
+  async (req, res, next) => {
+    try {
+      const input = z
+        .object({
+          userId: z.string().min(1),
+          provider: z.enum(['bkash', 'nagad', 'rocket']),
+          amount: z.number().positive(),
+          trxId: z.string().min(3).max(100),
+          senderLast4: z
+            .string()
+            .regex(/^\d{4}$/)
+            .optional(),
+        })
+        .parse(req.body);
+      const payment = await SupportPayment.create({
+        ...input,
+        status: 'pending',
+        code: await nextCode('support_payment'),
+      });
+      res.status(201).json({
+        success: true,
+        data: { id: payment.id, code: payment.code, status: payment.status },
+        meta: {},
+      });
     } catch (error) {
       next(error);
     }

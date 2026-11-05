@@ -5,8 +5,37 @@ import { Donation, Notification, Report, Review } from '../../models/Community.j
 import { nextCode } from '../../services/counter.js';
 import { scanMoneyKeywords } from '../../services/moderation.js';
 import { AppError } from '../../middleware/error.js';
+import { SupportPayment } from '../../models/AdminOperations.js';
 
 const router = Router();
+router.post('/support/payments', requireUser, async (req, res, next) => {
+  try {
+    const input = z
+      .object({
+        provider: z.enum(['bkash', 'nagad', 'rocket']),
+        amount: z.number().positive(),
+        trxId: z.string().min(3).max(100),
+        senderLast4: z
+          .string()
+          .regex(/^\d{4}$/)
+          .optional(),
+      })
+      .parse(req.body);
+    const payment = await SupportPayment.create({
+      ...input,
+      userId: req.auth?.userId,
+      status: 'pending',
+      code: await nextCode('support_payment'),
+    });
+    res.status(201).json({
+      success: true,
+      data: { id: payment.id, code: payment.code, status: payment.status },
+      meta: {},
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 router.get('/me/donations', requireUser, async (req, res, next) => {
   try {
     const items = await Donation.find({ donorId: req.auth?.userId })

@@ -10,6 +10,8 @@ let clearSettingsCache: typeof import('../src/services/settings.js').clearSettin
 let User: typeof import('../src/models/User.js').User;
 let BloodRequest: typeof import('../src/models/BloodRequest.js').BloodRequest;
 let Pledge: typeof import('../src/models/Pledge.js').Pledge;
+let moderatedRequestId = '';
+let supportPaymentId = '';
 
 function configureTestEnvironment(uri: string): void {
   process.env.NODE_ENV = 'test';
@@ -204,6 +206,7 @@ describe('real HTTP integration journey', () => {
       });
     expect(moderated.status).toBe(201);
     expect(moderated.body.data.status).toBe('pending_review');
+    moderatedRequestId = moderated.body.data.id as string;
 
     const created = await request(app)
       .post('/api/v1/requests')
@@ -357,6 +360,12 @@ describe('real HTTP integration journey', () => {
       .set('authorization', `Bearer ${donorToken}`)
       .send({ all: true });
     expect(notificationsRead.status).toBe(200);
+    const supportPayment = await request(app)
+      .post('/api/v1/support/payments')
+      .set('authorization', `Bearer ${donorToken}`)
+      .send({ provider: 'bkash', amount: 100, trxId: 'integration-trx-1', senderLast4: '1234' });
+    expect(supportPayment.status).toBe(201);
+    supportPaymentId = supportPayment.body.data.id as string;
     const deleted = await request(app)
       .delete('/api/v1/me')
       .set('authorization', `Bearer ${donorToken}`)
@@ -446,5 +455,161 @@ describe('real HTTP integration journey', () => {
     const bootstrap = await request(app).get('/api/v1/app/bootstrap');
     expect(health.status).not.toBe(404);
     expect(bootstrap.status).not.toBe(404);
+    const strings = await request(app).get('/api/v1/app/strings?lang=en');
+    const config = await request(app).get('/api/v1/app/config');
+    const flags = await request(app).get('/api/v1/app/flags');
+    const update = await request(app).get(
+      '/api/v1/app/update/check?versionCode=0&deviceId=integration-device',
+    );
+    const updateEvent = await request(app).post('/api/v1/app/update/events').send({
+      versionCode: 1,
+      deviceId: 'integration-device',
+      event: 'seen',
+    });
+    expect(strings.status).toBe(200);
+    expect(config.status).toBe(200);
+    expect(flags.status).toBe(200);
+    expect(update.status).toBe(200);
+    expect(updateEvent.status).toBe(202);
+  });
+
+  it('covers admin 2FA, RBAC, moderation, settings, flags, releases, support, and audit APIs', async () => {
+    const logs: unknown[][] = [];
+    const info = vi.spyOn(console, 'info').mockImplementation((...args) => {
+      logs.push(args);
+    });
+    const login = await request(app).post('/api/v1/admin/auth/login').send({
+      email: 'admin@bloodlink.tech',
+      password: 'test-password-for-development',
+    });
+    expect(login.status).toBe(200);
+    const challengeId = login.body.data.challengeId as string;
+    const adminVerification = await request(app)
+      .post('/api/v1/admin/auth/verify-2fa')
+      .send({
+        challengeId,
+        email: 'admin@bloodlink.tech',
+        code: otpFrom(logs),
+      });
+    expect(adminVerification.status).toBe(200);
+    const adminToken = adminVerification.body.data.tokens.accessToken as string;
+    info.mockRestore();
+
+    const me = await request(app)
+      .get('/api/v1/admin/me')
+      .set('authorization', `Bearer ${adminToken}`);
+    const overview = await request(app)
+      .get('/api/v1/admin/overview')
+      .set('authorization', `Bearer ${adminToken}`);
+    const users = await request(app)
+      .get('/api/v1/admin/users')
+      .set('authorization', `Bearer ${adminToken}`);
+    const reports = await request(app)
+      .get('/api/v1/admin/reports')
+      .set('authorization', `Bearer ${adminToken}`);
+    expect(me.status).toBe(200);
+    expect(overview.status).toBe(200);
+    expect(overview.body.data.byDivision).toHaveLength(8);
+    expect(users.status).toBe(200);
+    expect(reports.status).toBe(200);
+    const denied = await request(app).get('/api/v1/admin/overview');
+    expect(denied.status).toBe(401);
+
+    const approved = await request(app)
+      .post(`/api/v1/admin/requests/${moderatedRequestId}/approve`)
+      .set('authorization', `Bearer ${adminToken}`)
+      .send();
+    expect(approved.status).toBe(200);
+    const config = await request(app)
+      .get('/api/v1/admin/app-config')
+      .set('authorization', `Bearer ${adminToken}`);
+    expect(config.status).toBe(200);
+    const draft = await request(app)
+      .put('/api/v1/admin/app-config/draft')
+      .set('authorization', `Bearer ${adminToken}`)
+      .send({ version: 2, safety: { matchMode: 'compatible' } });
+    expect(draft.status).toBe(200);
+    const published = await request(app)
+      .post('/api/v1/admin/app-config/publish')
+      .set('authorization', `Bearer ${adminToken}`)
+      .send();
+    expect(published.status).toBe(200);
+    const cms = await request(app)
+      .get('/api/v1/admin/cms/strings')
+      .set('authorization', `Bearer ${adminToken}`);
+    expect(cms.status).toBe(200);
+    const cmsDraft = await request(app)
+      .post('/api/v1/admin/cms/strings')
+      .set('authorization', `Bearer ${adminToken}`)
+      .send({ key: 'integration.test', bn: 'পরীক্ষা', en: 'Test', screen: 'test' });
+    expect(cmsDraft.status).toBe(201);
+    const flags = await request(app)
+      .get('/api/v1/admin/flags')
+      .set('authorization', `Bearer ${adminToken}`);
+    expect(flags.status).toBe(200);
+    const flag = await request(app)
+      .put('/api/v1/admin/flags/nearby_requests')
+      .set('authorization', `Bearer ${adminToken}`)
+      .send({
+        environment: 'demo',
+        enabled: true,
+        rolloutPercent: 100,
+        reason: 'integration test',
+      });
+    expect(flag.status).toBe(200);
+    const releases = await request(app)
+      .get('/api/v1/admin/releases')
+      .set('authorization', `Bearer ${adminToken}`);
+    expect(releases.status).toBe(200);
+    const release = await request(app)
+      .post('/api/v1/admin/releases')
+      .set('authorization', `Bearer ${adminToken}`)
+      .send({
+        versionCode: 2,
+        versionName: '1.1.0',
+        channel: 'stable',
+        apkUrl: 'https://downloads.example.com/bloodlink-1.1.0.apk',
+        notes: { bn: 'আপডেট', en: 'Update' },
+        mandatory: false,
+        minSupportedVersionCode: 1,
+        rolloutPercent: 100,
+      });
+    expect(release.status).toBe(201);
+    const audit = await request(app)
+      .get('/api/v1/admin/audit')
+      .set('authorization', `Bearer ${adminToken}`);
+    const auditVerify = await request(app)
+      .get('/api/v1/admin/audit/verify')
+      .set('authorization', `Bearer ${adminToken}`);
+    const auditExport = await request(app)
+      .get('/api/v1/admin/audit/export')
+      .set('authorization', `Bearer ${adminToken}`);
+    expect(audit.status).toBe(200);
+    expect(auditVerify.status).toBe(200);
+    expect(auditExport.status).toBe(200);
+    const providers = await request(app)
+      .get('/api/v1/admin/support/providers')
+      .set('authorization', `Bearer ${adminToken}`);
+    const payments = await request(app)
+      .get('/api/v1/admin/support/payments')
+      .set('authorization', `Bearer ${adminToken}`);
+    expect(providers.status).toBe(200);
+    expect(payments.status).toBe(200);
+    const adminPayment = await request(app)
+      .post('/api/v1/admin/support/payments')
+      .set('authorization', `Bearer ${adminToken}`)
+      .send({
+        userId: '000000000000000000000001',
+        provider: 'nagad',
+        amount: 50,
+        trxId: 'integration-trx-2',
+        senderLast4: '5678',
+      });
+    expect(adminPayment.status).toBe(201);
+    const confirmed = await request(app)
+      .post(`/api/v1/admin/support/payments/${supportPaymentId}/confirm`)
+      .set('authorization', `Bearer ${adminToken}`)
+      .send();
+    expect(confirmed.status).toBe(200);
   });
 });
