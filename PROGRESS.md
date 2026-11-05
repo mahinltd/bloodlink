@@ -138,7 +138,7 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [x] JobRun persistence and idempotent execution
 - [x] OTP cleanup
 - [x] expired request cleanup
-- [ ] notification fan-out
+- [~] notification fan-out with compatibility filtering and caps
 - [x] 45-second call timeout
 - [ ] release/update maintenance
 - [ ] audit integrity monitoring

@@ -332,17 +332,28 @@ export async function seed(options: { disconnect?: boolean } = {}): Promise<void
       },
     })),
   );
-  await NotificationTemplate.updateOne(
-    { key: 'app_news' },
-    {
-      $set: {
+  await NotificationTemplate.bulkWrite(
+    [
+      {
         key: 'app_news',
         title: { bn: 'নতুন খবর', en: 'App news' },
         body: { bn: 'BloodLink-এ নতুন আপডেট এসেছে।', en: 'There is a new BloodLink update.' },
-        active: true,
       },
-    },
-    { upsert: true },
+      {
+        key: 'request_nearby',
+        title: { bn: 'নতুন রক্তের অনুরোধ', en: 'New blood request' },
+        body: {
+          bn: 'আপনার রক্তের গ্রুপের সঙ্গে মিলে এমন একটি অনুরোধ এসেছে।',
+          en: 'A blood request matches your blood group.',
+        },
+      },
+    ].map((template) => ({
+      updateOne: {
+        filter: { key: template.key },
+        update: { $set: { ...template, active: true } },
+        upsert: true,
+      },
+    })),
   );
   await EmailTemplate.updateOne(
     { key: 'verify_email' },
