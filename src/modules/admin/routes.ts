@@ -636,10 +636,15 @@ router.post(
       if (!release) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'Release not found.');
       const releaseUrl = new URL(release.apkUrl);
       await assertSafeReleaseUrl(releaseUrl);
-      const response = await fetch(releaseUrl, {
-        redirect: 'error',
-        signal: AbortSignal.timeout(10_000),
-      });
+      let response: Response;
+      try {
+        response = await fetch(releaseUrl, {
+          redirect: 'error',
+          signal: AbortSignal.timeout(10_000),
+        });
+      } catch {
+        throw new AppError(422, 'INVALID_INPUT', 'BL-422', 'Release file could not be downloaded.');
+      }
       if (!response.ok || !response.body)
         throw new AppError(422, 'INVALID_INPUT', 'BL-422', 'Release file could not be downloaded.');
       const declaredSize = response.headers.get('content-length');

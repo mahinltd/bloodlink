@@ -14,7 +14,7 @@ The authoritative requirement-by-requirement inventory is [TRACEABILITY.md](TRAC
 - [x] Make audit-chain sequence allocation atomic and unique; prove concurrent writes.
 - [x] Refuse demo seed in production unless `SEED_DEMO=true`; remove production password documentation.
 - [x] Restrict Socket.IO CORS to `CORS_ORIGINS`; test allowed and denied origins.
-- [~] Verify release URLs with HTTPS, safe DNS/IP checks, size cap, timeout and streaming hash.
+- [x] Verify release URLs with HTTPS, safe DNS/IP checks, size cap, timeout and streaming hash.
 - [~] Add admin lockout, single-use reset tokens, refresh reuse detection and secure refresh cookies.
 - [~] Add NoSQL injection, error leak, upload ownership and repository/history secret scans.
 - [ ] Test the complete admin RBAC matrix.
@@ -47,7 +47,7 @@ The authoritative requirement-by-requirement inventory is [TRACEABILITY.md](TRAC
 - [ ] Move all user-facing text behind bilingual templates/CMS keys.
 - [ ] Split modules into routes/controllers/services/schemas with async handler wrappers and keep files near 300 lines.
 - [~] OpenAPI, README, setup checklist and Postman cover the current implementation; complete them against the master prompt.
-- [~] Baseline: build/lint/format/tests passed; coverage observed at 83.21% statements and 85.93% lines, but requirement-level coverage is incomplete.
+- [~] Latest run: 5 test files and 24 tests passed; coverage is 80.3% statements and 82.72% lines, while requirement-level coverage remains incomplete.
 
 ## Blockers
 

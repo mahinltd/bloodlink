@@ -427,6 +427,50 @@ describe('real HTTP integration journey', () => {
       .send({ provider: 'bkash', amount: 100, trxId: 'integration-trx-1', senderLast4: '1234' });
     expect(supportPayment.status).toBe(201);
     supportPaymentId = supportPayment.body.data.id as string;
+    const donorProfile = await request(app)
+      .get('/api/v1/me/donor-profile')
+      .set('authorization', `Bearer ${donorToken}`);
+    const updatedDonorProfile = await request(app)
+      .patch('/api/v1/me/donor-profile')
+      .set('authorization', `Bearer ${donorToken}`)
+      .send({ bio: 'Available to help.', languages: ['bn', 'en'] });
+    const location = await request(app)
+      .patch('/api/v1/me/location')
+      .set('authorization', `Bearer ${donorToken}`)
+      .send({ division: 'dhaka', district: 'Dhaka', area: 'Dhanmondi', lat: 23.74, lng: 90.38 });
+    const donorPreferences = await request(app)
+      .get('/api/v1/me/preferences')
+      .set('authorization', `Bearer ${donorToken}`);
+    const updatedPreferences = await request(app)
+      .patch('/api/v1/me/preferences')
+      .set('authorization', `Bearer ${donorToken}`)
+      .send({ language: 'en', theme: 'dark', allowCalls: true });
+    const blocks = await request(app)
+      .get('/api/v1/me/blocks')
+      .set('authorization', `Bearer ${donorToken}`);
+    const myRequests = await request(app)
+      .get('/api/v1/me/requests?status=active')
+      .set('authorization', `Bearer ${donorToken}`);
+    const stats = await request(app)
+      .get('/api/v1/me/stats')
+      .set('authorization', `Bearer ${donorToken}`);
+    const donorDevice = await request(app)
+      .post('/api/v1/me/devices')
+      .set('authorization', `Bearer ${donorToken}`)
+      .send({ fcmToken: 'integration-device-token', platform: 'android', appVersion: '1.0.0' });
+    const deletedDevice = await request(app)
+      .delete(`/api/v1/me/devices/${donorDevice.body.data.id}`)
+      .set('authorization', `Bearer ${donorToken}`);
+    expect(donorProfile.status).toBe(200);
+    expect(updatedDonorProfile.status).toBe(200);
+    expect(location.status).toBe(200);
+    expect(donorPreferences.status).toBe(200);
+    expect(updatedPreferences.status).toBe(200);
+    expect(blocks.status).toBe(200);
+    expect(myRequests.status).toBe(200);
+    expect(stats.status).toBe(200);
+    expect(donorDevice.status).toBe(200);
+    expect(deletedDevice.status).toBe(200);
     const deleted = await request(app)
       .delete('/api/v1/me')
       .set('authorization', `Bearer ${donorToken}`)
@@ -519,9 +563,20 @@ describe('real HTTP integration journey', () => {
     const publicRequests = await request(app).get('/api/v1/public/requests');
     const publicDonors = await request(app).get('/api/v1/public/donors');
     const publicContent = await request(app).get('/api/v1/public/content');
+    const publicStats = await request(app).get('/api/v1/public/stats');
+    const publicReleases = await request(app).get('/api/v1/public/app-releases');
+    const publicContact = await request(app).post('/api/v1/public/contact').send({
+      name: 'Bot',
+      email: 'bot@example.com',
+      message: 'Ignored honeypot submission.',
+      website: '',
+    });
     expect(publicRequests.status).toBe(404);
     expect(publicDonors.status).toBe(404);
     expect(publicContent.status).toBe(200);
+    expect(publicStats.status).toBe(200);
+    expect(publicReleases.status).toBe(200);
+    expect(publicContact.status).toBe(202);
     assertNoSensitiveFields(publicRequests.body);
     assertNoSensitiveFields(publicDonors.body);
     assertNoSensitiveFields(publicContent.body);
@@ -733,6 +788,83 @@ describe('real HTTP integration journey', () => {
     expect(verifiedRelease.body.data.status).toBe('verified');
     expect(verifiedRelease.body.data.apkSha256).toMatch(/^[a-f0-9]{64}$/);
     expect(verifiedRelease.body.data.apkSizeBytes).toBe(9);
+    const { AppRelease } = await import('../src/models/AppRelease.js');
+    const unsafeRelease = await AppRelease.create({
+      versionCode: 3,
+      versionName: '1.2.0',
+      channel: 'stable',
+      status: 'draft',
+      apkUrl: 'https://127.0.0.1/bloodlink.apk',
+      notes: { bn: 'আপডেট', en: 'Update' },
+      mandatory: false,
+      minSupportedVersionCode: 1,
+      rolloutPercent: 100,
+    });
+    const unsafeVerification = await request(app)
+      .post(`/api/v1/admin/releases/${unsafeRelease.id}/verify`)
+      .set('authorization', `Bearer ${adminToken}`)
+      .send();
+    expect(unsafeVerification.status).toBe(422);
+
+    const oversizedRelease = await AppRelease.create({
+      versionCode: 4,
+      versionName: '1.3.0',
+      channel: 'stable',
+      status: 'draft',
+      apkUrl: 'https://downloads.example.com/large.apk',
+      notes: { bn: 'আপডেট', en: 'Update' },
+      mandatory: false,
+      minSupportedVersionCode: 1,
+      rolloutPercent: 100,
+    });
+    fetchMock.mockResolvedValueOnce(
+      new Response(Buffer.from([0x50, 0x4b]), {
+        status: 200,
+        headers: { 'content-length': String(50 * 1024 * 1024 + 1) },
+      }),
+    );
+    const oversizedVerification = await request(app)
+      .post(`/api/v1/admin/releases/${oversizedRelease.id}/verify`)
+      .set('authorization', `Bearer ${adminToken}`)
+      .send();
+    expect(oversizedVerification.status).toBe(422);
+
+    const invalidArchiveRelease = await AppRelease.create({
+      versionCode: 5,
+      versionName: '1.4.0',
+      channel: 'stable',
+      status: 'draft',
+      apkUrl: 'https://downloads.example.com/invalid.apk',
+      notes: { bn: 'আপডেট', en: 'Update' },
+      mandatory: false,
+      minSupportedVersionCode: 1,
+      rolloutPercent: 100,
+    });
+    fetchMock.mockResolvedValueOnce(new Response(Buffer.from('not-an-apk'), { status: 200 }));
+    const invalidArchiveVerification = await request(app)
+      .post(`/api/v1/admin/releases/${invalidArchiveRelease.id}/verify`)
+      .set('authorization', `Bearer ${adminToken}`)
+      .send();
+    expect(invalidArchiveVerification.status).toBe(422);
+
+    const timeoutRelease = await AppRelease.create({
+      versionCode: 6,
+      versionName: '1.5.0',
+      channel: 'stable',
+      status: 'draft',
+      apkUrl: 'https://downloads.example.com/timeout.apk',
+      notes: { bn: 'আপডেট', en: 'Update' },
+      mandatory: false,
+      minSupportedVersionCode: 1,
+      rolloutPercent: 100,
+    });
+    fetchMock.mockRejectedValueOnce(new Error('timeout'));
+    const timeoutVerification = await request(app)
+      .post(`/api/v1/admin/releases/${timeoutRelease.id}/verify`)
+      .set('authorization', `Bearer ${adminToken}`)
+      .send();
+    expect(timeoutVerification.status).toBe(422);
+
     const publishedRelease = await request(app)
       .post(`/api/v1/admin/releases/${releaseId}/publish`)
       .set('authorization', `Bearer ${adminToken}`)
