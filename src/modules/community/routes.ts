@@ -135,6 +135,19 @@ router.get('/notifications', requireUser, async (req, res, next) => {
     next(error);
   }
 });
+router.get('/notifications/:tab', requireUser, async (req, res, next) => {
+  try {
+    const tab = z.enum(['all', 'unread', 'system', 'requests']).parse(req.params.tab);
+    const filter: Record<string, unknown> = { userId: req.auth?.userId };
+    if (tab === 'unread') filter.readAt = null;
+    if (tab === 'system') filter.type = 'system';
+    if (tab === 'requests') filter.type = { $in: ['request_approved', 'request_nearby', 'pledge'] };
+    const items = await Notification.find(filter).sort({ createdAt: -1 }).limit(50).lean();
+    res.json({ success: true, data: items, meta: { total: items.length, tab } });
+  } catch (error) {
+    next(error);
+  }
+});
 router.post('/notifications/read', requireUser, async (req, res, next) => {
   try {
     const input = z

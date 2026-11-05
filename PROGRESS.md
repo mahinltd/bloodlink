@@ -64,8 +64,12 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [x] `GET /api/v1/notifications`
 - [x] `POST /api/v1/notifications/read`
 - [~] `DELETE /api/v1/me`
-- [ ] Missing mobile preferences, home, donor search, request fulfillment, support payment, and complete notification-tab APIs
-- [~] `POST /api/v1/support/payments`
+- [x] `PATCH /api/v1/me/preferences`
+- [x] `GET /api/v1/home`
+- [x] `GET /api/v1/donors`
+- [x] `POST /api/v1/requests/:id/fulfill`
+- [x] `GET /api/v1/notifications/:tab`
+- [x] `POST /api/v1/support/payments`
 
 ## Socket events (section 9)
 

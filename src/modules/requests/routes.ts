@@ -193,4 +193,23 @@ router.post('/:id/pledges/:pledgeId/accept', requireUser, async (req, res, next)
   }
 });
 
+router.post('/:id/fulfill', requireUser, async (req, res, next) => {
+  try {
+    const request = await BloodRequest.findOneAndUpdate(
+      { _id: req.params.id, requesterId: req.auth?.userId, status: 'approved' },
+      { $set: { status: 'fulfilled', fulfilledAt: new Date() } },
+      { new: true },
+    ).lean();
+    if (!request)
+      throw new AppError(404, 'REQUEST_NOT_FOUND', 'BL-300', 'The blood request was not found.');
+    res.json({
+      success: true,
+      data: { id: request._id.toString(), status: request.status },
+      meta: {},
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

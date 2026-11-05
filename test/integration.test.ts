@@ -151,6 +151,15 @@ describe('real HTTP integration journey', () => {
       .set('authorization', `Bearer ${donorToken}`)
       .send({ name: 'Updated Donor', language: 'en' });
     expect(updatedMe.status).toBe(200);
+    const preferences = await request(app)
+      .patch('/api/v1/me/preferences')
+      .set('authorization', `Bearer ${donorToken}`)
+      .send({ notifications: true, nearbyRequests: true, theme: 'dark' });
+    expect(preferences.status).toBe(200);
+    const home = await request(app)
+      .get('/api/v1/home')
+      .set('authorization', `Bearer ${donorToken}`);
+    expect(home.status).toBe(200);
     const availability = await request(app)
       .patch('/api/v1/me/availability')
       .set('authorization', `Bearer ${donorToken}`)
@@ -177,6 +186,10 @@ describe('real HTTP integration journey', () => {
     expect(hospitals.status).toBe(200);
     const donorCard = await request(app).get(`/api/v1/donors/${donorId}`);
     expect(donorCard.status).toBe(200);
+    const donorSearch = await request(app)
+      .get('/api/v1/donors?bloodGroup=O+')
+      .set('authorization', `Bearer ${requesterToken}`);
+    expect(donorSearch.status).toBe(200);
     const block = await request(app)
       .post(`/api/v1/users/${requesterId}/block`)
       .set('authorization', `Bearer ${donorToken}`)
@@ -263,6 +276,11 @@ describe('real HTTP integration journey', () => {
       .send();
     expect(withdrawn.status).toBe(200);
     expect(withdrawn.body.data.withdrawn).toBe(true);
+    const fulfilled = await request(app)
+      .post(`/api/v1/requests/${requestId}/fulfill`)
+      .set('authorization', `Bearer ${requesterToken}`)
+      .send();
+    expect(fulfilled.status).toBe(200);
 
     const conversation = await request(app)
       .post('/api/v1/conversations')
@@ -355,6 +373,10 @@ describe('real HTTP integration journey', () => {
       .get('/api/v1/notifications')
       .set('authorization', `Bearer ${donorToken}`);
     expect(notifications.status).toBe(200);
+    const unreadNotifications = await request(app)
+      .get('/api/v1/notifications/unread')
+      .set('authorization', `Bearer ${requesterToken}`);
+    expect(unreadNotifications.status).toBe(200);
     const notificationsRead = await request(app)
       .post('/api/v1/notifications/read')
       .set('authorization', `Bearer ${donorToken}`)
@@ -385,7 +407,7 @@ describe('real HTTP integration journey', () => {
     expect(report.status).toBe(201);
 
     await expect(User.countDocuments()).resolves.toBe(2);
-    await expect(BloodRequest.countDocuments({ status: 'approved' })).resolves.toBe(1);
+    await expect(BloodRequest.countDocuments({ status: 'fulfilled' })).resolves.toBe(1);
     await expect(Pledge.countDocuments({ status: 'cancelled' })).resolves.toBe(1);
   });
 

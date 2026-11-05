@@ -6,6 +6,7 @@ import { Device } from '../../models/Device.js';
 import { Block } from '../../models/Block.js';
 import { requireUser } from '../../middleware/auth.js';
 import { AppError } from '../../middleware/error.js';
+import { BloodRequest } from '../../models/BloodRequest.js';
 
 const router = Router();
 const profile = (req: Parameters<typeof requireUser>[0]) => req.auth?.userId ?? '';
@@ -50,6 +51,65 @@ router.patch('/me', requireUser, async (req, res, next) => {
       success: true,
       data: { id: user?._id.toString(), name: user?.name, language: user?.language },
       meta: {},
+    });
+    router.patch('/me/preferences', requireUser, async (req, res, next) => {
+      try {
+        const input = z
+          .object({
+            notifications: z.boolean().optional(),
+            nearbyRequests: z.boolean().optional(),
+            language: z.enum(['bn', 'en']).optional(),
+            theme: z.enum(['light', 'dark']).optional(),
+          })
+          .parse(req.body);
+        const user = await User.findByIdAndUpdate(
+          profile(req),
+          {
+            $set: Object.fromEntries(
+              Object.entries(input).map(([key, value]) => [`preferences.${key}`, value]),
+            ),
+          },
+          { new: true },
+        ).lean();
+        if (!user) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'Account not found.');
+        res.json({
+          success: true,
+          data: { preferences: user.preferences, language: user.language },
+          meta: {},
+        });
+      } catch (error) {
+        next(error);
+      }
+    });
+    router.get('/home', requireUser, async (req, res, next) => {
+      try {
+        const [urgentRequests, donor] = await Promise.all([
+          BloodRequest.find({ status: 'approved', priority: 'urgent' })
+            .sort({ createdAt: -1 })
+            .limit(10)
+            .lean(),
+          DonorProfile.findOne({ userId: profile(req) })
+            .select('available nextEligibleDate')
+            .lean(),
+        ]);
+        res.json({
+          success: true,
+          data: {
+            urgentRequests: urgentRequests.map((item) => ({
+              id: item._id.toString(),
+              code: item.code,
+              bloodGroup: item.bloodGroup,
+              units: item.units,
+              area: item.area,
+              neededBy: item.neededBy,
+            })),
+            donorStatus: donor ?? null,
+          },
+          meta: {},
+        });
+      } catch (error) {
+        next(error);
+      }
     });
   } catch (error) {
     next(error);
@@ -221,6 +281,41 @@ router.get('/donors/:userId', async (req, res, next) => {
         bio: donor.bio,
       },
       meta: {},
+    });
+    router.get('/donors', requireUser, async (req, res, next) => {
+      try {
+        const filter: Record<string, unknown> = { available: true };
+        if (typeof req.query.bloodGroup === 'string') filter.bloodGroup = req.query.bloodGroup;
+        if (typeof req.query.district === 'string') filter.district = req.query.district;
+        const donors = await DonorProfile.find(filter).limit(50).lean();
+        const users = await User.find({
+          _id: { $in: donors.map((donor) => donor.userId) },
+          status: 'active',
+        })
+          .select('name phoneVerified')
+          .lean();
+        const byId = new Map(users.map((user) => [user._id.toString(), user]));
+        res.json({
+          success: true,
+          data: donors.flatMap((donor) => {
+            const user = byId.get(donor.userId.toString());
+            return user
+              ? [
+                  {
+                    id: user._id.toString(),
+                    displayName: user.name,
+                    bloodGroup: donor.bloodGroup,
+                    area: donor.area,
+                    phoneVerified: user.phoneVerified,
+                  },
+                ]
+              : [];
+          }),
+          meta: {},
+        });
+      } catch (error) {
+        next(error);
+      }
     });
   } catch (error) {
     next(error);
