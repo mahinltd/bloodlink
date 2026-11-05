@@ -8,6 +8,7 @@ import { Block } from '../../models/Block.js';
 import { User } from '../../models/User.js';
 import { scanMoneyKeywords } from '../../services/moderation.js';
 import { AppError } from '../../middleware/error.js';
+import { assertOwnedUploadUrl } from '../../services/uploads.js';
 
 const router = Router();
 const current = (req: Request): string => req.auth?.userId ?? '';
@@ -120,6 +121,11 @@ router.post('/conversations/:id/messages', requireUser, async (req, res, next) =
       participants: current(req),
     });
     if (!conversation) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'Conversation not found.');
+    if (input.media && input.type !== 'system') {
+      const media = input.media as { url?: unknown };
+      if (media.url !== undefined)
+        assertOwnedUploadUrl(media.url, current(req), `chat_${input.type}`);
+    }
     const existing = await Message.findOne({
       conversationId: conversation._id,
       clientMessageId: input.clientMessageId,

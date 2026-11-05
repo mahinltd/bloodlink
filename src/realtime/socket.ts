@@ -5,6 +5,7 @@ import { Conversation } from '../models/Conversation.js';
 import { Message } from '../models/Message.js';
 import { scanMoneyKeywords } from '../services/moderation.js';
 import { corsOrigins } from '../config/env.js';
+import { assertOwnedUploadUrl } from '../services/uploads.js';
 
 type Ack = (response: { success: boolean; data?: unknown; error?: { code: string } }) => void;
 let activeIo: Server | undefined;
@@ -85,6 +86,11 @@ export function attachSocket(server: HttpServer): Server {
             participants: userId,
           });
           if (!conversation) return ack?.({ success: false, error: { code: 'FORBIDDEN' } });
+          if (payload.media && payload.type !== 'system') {
+            const media = payload.media as { url?: unknown };
+            if (media.url !== undefined)
+              assertOwnedUploadUrl(media.url, userId, `chat_${payload.type}`);
+          }
           const existing = await Message.findOne({
             conversationId: conversation._id,
             clientMessageId: payload.clientMessageId,

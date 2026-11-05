@@ -336,6 +336,15 @@ describe('real HTTP integration journey', () => {
       .set('authorization', `Bearer ${requesterToken}`)
       .send({ clientMessageId: 'journey-message-1', type: 'text', text: 'Thank you.' });
     expect(message.status).toBe(201);
+    const foreignUpload = await request(app)
+      .post(`/api/v1/conversations/${conversationId}/messages`)
+      .set('authorization', `Bearer ${requesterToken}`)
+      .send({
+        clientMessageId: 'foreign-upload-1',
+        type: 'image',
+        media: { url: 'https://evil.example/another-user.png' },
+      });
+    expect(foreignUpload.status).toBe(403);
     const conversations = await request(app)
       .get('/api/v1/conversations')
       .set('authorization', `Bearer ${requesterToken}`);

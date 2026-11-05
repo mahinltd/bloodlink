@@ -16,7 +16,7 @@ The authoritative requirement-by-requirement inventory is [TRACEABILITY.md](TRAC
 - [x] Restrict Socket.IO CORS to `CORS_ORIGINS`; test allowed and denied origins.
 - [x] Verify release URLs with HTTPS, safe DNS/IP checks, size cap, timeout and streaming hash.
 - [~] Add admin lockout, single-use reset tokens, refresh reuse detection and secure refresh cookies.
-- [~] Add NoSQL injection, error leak, upload ownership and repository/history secret scans.
+- [~] Add NoSQL injection, error leak, upload ownership and repository/history secret scans; chat upload ownership is now tested, report-evidence coverage remains.
 - [ ] Test the complete admin RBAC matrix.
 
 ## Mobile and public contract
