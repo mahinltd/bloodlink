@@ -48,7 +48,7 @@ The authoritative requirement-by-requirement inventory is [TRACEABILITY.md](TRAC
 - [ ] Move all user-facing text behind bilingual templates/CMS keys.
 - [ ] Split modules into routes/controllers/services/schemas with async handler wrappers and keep files near 300 lines.
 - [~] OpenAPI, README, setup checklist and Postman cover the current implementation; complete them against the master prompt.
-- [~] Latest run: 5 test files and 24 tests passed; coverage is 80.3% statements and 82.72% lines, while requirement-level coverage remains incomplete.
+- [~] Latest run: 5 test files and 24 tests passed; coverage is 79.44% statements and 81.81% lines, while requirement-level coverage remains incomplete.
 
 ## Blockers
 
