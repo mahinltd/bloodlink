@@ -45,6 +45,27 @@ function otpFrom(logs: unknown[][]): string {
   return code;
 }
 
+function assertNoSensitiveFields(value: unknown): void {
+  const forbidden = new Set([
+    'passwordHash',
+    'refreshHash',
+    'contactPhone',
+    'phone',
+    'email',
+    'locationPrecise',
+    'resetToken',
+  ]);
+  if (Array.isArray(value)) {
+    for (const item of value) assertNoSensitiveFields(item);
+    return;
+  }
+  if (!value || typeof value !== 'object') return;
+  for (const [key, nested] of Object.entries(value)) {
+    expect(forbidden.has(key)).toBe(false);
+    assertNoSensitiveFields(nested);
+  }
+}
+
 describe('real HTTP integration journey', () => {
   beforeAll(async () => {
     mongo = await MongoMemoryServer.create();
@@ -483,6 +504,9 @@ describe('real HTTP integration journey', () => {
     expect(publicRequests.status).toBe(200);
     expect(publicDonors.status).toBe(200);
     expect(publicContent.status).toBe(200);
+    assertNoSensitiveFields(publicRequests.body);
+    assertNoSensitiveFields(publicDonors.body);
+    assertNoSensitiveFields(publicContent.body);
     const strings = await request(app).get('/api/v1/app/strings?lang=en');
     const config = await request(app).get('/api/v1/app/config');
     const flags = await request(app).get('/api/v1/app/flags');

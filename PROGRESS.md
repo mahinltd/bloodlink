@@ -158,6 +158,6 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [ ] Rate limits for every abuse-prone flow
 - [~] Authentication and OTP route rate limits
 - [ ] 80% service/module coverage target
-- [ ] Public response sensitive-field scan
+- [x] Public response sensitive-field scan
 - [ ] Security review against sections 7 and 15
 - [ ] README, setup checklist, and Postman collection complete
