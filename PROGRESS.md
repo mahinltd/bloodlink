@@ -8,7 +8,7 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [x] `.env` and local environment files ignored
 - [x] Health endpoint and MongoDB status reporting
 - [x] Initial repository snapshot committed
-- [ ] Full integration test infrastructure with MongoDB memory server
+- [x] Full integration test infrastructure with MongoDB memory server
 
 ## Mobile API checklist (sections 8 and 8.1.1)
 
@@ -45,6 +45,7 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [~] `GET /api/v1/requests/:id`
 - [~] `POST /api/v1/requests/:id/pledge`
 - [~] `DELETE /api/v1/requests/:id/pledge`
+- [~] `POST /api/v1/requests/:id/pledges/:pledgeId/accept`
 - [~] `POST /api/v1/uploads/sign`
 - [~] `GET /api/v1/conversations`
 - [~] `POST /api/v1/conversations`

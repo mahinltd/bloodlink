@@ -4,6 +4,7 @@ import { EmailTemplate } from '../models/Template.js';
 import { User } from '../models/User.js';
 import { createDrivers } from './drivers.js';
 import { randomInt } from 'node:crypto';
+import { AppError } from '../middleware/error.js';
 
 const drivers = createDrivers();
 
@@ -17,7 +18,13 @@ export async function sendOtp(
     purpose,
     sentAt: { $gt: new Date(Date.now() - 30_000) },
   });
-  if (recent) throw new Error('OTP_COOLDOWN');
+  if (recent)
+    throw new AppError(
+      429,
+      'OTP_COOLDOWN',
+      'BL-104',
+      'Please wait before requesting another code.',
+    );
   const code = String(randomInt(100000, 1000000));
   await Otp.deleteMany({ subject, purpose });
   await Otp.create({
@@ -58,7 +65,7 @@ export async function verifyOtp(
       otp.attempts += 1;
       await otp.save();
     }
-    throw new Error('OTP_INVALID');
+    throw new AppError(400, 'OTP_INVALID', 'BL-103', 'The code is invalid or expired.');
   }
   await otp.deleteOne();
 }

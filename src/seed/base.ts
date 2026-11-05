@@ -156,7 +156,7 @@ const cmsDefaults = [
   ['errors.notFound', 'অনুরোধটি পাওয়া যায়নি।', 'The requested resource was not found.', 'errors'],
 ];
 
-async function seed(): Promise<void> {
+export async function seed(options: { disconnect?: boolean } = {}): Promise<void> {
   await connectDatabase();
 
   await GeoDivision.bulkWrite(
@@ -410,11 +410,13 @@ async function seed(): Promise<void> {
     { upsert: true },
   );
   console.log('Base seed complete.');
-  await disconnectDatabase();
+  if (options.disconnect !== false) await disconnectDatabase();
 }
 
-seed().catch(async (error: unknown) => {
-  console.error('Base seed failed.', error);
-  if (mongoose.connection.readyState !== 0) await disconnectDatabase();
-  process.exitCode = 1;
-});
+if (process.argv[1]?.endsWith('base.ts')) {
+  seed().catch(async (error: unknown) => {
+    console.error('Base seed failed.', error);
+    if (mongoose.connection.readyState !== 0) await disconnectDatabase();
+    process.exitCode = 1;
+  });
+}

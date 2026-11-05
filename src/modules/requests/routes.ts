@@ -173,4 +173,24 @@ router.delete('/:id/pledge', requireUser, async (req, res, next) => {
   }
 });
 
+router.post('/:id/pledges/:pledgeId/accept', requireUser, async (req, res, next) => {
+  try {
+    const request = await BloodRequest.findOne({
+      _id: req.params.id,
+      requesterId: req.auth?.userId,
+    });
+    if (!request)
+      throw new AppError(404, 'REQUEST_NOT_FOUND', 'BL-300', 'The blood request was not found.');
+    const pledge = await Pledge.findOneAndUpdate(
+      { _id: req.params.pledgeId, requestId: request._id, status: 'offered' },
+      { $set: { status: 'accepted' } },
+      { new: true },
+    );
+    if (!pledge) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'The pledge was not found.');
+    res.json({ success: true, data: { id: pledge.id, status: pledge.status }, meta: {} });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

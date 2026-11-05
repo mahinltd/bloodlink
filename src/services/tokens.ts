@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { env } from '../config/env.js';
 import { Session } from '../models/Session.js';
 import { nextCode } from './counter.js';
+import { AppError } from '../middleware/error.js';
 
 type SubjectType = 'user' | 'admin';
 type TokenPayload = { sub: string; sid: string; type: SubjectType };
@@ -50,7 +51,7 @@ export async function rotateRefreshToken(refreshToken: string, subjectType: Subj
     revokedAt: null,
     expiresAt: { $gt: new Date() },
   });
-  if (!session) throw new Error('INVALID_REFRESH_TOKEN');
+  if (!session) throw new AppError(401, 'UNAUTHORIZED', 'BL-401', 'Please sign in again.');
   const nextRefresh = randomBytes(48).toString('base64url');
   session.refreshHash = hashToken(nextRefresh);
   await session.save();
