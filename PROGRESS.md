@@ -156,7 +156,7 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [ ] Async handler wrapper and module route/controller/service/schema split
 - [x] Rate limits for every abuse-prone flow
 - [x] Authentication and OTP route rate limits
-- [ ] 80% service/module coverage target
+- [x] 80% service/module coverage target
 - [x] Public response sensitive-field scan
 - [x] Security review against sections 7 and 15
 - [x] README, setup checklist, and Postman collection complete
