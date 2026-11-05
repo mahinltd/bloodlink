@@ -56,6 +56,9 @@ export const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
 
   const appError = error instanceof AppError ? error : undefined;
   const statusCode = appError?.statusCode ?? 500;
+  const localizedError = appError
+    ? Object.values(errorCatalogue).find((definition) => definition.ref === appError.ref)
+    : undefined;
   if (!appError) {
     req.log?.error({ err: error, requestId }, 'Unhandled request error');
   }
@@ -66,7 +69,7 @@ export const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
       code: appError?.code ?? 'INTERNAL_ERROR',
       ref: appError?.ref ?? 'BL-500',
       message: appError
-        ? { bn: appError.message, en: appError.message }
+        ? (localizedError ?? { bn: appError.message, en: appError.message })
         : { bn: errorCatalogue.INTERNAL_ERROR.bn, en: errorCatalogue.INTERNAL_ERROR.en },
       ...(appError?.fields ? { fields: appError.fields } : {}),
       requestId,

@@ -26,6 +26,11 @@ export const errorCatalogue = {
     bn: 'তথ্যের সঙ্গে বিরোধ আছে।',
     en: 'The request conflicts with existing data.',
   },
+  INVALID_INPUT: {
+    ref: 'BL-422',
+    bn: 'প্রদত্ত তথ্য গ্রহণযোগ্য নয়।',
+    en: 'The provided information is not acceptable.',
+  },
   RATE_LIMITED: {
     ref: 'BL-429',
     bn: 'অনেকবার চেষ্টা করা হয়েছে। পরে আবার চেষ্টা করুন।',

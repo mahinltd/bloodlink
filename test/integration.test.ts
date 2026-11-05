@@ -584,6 +584,7 @@ describe('real HTTP integration journey', () => {
     expect(reports.status).toBe(200);
     const denied = await request(app).get('/api/v1/admin/overview');
     expect(denied.status).toBe(401);
+    expect(denied.body.error.message.bn).not.toBe(denied.body.error.message.en);
     const refreshed = await request(app)
       .post('/api/v1/admin/auth/refresh')
       .send({ refreshToken: adminRefreshToken });
