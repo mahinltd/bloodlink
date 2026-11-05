@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: bloodlink-api
+    runtime: node
+    region: singapore
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: APP_DOMAIN
+        value: bloodlink.tech
+      - key: API_URL
+        value: https://api.bloodlink.tech
+      - key: WEB_URL
+        value: https://bloodlink.tech
+      - key: ADMIN_URL
+        value: https://admin.bloodlink.tech

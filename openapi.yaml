@@ -1,0 +1,32 @@
+openapi: 3.1.0
+info:
+  title: BloodLink API
+  version: 0.1.0
+  description: Contract for the BloodLink mobile app, admin dashboard, and public website.
+servers:
+  - url: /api/v1
+paths:
+  /app/bootstrap:
+    get:
+      operationId: getAppBootstrap
+      summary: Get public application bootstrap data
+      parameters:
+        - in: query
+          name: platform
+          schema:
+            type: string
+            enum: [android]
+        - in: query
+          name: version
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Bootstrap data
+  /healthz:
+    get:
+      operationId: getHealth
+      summary: Health check
+      responses:
+        '200':
+          description: Service is healthy
