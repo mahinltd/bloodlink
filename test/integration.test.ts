@@ -141,6 +141,51 @@ describe('real HTTP integration journey', () => {
       expect(response.body.data.registrationStep).toBeGreaterThanOrEqual(2);
     }
 
+    const me = await request(app).get('/api/v1/me').set('authorization', `Bearer ${donorToken}`);
+    expect(me.status).toBe(200);
+    expect(me.body.data.donorProfile).not.toHaveProperty('dob');
+    const updatedMe = await request(app)
+      .patch('/api/v1/me')
+      .set('authorization', `Bearer ${donorToken}`)
+      .send({ name: 'Updated Donor', language: 'en' });
+    expect(updatedMe.status).toBe(200);
+    const availability = await request(app)
+      .patch('/api/v1/me/availability')
+      .set('authorization', `Bearer ${donorToken}`)
+      .send({ available: true });
+    expect(availability.status).toBe(200);
+    const device = await request(app)
+      .post('/api/v1/me/devices')
+      .set('authorization', `Bearer ${donorToken}`)
+      .send({
+        fcmToken: 'test-device-token-long-enough',
+        platform: 'android',
+        appVersion: '1.0.0',
+      });
+    expect(device.status).toBe(200);
+    const divisions = await request(app).get('/api/v1/geo/divisions');
+    const districts = await request(app).get('/api/v1/geo/districts?division=dhaka');
+    const areas = await request(app).get('/api/v1/geo/areas?district=dhaka');
+    const hospitals = await request(app)
+      .get('/api/v1/geo/hospitals?q=Dhaka%20Medical&district=Dhaka')
+      .set('authorization', `Bearer ${donorToken}`);
+    expect(divisions.status).toBe(200);
+    expect(districts.status).toBe(200);
+    expect(areas.status).toBe(200);
+    expect(hospitals.status).toBe(200);
+    const donorCard = await request(app).get(`/api/v1/donors/${donorId}`);
+    expect(donorCard.status).toBe(200);
+    const block = await request(app)
+      .post(`/api/v1/users/${requesterId}/block`)
+      .set('authorization', `Bearer ${donorToken}`)
+      .send();
+    expect(block.status).toBe(201);
+    const unblock = await request(app)
+      .delete(`/api/v1/users/${requesterId}/block`)
+      .set('authorization', `Bearer ${donorToken}`)
+      .send();
+    expect(unblock.status).toBe(200);
+
     const moderated = await request(app)
       .post('/api/v1/requests')
       .set('authorization', `Bearer ${requesterToken}`)
@@ -235,6 +280,11 @@ describe('real HTTP integration journey', () => {
       acceptTerms: true,
     });
     expect(registration.status).toBe(201);
+    const resend = await request(app).post('/api/v1/auth/resend-otp').send({
+      email,
+      purpose: 'verify_email',
+    });
+    expect(resend.status).toBe(429);
     const verification = await request(app)
       .post('/api/v1/auth/verify-email')
       .send({
@@ -270,6 +320,10 @@ describe('real HTTP integration journey', () => {
       password: 'reset-password',
     });
     expect(loginAfterReset.status).toBe(200);
+    const logout = await request(app).post('/api/v1/auth/logout').send({
+      refreshToken: loginAfterReset.body.data.tokens.refreshToken,
+    });
+    expect(logout.status).toBe(200);
     info.mockRestore();
   });
 

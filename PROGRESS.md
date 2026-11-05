@@ -12,14 +12,14 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 
 ## Mobile API checklist (sections 8 and 8.1.1)
 
-- [~] `POST /api/v1/auth/register`
-- [~] `POST /api/v1/auth/verify-email`
-- [~] `POST /api/v1/auth/resend-otp`
-- [~] `POST /api/v1/auth/login`
-- [~] `POST /api/v1/auth/refresh`
-- [~] `POST /api/v1/auth/logout`
-- [~] `POST /api/v1/auth/forgot-password`
-- [~] `POST /api/v1/auth/reset-password`
+- [x] `POST /api/v1/auth/register`
+- [x] `POST /api/v1/auth/verify-email`
+- [x] `POST /api/v1/auth/resend-otp`
+- [x] `POST /api/v1/auth/login`
+- [x] `POST /api/v1/auth/refresh`
+- [x] `POST /api/v1/auth/logout`
+- [x] `POST /api/v1/auth/forgot-password`
+- [x] `POST /api/v1/auth/reset-password`
 - [~] `GET /api/v1/app/strings`
 - [~] `GET /api/v1/app/config`
 - [~] `GET /api/v1/app/flags`
