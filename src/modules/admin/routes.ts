@@ -24,9 +24,11 @@ import { Session } from '../../models/Session.js';
 import { GeoDivision, GeoDistrict, GeoArea, Hospital } from '../../models/Reference.js';
 import { rotateRefreshToken, hashToken } from '../../services/tokens.js';
 import { broadcastFlagChanged } from '../../realtime/socket.js';
+import { adminAuthRateLimit, adminOtpRateLimit } from '../../middleware/rateLimit.js';
+import { env } from '../../config/env.js';
 
 const router = Router();
-router.post('/auth/login', async (req, res, next) => {
+router.post('/auth/login', adminAuthRateLimit, async (req, res, next) => {
   try {
     const input = z.object({ email: z.string().email(), password: z.string() }).parse(req.body);
     const admin = await AdminUser.findOne({
@@ -47,7 +49,7 @@ router.post('/auth/login', async (req, res, next) => {
     next(error);
   }
 });
-router.post('/auth/verify-2fa', async (req, res, next) => {
+router.post('/auth/verify-2fa', adminOtpRateLimit, async (req, res, next) => {
   try {
     const input = z
       .object({
@@ -539,7 +541,13 @@ router.post(
     try {
       const release = await AppRelease.findById(req.params.id);
       if (!release) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'Release not found.');
-      const response = await fetch(release.apkUrl);
+      const releaseUrl = new URL(release.apkUrl);
+      const allowedHosts = env.RELEASE_ALLOWED_HOSTS.split(',')
+        .map((host) => host.trim().toLowerCase())
+        .filter(Boolean);
+      if (!allowedHosts.includes(releaseUrl.hostname.toLowerCase()))
+        throw new AppError(422, 'INVALID_INPUT', 'BL-422', 'Release host is not allowlisted.');
+      const response = await fetch(releaseUrl, { redirect: 'error' });
       if (!response.ok || !response.body)
         throw new AppError(422, 'INVALID_INPUT', 'BL-422', 'Release file could not be downloaded.');
       const digest = createHash('sha256');

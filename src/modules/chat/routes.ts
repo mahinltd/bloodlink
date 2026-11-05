@@ -158,6 +158,11 @@ router.post('/conversations/:id/messages', requireUser, async (req, res, next) =
 
 router.post('/conversations/:id/read', requireUser, async (req, res, next) => {
   try {
+    const conversation = await Conversation.findOne({
+      _id: req.params.id,
+      participants: current(req),
+    });
+    if (!conversation) throw new AppError(403, 'FORBIDDEN', 'BL-403', 'Access denied.');
     await Message.updateMany(
       { conversationId: req.params.id, senderId: { $ne: current(req) }, status: { $ne: 'read' } },
       { $set: { status: 'read', readAt: new Date() } },

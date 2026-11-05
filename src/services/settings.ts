@@ -21,13 +21,14 @@ export function clearSettingsCache(): void {
 export async function getPublishedSettings(environment: string): Promise<SettingsCache> {
   if (cache && cache.expiresAt > Date.now()) return cache;
   if (mongoose.connection.readyState !== 1) {
-    return {
+    cache = {
       expiresAt: Date.now() + cacheDurationMs,
       config: null,
       strings: {},
       stringsVersion: 0,
       flags: {},
     };
+    return cache;
   }
 
   const [config, strings, flags] = await Promise.all([

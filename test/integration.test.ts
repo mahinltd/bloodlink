@@ -43,6 +43,7 @@ function configureTestEnvironment(uri: string): void {
   process.env.JOB_SECRET = 'test-job-secret-that-is-at-least-32-characters';
   process.env.FIRST_SUPERADMIN_EMAIL = 'admin@bloodlink.tech';
   process.env.FIRST_SUPERADMIN_PASSWORD = 'test-password-for-development';
+  process.env.RELEASE_ALLOWED_HOSTS = 'downloads.example.com';
   process.env.SEED_DEMO = 'false';
 }
 
@@ -863,6 +864,33 @@ describe('real HTTP integration journey', () => {
     socket.close();
     await new Promise<void>((resolve) => ioServer.close(() => resolve()));
     await new Promise<void>((resolve) => httpServer.close(() => resolve()));
+  });
+
+  it('rejects chat read attempts from non-participants before updating messages', async () => {
+    const { issueTokens } = await import('../src/services/tokens.js');
+    const { Message } = await import('../src/models/Message.js');
+    const outsider = await User.create({
+      code: 'USR-SECURITY',
+      email: 'chat-outsider@example.com',
+      name: 'Chat Outsider',
+      status: 'active',
+    });
+    const outsiderTokens = await issueTokens(outsider.id, 'user');
+    const message = await Message.create({
+      conversationId: conversationIdForRealtime,
+      senderId: outsider.id,
+      clientMessageId: 'security-message-1',
+      type: 'text',
+      text: 'Not a participant',
+      status: 'sent',
+    });
+    const response = await request(app)
+      .post(`/api/v1/conversations/${conversationIdForRealtime}/read`)
+      .set('authorization', `Bearer ${outsiderTokens.accessToken}`)
+      .send();
+    expect(response.status).toBe(403);
+    const persisted = await Message.findById(message.id).lean();
+    expect(persisted?.status).toBe('sent');
   });
 
   it('covers realtime messaging, typing, receipts, presence, and call signalling', async () => {

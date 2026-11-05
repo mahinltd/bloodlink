@@ -16,3 +16,19 @@ export const otpRateLimit = rateLimit({
   legacyHeaders: false,
   skip: () => env.NODE_ENV === 'test',
 });
+
+export const adminAuthRateLimit = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  skip: () => env.NODE_ENV === 'test',
+});
+
+export const adminOtpRateLimit = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  limit: 5,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  skip: () => env.NODE_ENV === 'test',
+});

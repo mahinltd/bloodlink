@@ -148,8 +148,8 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 
 - [x] OpenAPI contract covering current HTTP routes
 - [x] Full OpenAPI validation and socket-event documentation
-- [~] Console/stub and real mail, push, storage, and call driver foundations
-- [~] 60-second settings cache
+- [x] Console/stub and real mail, push, storage, and call driver foundations
+- [x] 60-second settings cache
 - [~] Base seed foundation
 - [~] Full CMS, notification, email template, hospital, and demo seed data
 - [ ] Bilingual template-backed user-facing text everywhere
@@ -158,5 +158,5 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [~] Authentication and OTP route rate limits
 - [ ] 80% service/module coverage target
 - [x] Public response sensitive-field scan
-- [ ] Security review against sections 7 and 15
-- [ ] README, setup checklist, and Postman collection complete
+- [x] Security review against sections 7 and 15
+- [x] README, setup checklist, and Postman collection complete

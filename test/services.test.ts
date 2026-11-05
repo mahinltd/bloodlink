@@ -48,3 +48,15 @@ describe('money moderation', () => {
     await expect(scanMoneyKeywords('Please pay via bKash')).resolves.toContain('bkash');
   });
 });
+
+describe('settings cache', () => {
+  it('caches the disconnected fallback for the configured interval', async () => {
+    const { clearSettingsCache, getPublishedSettings } =
+      await import('../src/services/settings.js');
+    clearSettingsCache();
+    const first = await getPublishedSettings('demo');
+    const second = await getPublishedSettings('demo');
+    expect(second).toBe(first);
+    expect(first.expiresAt).toBeGreaterThan(Date.now());
+  });
+});

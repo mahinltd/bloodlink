@@ -36,6 +36,7 @@ const envSchema = z.object({
   JOB_SECRET: z.string().min(32),
   FIRST_SUPERADMIN_EMAIL: z.string().email(),
   FIRST_SUPERADMIN_PASSWORD: z.string().min(12),
+  RELEASE_ALLOWED_HOSTS: z.string().default(''),
   SEED_DEMO: booleanFromEnv,
   SENTRY_DSN: z.string().url().optional(),
 });
