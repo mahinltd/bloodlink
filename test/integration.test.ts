@@ -717,6 +717,14 @@ describe('real HTTP integration journey', () => {
         (item: { status: string }) => item.status === 'already_completed',
       ),
     ).toBe(true);
+    const audit = await request(app)
+      .post('/internal/jobs/audit-verify')
+      .set('x-job-secret', 'test-job-secret-that-is-at-least-32-characters');
+    const maintenance = await request(app)
+      .post('/internal/jobs/update-maintenance')
+      .set('x-job-secret', 'test-job-secret-that-is-at-least-32-characters');
+    expect(audit.status).toBe(200);
+    expect(maintenance.status).toBe(200);
   });
 
   it('covers authenticated realtime presence and flag events', async () => {

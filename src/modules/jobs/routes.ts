@@ -13,6 +13,8 @@ import { Device } from '../../models/Device.js';
 import { isCompatible } from '../../services/compatibility.js';
 import { createDrivers } from '../../services/drivers.js';
 import { NotificationTemplate } from '../../models/Template.js';
+import { AuditLog } from '../../models/AdminOperations.js';
+import { verifyAuditChain } from '../../services/audit.js';
 
 const router = Router();
 const jobNames = [
@@ -98,6 +100,18 @@ async function executeJob(name: JobName): Promise<void> {
         { ordered: false },
       );
     }
+  }
+  if (name === 'audit-verify') {
+    const auditItems = await AuditLog.find().sort({ ts: 1, code: 1 }).lean();
+    const result = verifyAuditChain(auditItems as unknown as Array<Record<string, unknown>>);
+    if (!result.valid)
+      throw new Error(`Audit chain verification failed at ${result.brokenAt ?? 'unknown'}.`);
+  }
+  if (name === 'update-maintenance') {
+    await BloodRequest.updateMany(
+      { status: 'approved', neededBy: { $lt: new Date() } },
+      { $set: { status: 'expired' } },
+    );
   }
 }
 

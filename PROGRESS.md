@@ -141,8 +141,8 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [x] expired request cleanup
 - [~] notification fan-out with compatibility filtering and caps
 - [x] 45-second call timeout
-- [ ] release/update maintenance
-- [ ] audit integrity monitoring
+- [x] release/update maintenance
+- [x] audit integrity monitoring
 
 ## Cross-cutting completion gates
 

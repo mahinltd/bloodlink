@@ -636,7 +636,7 @@ router.get(
   requireRole('super_admin', 'admin'),
   async (_req, res, next) => {
     try {
-      const items = await AuditLog.find().sort({ ts: 1 }).lean();
+      const items = await AuditLog.find().sort({ ts: 1, code: 1 }).lean();
       const result = verifyAuditChain(items as unknown as Array<Record<string, unknown>>);
       res.json({ success: true, data: result, meta: { checked: items.length } });
     } catch (error) {
@@ -650,7 +650,7 @@ router.get(
   requireRole('super_admin', 'admin'),
   async (_req, res, next) => {
     try {
-      const items = await AuditLog.find().sort({ ts: 1 }).lean();
+      const items = await AuditLog.find().sort({ ts: 1, code: 1 }).lean();
       res.type('application/json').send(JSON.stringify(items));
     } catch (error) {
       next(error);

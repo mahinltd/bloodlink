@@ -3,7 +3,17 @@ import { AuditLog } from '../models/AdminOperations.js';
 import { nextCode } from './counter.js';
 
 function canonical(value: unknown): string {
-  return JSON.stringify(value, Object.keys((value ?? {}) as object).sort());
+  if (value instanceof Date) return JSON.stringify(value.toISOString());
+  if (Array.isArray(value)) return `[${value.map(canonical).join(',')}]`;
+  if (value && typeof value === 'object') {
+    const object = value as Record<string, unknown>;
+    return `{${Object.keys(object)
+      .filter((key) => object[key] !== undefined)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${canonical(object[key])}`)
+      .join(',')}}`;
+  }
+  return JSON.stringify(value);
 }
 
 export function verifyAuditChain(items: Array<Record<string, unknown>>): {
@@ -11,9 +21,11 @@ export function verifyAuditChain(items: Array<Record<string, unknown>>): {
   brokenAt?: string;
 } {
   let previousHash = '';
-  for (const item of [...items].sort((a, b) => String(a.ts).localeCompare(String(b.ts)))) {
-    const { hash, prevHash, ...payload } = item;
-    delete payload._id;
+  for (const item of [...items].sort((a, b) => {
+    const timeOrder = String(a.ts).localeCompare(String(b.ts));
+    return timeOrder || String(a.code).localeCompare(String(b.code));
+  })) {
+    const { hash, prevHash, code, _id, __v, ...payload } = item;
     const expected = createHash('sha256')
       .update(previousHash + canonical(payload))
       .digest('hex');
@@ -38,7 +50,18 @@ export async function writeAudit(input: {
 }): Promise<void> {
   const previous = await AuditLog.findOne().sort({ ts: -1 }).lean();
   const ts = new Date();
-  const payload = { ...input, ts: ts.toISOString() };
+  const payload = {
+    ...input,
+    before:
+      input.before && typeof input.before === 'object' && 'toObject' in input.before
+        ? (input.before as { toObject: () => unknown }).toObject()
+        : input.before,
+    after:
+      input.after && typeof input.after === 'object' && 'toObject' in input.after
+        ? (input.after as { toObject: () => unknown }).toObject()
+        : input.after,
+    ts: ts.toISOString(),
+  };
   const prevHash = previous?.hash ?? '';
   const hash = createHash('sha256')
     .update(prevHash + canonical(payload))
