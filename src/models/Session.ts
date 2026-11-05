@@ -6,6 +6,7 @@ const sessionSchema = new Schema(
     subjectType: { type: String, enum: ['user', 'admin'], required: true },
     subjectId: { type: Schema.Types.ObjectId, required: true },
     refreshHash: { type: String, required: true },
+    refreshHashes: { type: [String], default: [] },
     device: Schema.Types.Mixed,
     ip: String,
     expiresAt: { type: Date, required: true },

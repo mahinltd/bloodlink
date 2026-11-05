@@ -16,4 +16,4 @@ The service exposes `GET /healthz` and the initial `GET /api/v1/app/bootstrap` c
 
 Production URLs are derived from environment configuration: website `https://bloodlink.tech`, admin `https://admin.bloodlink.tech`, and API `https://api.bloodlink.tech`.
 
-All dates returned by the API are ISO-8601 UTC values. Demo users use the password `demo-password-change-me`; change or remove them before production use.
+All dates returned by the API are ISO-8601 UTC values. Demo seed data is for non-production environments only and must be removed before production use.

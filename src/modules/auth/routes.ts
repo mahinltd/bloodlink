@@ -8,6 +8,7 @@ import { issueTokens, rotateRefreshToken } from '../../services/tokens.js';
 import { nextCode } from '../../services/counter.js';
 import { sendOtp, verifyOtp } from '../../services/otp.js';
 import { authRateLimit, otpRateLimit } from '../../middleware/rateLimit.js';
+import { requireUser } from '../../middleware/auth.js';
 
 const router = Router();
 const registerSchema = z.object({
@@ -143,6 +144,36 @@ router.post('/logout', async (req, res, next) => {
       { $set: { revokedAt: new Date() } },
     );
     res.json({ success: true, data: { revoked: result.modifiedCount > 0 }, meta: {} });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/logout-all', requireUser, async (req, res, next) => {
+  try {
+    await Session.updateMany(
+      { subjectId: req.auth?.userId, subjectType: 'user' },
+      { $set: { revokedAt: new Date() } },
+    );
+    res.json({ success: true, data: { loggedOut: true }, meta: {} });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/change-password', requireUser, async (req, res, next) => {
+  try {
+    const input = z.object({ current: z.string(), next: z.string().min(8) }).parse(req.body);
+    const user = await User.findById(req.auth?.userId).select('+passwordHash');
+    if (!user?.passwordHash || !(await argon2.verify(user.passwordHash, input.current)))
+      throw new AppError(403, 'FORBIDDEN', 'BL-403', 'The current password is incorrect.');
+    user.passwordHash = await argon2.hash(input.next);
+    await user.save();
+    await Session.updateMany(
+      { subjectId: user._id, subjectType: 'user', _id: { $ne: req.auth?.sessionId } },
+      { $set: { revokedAt: new Date() } },
+    );
+    res.json({ success: true, data: { changed: true }, meta: {} });
   } catch (error) {
     next(error);
   }

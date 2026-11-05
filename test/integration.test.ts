@@ -1,5 +1,6 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { createServer } from 'node:http';
+import dns from 'node:dns/promises';
 import request from 'supertest';
 import { io as connectSocket } from 'socket.io-client';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
@@ -518,8 +519,8 @@ describe('real HTTP integration journey', () => {
     const publicRequests = await request(app).get('/api/v1/public/requests');
     const publicDonors = await request(app).get('/api/v1/public/donors');
     const publicContent = await request(app).get('/api/v1/public/content');
-    expect(publicRequests.status).toBe(200);
-    expect(publicDonors.status).toBe(200);
+    expect(publicRequests.status).toBe(404);
+    expect(publicDonors.status).toBe(404);
     expect(publicContent.status).toBe(200);
     assertNoSensitiveFields(publicRequests.body);
     assertNoSensitiveFields(publicDonors.body);
@@ -561,6 +562,9 @@ describe('real HTTP integration journey', () => {
         code: otpFrom(logs),
       });
     expect(adminVerification.status).toBe(200);
+    expect(adminVerification.headers['set-cookie']?.[0]).toMatch(
+      /admin_refresh=.*HttpOnly.*Secure.*SameSite=Lax/,
+    );
     const adminToken = adminVerification.body.data.tokens.accessToken as string;
     const adminRefreshToken = adminVerification.body.data.tokens.refreshToken as string;
     info.mockRestore();
@@ -589,6 +593,9 @@ describe('real HTTP integration journey', () => {
       .post('/api/v1/admin/auth/refresh')
       .send({ refreshToken: adminRefreshToken });
     expect(refreshed.status).toBe(200);
+    expect(refreshed.headers['set-cookie']?.[0]).toMatch(
+      /admin_refresh=.*HttpOnly.*Secure.*SameSite=Lax/,
+    );
     const refreshedAdminToken = refreshed.body.data.tokens.accessToken as string;
     const divisions = await request(app)
       .get('/api/v1/admin/reference/divisions')
@@ -709,8 +716,11 @@ describe('real HTTP integration journey', () => {
       });
     expect(release.status).toBe(201);
     const releaseId = release.body.data._id as string;
+    const lookupMock = vi
+      .spyOn(dns, 'lookup')
+      .mockResolvedValue([{ address: '93.184.216.34', family: 4 }]);
     const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
-      new Response(Buffer.from('integration-apk-content'), {
+      new Response(Buffer.from([0x50, 0x4b, 0x03, 0x04, 0x69, 0x6e, 0x74, 0x65, 0x67]), {
         status: 200,
         headers: { 'content-type': 'application/vnd.android.package-archive' },
       }),
@@ -722,9 +732,7 @@ describe('real HTTP integration journey', () => {
     expect(verifiedRelease.status).toBe(200);
     expect(verifiedRelease.body.data.status).toBe('verified');
     expect(verifiedRelease.body.data.apkSha256).toMatch(/^[a-f0-9]{64}$/);
-    expect(verifiedRelease.body.data.apkSizeBytes).toBe(
-      Buffer.byteLength('integration-apk-content'),
-    );
+    expect(verifiedRelease.body.data.apkSizeBytes).toBe(9);
     const publishedRelease = await request(app)
       .post(`/api/v1/admin/releases/${releaseId}/publish`)
       .set('authorization', `Bearer ${adminToken}`)
@@ -738,6 +746,7 @@ describe('real HTTP integration journey', () => {
     expect(revokedRelease.status).toBe(200);
     expect(revokedRelease.body.data.status).toBe('revoked');
     fetchMock.mockRestore();
+    lookupMock.mockRestore();
     const releaseStats = await request(app)
       .get('/api/v1/admin/releases/stats')
       .set('authorization', `Bearer ${adminToken}`);
@@ -812,6 +821,48 @@ describe('real HTTP integration journey', () => {
     expect(maintenance.status).toBe(200);
   });
 
+  it('locks an admin after five failed password attempts', async () => {
+    const argon2 = (await import('argon2')).default;
+    const { AdminUser } = await import('../src/models/AdminUser.js');
+    await AdminUser.create({
+      email: 'lockout@bloodlink.tech',
+      name: 'Lockout Test',
+      role: 'admin',
+      passwordHash: await argon2.hash('correct-password'),
+    });
+    for (let attempt = 0; attempt < 5; attempt += 1) {
+      const response = await request(app).post('/api/v1/admin/auth/login').send({
+        email: 'lockout@bloodlink.tech',
+        password: 'wrong-password',
+      });
+      expect(response.status).toBe(401);
+    }
+    const locked = await request(app).post('/api/v1/admin/auth/login').send({
+      email: 'lockout@bloodlink.tech',
+      password: 'correct-password',
+    });
+    expect(locked.status).toBe(429);
+  });
+
+  it('serializes concurrent audit writes into one valid chain', async () => {
+    const { AuditLog } = await import('../src/models/AdminOperations.js');
+    const { verifyAuditChain, writeAudit } = await import('../src/services/audit.js');
+    await Promise.all(
+      Array.from({ length: 8 }, (_, index) =>
+        writeAudit({
+          actorId: requesterUserId,
+          event: `CONCURRENT_TEST_${index}`,
+          result: 'success',
+        }),
+      ),
+    );
+    const items = await AuditLog.find().sort({ sequence: 1 }).lean();
+    const sequences = items.map((item) => item.sequence);
+    expect(new Set(sequences).size).toBe(sequences.length);
+    expect(sequences).toEqual([...sequences].sort((a, b) => a - b));
+    expect(verifyAuditChain(items as Array<Record<string, unknown>>)).toEqual({ valid: true });
+  });
+
   it('fans out approved requests only to compatible available donors', async () => {
     const requestResponse = await request(app)
       .post('/api/v1/requests')
@@ -866,6 +917,19 @@ describe('real HTTP integration journey', () => {
     broadcastFlagChanged('integration_flag', true);
     await expect(flagChanged).resolves.toEqual({ key: 'integration_flag', enabled: true });
     socket.close();
+    await new Promise<void>((resolve) => ioServer.close(() => resolve()));
+    await new Promise<void>((resolve) => httpServer.close(() => resolve()));
+  });
+
+  it('rejects a Socket.IO handshake from an unlisted origin', async () => {
+    const { attachSocket } = await import('../src/realtime/socket.js');
+    const httpServer = createServer(app);
+    const ioServer = attachSocket(httpServer);
+    await new Promise<void>((resolve) => httpServer.listen(0, resolve));
+    const response = await request(httpServer)
+      .get('/socket.io/?EIO=4&transport=polling')
+      .set('Origin', 'https://not-allowed.example');
+    expect(response.headers['access-control-allow-origin']).toBeUndefined();
     await new Promise<void>((resolve) => ioServer.close(() => resolve()));
     await new Promise<void>((resolve) => httpServer.close(() => resolve()));
   });
@@ -1005,5 +1069,21 @@ describe('real HTTP integration journey', () => {
     requesterSocket.close();
     await new Promise<void>((resolve) => ioServer.close(() => resolve()));
     await new Promise<void>((resolve) => httpServer.close(() => resolve()));
+  });
+
+  it('rejects NoSQL operator input without leaking internals', async () => {
+    const invalidBody = await request(app)
+      .post('/api/v1/requests')
+      .set('authorization', `Bearer ${requesterToken}`)
+      .send({ $where: 'this.status == "approved"' });
+    expect(invalidBody.status).toBe(400);
+    expect(JSON.stringify(invalidBody.body)).not.toMatch(/stack|mongoose|MongoServerError/i);
+
+    const invalidQuery = await request(app)
+      .get('/api/v1/requests')
+      .query({ 'tab[$ne]': 'mine' })
+      .set('authorization', `Bearer ${requesterToken}`);
+    expect(invalidQuery.status).toBe(200);
+    expect(JSON.stringify(invalidQuery.body)).not.toMatch(/\$ne|stack|mongoose/i);
   });
 });

@@ -25,6 +25,7 @@ const providerSettingSchema = new Schema(
 );
 const auditSchema = new Schema(
   {
+    sequence: { type: Number, unique: true, required: true },
     code: { type: String, unique: true, required: true },
     ts: { type: Date, required: true },
     actorId: String,

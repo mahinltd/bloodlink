@@ -130,6 +130,91 @@ router.get('/:id', requireUser, async (req, res, next) => {
   }
 });
 
+router.patch('/:id', requireUser, async (req, res, next) => {
+  try {
+    const input = requestInput.partial().parse(req.body);
+    if (input.neededBy && input.neededBy <= new Date())
+      throw new AppError(
+        400,
+        'VALIDATION_ERROR',
+        'BL-400',
+        'The needed-by date must be in the future.',
+      );
+    const item = await BloodRequest.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        requesterId: req.auth?.userId,
+        status: { $nin: ['fulfilled', 'cancelled'] },
+      },
+      { $set: input },
+      { new: true },
+    ).lean();
+    if (!item)
+      throw new AppError(404, 'REQUEST_NOT_FOUND', 'BL-300', 'The blood request was not found.');
+    res.json({ success: true, data: { id: item._id.toString(), status: item.status }, meta: {} });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/:id/cancel', requireUser, async (req, res, next) => {
+  try {
+    const item = await BloodRequest.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        requesterId: req.auth?.userId,
+        status: { $nin: ['fulfilled', 'cancelled'] },
+      },
+      { $set: { status: 'cancelled' } },
+      { new: true },
+    ).lean();
+    if (!item)
+      throw new AppError(404, 'REQUEST_NOT_FOUND', 'BL-300', 'The blood request was not found.');
+    res.json({ success: true, data: { id: item._id.toString(), status: item.status }, meta: {} });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/:id/pledges', requireUser, async (req, res, next) => {
+  try {
+    const item = await BloodRequest.exists({ _id: req.params.id, requesterId: req.auth?.userId });
+    if (!item)
+      throw new AppError(404, 'REQUEST_NOT_FOUND', 'BL-300', 'The blood request was not found.');
+    const pledges = await Pledge.find({ requestId: req.params.id }).sort({ createdAt: -1 }).lean();
+    res.json({ success: true, data: pledges, meta: { total: pledges.length } });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/pledges/:pledgeId/accept', requireUser, async (req, res, next) => {
+  try {
+    const pledge = await Pledge.findById(req.params.pledgeId).lean();
+    if (!pledge) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'The pledge was not found.');
+    const request = await BloodRequest.findOne({
+      _id: pledge.requestId,
+      requesterId: req.auth?.userId,
+    });
+    if (!request)
+      throw new AppError(403, 'FORBIDDEN', 'BL-403', 'You are not allowed to accept this pledge.');
+    const updated = await Pledge.findOneAndUpdate(
+      { _id: pledge._id, status: 'offered' },
+      { $set: { status: 'accepted' } },
+      { new: true },
+    ).lean();
+    if (!updated)
+      throw new AppError(409, 'CONFLICT', 'BL-409', 'The pledge is no longer available.');
+    res.json({
+      success: true,
+      data: { id: updated._id.toString(), status: updated.status },
+      meta: {},
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post('/:id/pledge', requireUser, async (req, res, next) => {
   try {
     const input = z.object({ note: z.string().max(300).optional() }).parse(req.body);

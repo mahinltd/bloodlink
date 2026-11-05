@@ -29,6 +29,7 @@ export async function issueTokens(
     subjectType,
     subjectId,
     refreshHash: hashToken(refreshToken),
+    refreshHashes: [hashToken(refreshToken)],
     device,
     ip,
     expiresAt,
@@ -45,14 +46,27 @@ export async function issueTokens(
 }
 
 export async function rotateRefreshToken(refreshToken: string, subjectType: SubjectType) {
+  const refreshHash = hashToken(refreshToken);
   const session = await Session.findOne({
-    refreshHash: hashToken(refreshToken),
+    refreshHash,
     subjectType,
     revokedAt: null,
     expiresAt: { $gt: new Date() },
   });
-  if (!session) throw new AppError(401, 'UNAUTHORIZED', 'BL-401', 'Please sign in again.');
+  if (!session) {
+    const reused = await Session.findOne({
+      refreshHashes: refreshHash,
+      subjectType,
+      revokedAt: null,
+    });
+    if (reused) {
+      reused.revokedAt = new Date();
+      await reused.save();
+    }
+    throw new AppError(401, 'UNAUTHORIZED', 'BL-401', 'Please sign in again.');
+  }
   const nextRefresh = randomBytes(48).toString('base64url');
+  session.refreshHashes.push(hashToken(nextRefresh));
   session.refreshHash = hashToken(nextRefresh);
   await session.save();
   const secret = subjectType === 'admin' ? env.ADMIN_JWT_SECRET : env.JWT_ACCESS_SECRET;

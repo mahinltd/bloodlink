@@ -11,6 +11,8 @@ const adminUserSchema = new Schema(
     },
     passwordHash: { type: String, required: true, select: false },
     status: { type: String, enum: ['active', 'locked', 'disabled'], default: 'active' },
+    failedLoginAttempts: { type: Number, default: 0 },
+    lockedUntil: Date,
     lastLoginAt: Date,
   },
   { timestamps: true },

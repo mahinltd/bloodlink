@@ -7,8 +7,10 @@ import { DonorProfile } from '../models/DonorProfile.js';
 import { BloodRequest } from '../models/BloodRequest.js';
 import { nextCode } from '../services/counter.js';
 
-if (!env.SEED_DEMO) {
-  throw new Error('Demo seeding is disabled. Set SEED_DEMO=true explicitly.');
+if (env.APP_ENV === 'production' || !env.SEED_DEMO) {
+  throw new Error(
+    'Demo seeding is disabled outside an explicitly enabled non-production environment.',
+  );
 }
 
 async function seedDemo(): Promise<void> {

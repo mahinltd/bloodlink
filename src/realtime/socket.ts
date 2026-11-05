@@ -4,11 +4,12 @@ import { verifyAccessToken } from '../services/tokens.js';
 import { Conversation } from '../models/Conversation.js';
 import { Message } from '../models/Message.js';
 import { scanMoneyKeywords } from '../services/moderation.js';
+import { corsOrigins } from '../config/env.js';
 
 type Ack = (response: { success: boolean; data?: unknown; error?: { code: string } }) => void;
 let activeIo: Server | undefined;
 export function attachSocket(server: HttpServer): Server {
-  const io = new Server(server, { cors: { origin: true, credentials: true } });
+  const io = new Server(server, { cors: { origin: corsOrigins, credentials: true } });
   activeIo = io;
   const connectedUsers = new Map<string, number>();
   io.use((socket, next) => {

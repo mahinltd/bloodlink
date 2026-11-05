@@ -13,6 +13,180 @@ const profile = (req: Parameters<typeof requireUser>[0]) => req.auth?.userId ?? 
 const fuzz = (value: number): number => Math.round(value * 10) / 10 + (Math.random() - 0.5) * 0.01;
 const nextEligible = (date: Date): Date => new Date(date.getTime() + 120 * 86400_000);
 
+router.get('/me/donor-profile', requireUser, async (req, res, next) => {
+  try {
+    const donor = await DonorProfile.findOne({ userId: profile(req) })
+      .select('-dob -locationPrecise')
+      .lean();
+    if (!donor) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'Donor profile not found.');
+    res.json({ success: true, data: donor, meta: {} });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch('/me/donor-profile', requireUser, async (req, res, next) => {
+  try {
+    const input = z
+      .object({
+        bio: z.string().max(240).optional(),
+        languages: z.array(z.string().min(1)).max(10).optional(),
+        area: z.string().min(1).optional(),
+        weightKg: z.number().min(1).max(300).optional(),
+        lastDonationDate: z.coerce.date().optional(),
+      })
+      .parse(req.body);
+    const update = {
+      ...input,
+      ...(input.lastDonationDate ? { nextEligibleDate: nextEligible(input.lastDonationDate) } : {}),
+    };
+    const donor = await DonorProfile.findOneAndUpdate(
+      { userId: profile(req) },
+      { $set: update },
+      { new: true },
+    )
+      .select('-dob -locationPrecise')
+      .lean();
+    if (!donor) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'Donor profile not found.');
+    res.json({ success: true, data: donor, meta: {} });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch('/me/location', requireUser, async (req, res, next) => {
+  try {
+    const input = z
+      .object({
+        division: z.string().min(1),
+        district: z.string().min(1),
+        area: z.string().min(1),
+        lat: z.number().min(-90).max(90).optional(),
+        lng: z.number().min(-180).max(180).optional(),
+      })
+      .parse(req.body);
+    const location =
+      input.lat !== undefined && input.lng !== undefined
+        ? { type: 'Point' as const, coordinates: [fuzz(input.lng), fuzz(input.lat)] }
+        : undefined;
+    const donor = await DonorProfile.findOneAndUpdate(
+      { userId: profile(req) },
+      { $set: { ...input, ...(location ? { location } : {}) } },
+      { new: true, upsert: true },
+    )
+      .select('division district area location')
+      .lean();
+    res.json({ success: true, data: donor, meta: {} });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/me/preferences', requireUser, async (req, res, next) => {
+  try {
+    const user = await User.findById(profile(req)).select('preferences language').lean();
+    if (!user) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'Account not found.');
+    res.json({
+      success: true,
+      data: { preferences: user.preferences, language: user.language },
+      meta: {},
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch('/me/preferences', requireUser, async (req, res, next) => {
+  try {
+    const input = z
+      .object({
+        language: z.enum(['bn', 'en']).optional(),
+        theme: z.enum(['light', 'dark']).optional(),
+        followSystem: z.boolean().optional(),
+        highContrast: z.boolean().optional(),
+        urgentRequests: z.boolean().optional(),
+        messagesCalls: z.boolean().optional(),
+        donationReminders: z.boolean().optional(),
+        appNews: z.boolean().optional(),
+        allowCalls: z.boolean().optional(),
+      })
+      .parse(req.body);
+    const { language, ...preferences } = input;
+    const update: Record<string, unknown> = Object.fromEntries(
+      Object.entries(preferences).map(([key, value]) => [
+        `preferences.${key === 'theme' || key === 'followSystem' || key === 'highContrast' ? 'appearance' : key === 'allowCalls' ? 'safety' : 'notifications'}.${key}`,
+        value,
+      ]),
+    );
+    if (language) update.language = language;
+    const user = await User.findByIdAndUpdate(profile(req), { $set: update }, { new: true })
+      .select('preferences language')
+      .lean();
+    if (!user) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'Account not found.');
+    res.json({
+      success: true,
+      data: { preferences: user.preferences, language: user.language },
+      meta: {},
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/me/blocks', requireUser, async (req, res, next) => {
+  try {
+    const blocks = await Block.find({ blockerId: profile(req) })
+      .populate('blockedId', 'code name')
+      .lean();
+    res.json({ success: true, data: blocks, meta: { total: blocks.length } });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete('/me/devices/:id', requireUser, async (req, res, next) => {
+  try {
+    await Device.deleteOne({ _id: req.params.id, userId: profile(req) });
+    res.json({ success: true, data: { deleted: true }, meta: {} });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/me/stats', requireUser, async (req, res, next) => {
+  try {
+    const user = await User.findById(profile(req)).select('createdAt').lean();
+    const donor = await DonorProfile.findOne({ userId: profile(req) })
+      .select('donationsCount lastDonationDate')
+      .lean();
+    if (!user) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'Account not found.');
+    res.json({
+      success: true,
+      data: {
+        donationsCount: donor?.donationsCount ?? 0,
+        joinedYear: user.createdAt?.getUTCFullYear(),
+        lastDonationDate: donor?.lastDonationDate,
+      },
+      meta: {},
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/me/requests', requireUser, async (req, res, next) => {
+  try {
+    const status = typeof req.query.status === 'string' ? req.query.status : undefined;
+    const filter: Record<string, unknown> = { requesterId: profile(req) };
+    if (status === 'active') filter.status = { $in: ['pending_review', 'needs_info', 'approved'] };
+    if (status === 'completed') filter.status = { $in: ['fulfilled', 'cancelled', 'expired'] };
+    const items = await BloodRequest.find(filter).sort({ createdAt: -1 }).limit(50).lean();
+    res.json({ success: true, data: items, meta: { total: items.length } });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get('/me', requireUser, async (req, res, next) => {
   try {
     const user = await User.findById(profile(req)).lean();

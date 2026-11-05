@@ -1,6 +1,8 @@
 import { createHash } from 'node:crypto';
 import { AuditLog } from '../models/AdminOperations.js';
-import { nextCode } from './counter.js';
+import { nextSequence } from './counter.js';
+
+let auditWriteQueue = Promise.resolve();
 
 function canonical(value: unknown): string {
   if (value instanceof Date) return JSON.stringify(value.toISOString());
@@ -22,11 +24,11 @@ export function verifyAuditChain(items: Array<Record<string, unknown>>): {
 } {
   let previousHash = '';
   for (const item of [...items].sort((a, b) => {
-    const timeOrder = String(a.ts).localeCompare(String(b.ts));
-    return timeOrder || String(a.code).localeCompare(String(b.code));
+    return Number(a.sequence ?? 0) - Number(b.sequence ?? 0);
   })) {
     const { hash, prevHash, ...payload } = item;
     delete payload.code;
+    delete payload.sequence;
     delete payload._id;
     delete payload.__v;
     const expected = createHash('sha256')
@@ -51,23 +53,34 @@ export async function writeAudit(input: {
   after?: unknown;
   ip?: string | undefined;
 }): Promise<void> {
-  const previous = await AuditLog.findOne().sort({ ts: -1 }).lean();
-  const ts = new Date();
-  const payload = {
-    ...input,
-    before:
-      input.before && typeof input.before === 'object' && 'toObject' in input.before
-        ? (input.before as { toObject: () => unknown }).toObject()
-        : input.before,
-    after:
-      input.after && typeof input.after === 'object' && 'toObject' in input.after
-        ? (input.after as { toObject: () => unknown }).toObject()
-        : input.after,
-    ts: ts.toISOString(),
-  };
-  const prevHash = previous?.hash ?? '';
-  const hash = createHash('sha256')
-    .update(prevHash + canonical(payload))
-    .digest('hex');
-  await AuditLog.create({ ...input, code: await nextCode('audit'), ts, prevHash, hash });
+  auditWriteQueue = auditWriteQueue.then(async () => {
+    const previous = await AuditLog.findOne().sort({ sequence: -1 }).lean();
+    const sequence = await nextSequence('audit');
+    const ts = new Date();
+    const payload = {
+      ...input,
+      before:
+        input.before && typeof input.before === 'object' && 'toObject' in input.before
+          ? (input.before as { toObject: () => unknown }).toObject()
+          : input.before,
+      after:
+        input.after && typeof input.after === 'object' && 'toObject' in input.after
+          ? (input.after as { toObject: () => unknown }).toObject()
+          : input.after,
+      ts: ts.toISOString(),
+    };
+    const prevHash = previous?.hash ?? '';
+    const hash = createHash('sha256')
+      .update(prevHash + canonical(payload))
+      .digest('hex');
+    await AuditLog.create({
+      ...input,
+      sequence,
+      code: `AUD-${String(sequence).padStart(4, '0')}`,
+      ts,
+      prevHash,
+      hash,
+    });
+  });
+  await auditWriteQueue;
 }

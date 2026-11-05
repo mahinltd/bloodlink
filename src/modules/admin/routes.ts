@@ -26,8 +26,72 @@ import { rotateRefreshToken, hashToken } from '../../services/tokens.js';
 import { broadcastFlagChanged } from '../../realtime/socket.js';
 import { adminAuthRateLimit, adminOtpRateLimit } from '../../middleware/rateLimit.js';
 import { env } from '../../config/env.js';
+import dns from 'node:dns/promises';
+import net from 'node:net';
 
 const router = Router();
+const MAX_RELEASE_BYTES = 50 * 1024 * 1024;
+const refreshCookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'lax' as const,
+  maxAge: 8 * 60 * 60_000,
+};
+
+function getRefreshCookie(header: string | undefined): string | undefined {
+  return header
+    ?.split(';')
+    .map((part) => part.trim())
+    .find((part) => part.startsWith('admin_refresh='))
+    ?.slice('admin_refresh='.length);
+}
+
+function isPrivateAddress(address: string): boolean {
+  if (net.isIPv4(address)) {
+    const octets = address.split('.').map(Number);
+    const first = octets[0] ?? -1;
+    const second = octets[1] ?? -1;
+    return (
+      first === 0 ||
+      first === 10 ||
+      first === 127 ||
+      (first === 169 && second === 254) ||
+      (first === 172 && second >= 16 && second <= 31) ||
+      (first === 192 && second === 168)
+    );
+  }
+  const normalized = address.toLowerCase();
+  return (
+    normalized === '::1' ||
+    normalized.startsWith('fc') ||
+    normalized.startsWith('fd') ||
+    normalized.startsWith('fe8') ||
+    normalized.startsWith('fe9') ||
+    normalized.startsWith('fea') ||
+    normalized.startsWith('feb')
+  );
+}
+
+async function assertSafeReleaseUrl(releaseUrl: URL): Promise<void> {
+  if (releaseUrl.protocol !== 'https:' || releaseUrl.username || releaseUrl.password)
+    throw new AppError(422, 'INVALID_INPUT', 'BL-422', 'Release URL is not safe.');
+  const allowedHosts = env.RELEASE_ALLOWED_HOSTS.split(',')
+    .map((host) => host.trim().toLowerCase())
+    .filter(Boolean);
+  if (allowedHosts.length > 0 && !allowedHosts.includes(releaseUrl.hostname.toLowerCase()))
+    throw new AppError(422, 'INVALID_INPUT', 'BL-422', 'Release host is not allowlisted.');
+  const addresses = net.isIP(releaseUrl.hostname)
+    ? [releaseUrl.hostname]
+    : (await dns.lookup(releaseUrl.hostname, { all: true })).map((entry) => entry.address);
+  if (!addresses.length || addresses.some(isPrivateAddress))
+    throw new AppError(
+      422,
+      'INVALID_INPUT',
+      'BL-422',
+      'Release host resolves to a private address.',
+    );
+}
+
 router.post('/auth/login', adminAuthRateLimit, async (req, res, next) => {
   try {
     const input = z.object({ email: z.string().email(), password: z.string() }).parse(req.body);
@@ -35,13 +99,35 @@ router.post('/auth/login', adminAuthRateLimit, async (req, res, next) => {
       email: input.email.toLowerCase(),
       status: 'active',
     }).select('+passwordHash');
-    if (!admin || !(await argon2.verify(admin.passwordHash, input.password)))
+    if (admin?.lockedUntil && admin.lockedUntil > new Date())
+      throw new AppError(
+        429,
+        'ADMIN_LOCKED',
+        'BL-429',
+        'Too many failed attempts. Try again later.',
+      );
+    const validPassword = Boolean(
+      admin && (await argon2.verify(admin.passwordHash, input.password)),
+    );
+    if (!admin || !validPassword) {
+      if (admin) {
+        admin.failedLoginAttempts += 1;
+        if (admin.failedLoginAttempts >= 5) {
+          admin.lockedUntil = new Date(Date.now() + 15 * 60_000);
+          admin.failedLoginAttempts = 0;
+        }
+        await admin.save();
+      }
       throw new AppError(
         401,
         'INVALID_CREDENTIALS',
         'BL-102',
         'The email or password is incorrect.',
       );
+    }
+    admin.failedLoginAttempts = 0;
+    admin.lockedUntil = null;
+    await admin.save();
     const challengeId = nanoid(24);
     await sendOtp(`${challengeId}:${admin.email}`, 'admin_2fa', admin.email);
     res.json({ success: true, data: { challengeId }, meta: {} });
@@ -62,6 +148,7 @@ router.post('/auth/verify-2fa', adminOtpRateLimit, async (req, res, next) => {
     const admin = await AdminUser.findOne({ email: input.email.toLowerCase() });
     if (!admin) throw new AppError(401, 'UNAUTHORIZED', 'BL-401', 'Please sign in.');
     const tokens = await issueTokens(admin.id, 'admin', undefined, req.ip);
+    res.cookie('admin_refresh', tokens.refreshToken, refreshCookieOptions);
     await writeAudit({
       actorId: admin.id,
       actorName: admin.name,
@@ -84,8 +171,11 @@ router.post('/auth/verify-2fa', adminOtpRateLimit, async (req, res, next) => {
 });
 router.post('/auth/refresh', async (req, res, next) => {
   try {
-    const input = z.object({ refreshToken: z.string().min(1) }).parse(req.body);
-    const tokens = await rotateRefreshToken(input.refreshToken, 'admin');
+    const input = z.object({ refreshToken: z.string().min(1).optional() }).parse(req.body);
+    const refreshToken = input.refreshToken ?? getRefreshCookie(req.headers.cookie);
+    if (!refreshToken) throw new AppError(401, 'UNAUTHORIZED', 'BL-401', 'Please sign in again.');
+    const tokens = await rotateRefreshToken(refreshToken, 'admin');
+    res.cookie('admin_refresh', tokens.refreshToken, refreshCookieOptions);
     res.json({ success: true, data: { tokens }, meta: {} });
   } catch (error) {
     next(error);
@@ -97,11 +187,14 @@ router.post('/auth/logout', requireAdmin, async (req, res, next) => {
       { _id: req.auth?.sessionId, subjectType: 'admin' },
       { $set: { revokedAt: new Date(), refreshHash: hashToken(nanoid(32)) } },
     );
+    res.clearCookie('admin_refresh', refreshCookieOptions);
     res.json({ success: true, data: { loggedOut: true }, meta: {} });
   } catch (error) {
     next(error);
   }
 });
+router.use(requireAdmin);
+
 router.get('/me', requireAdmin, async (req, res, next) => {
   try {
     const admin = await AdminUser.findById(req.auth?.userId).lean();
@@ -542,21 +635,29 @@ router.post(
       const release = await AppRelease.findById(req.params.id);
       if (!release) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'Release not found.');
       const releaseUrl = new URL(release.apkUrl);
-      const allowedHosts = env.RELEASE_ALLOWED_HOSTS.split(',')
-        .map((host) => host.trim().toLowerCase())
-        .filter(Boolean);
-      if (!allowedHosts.includes(releaseUrl.hostname.toLowerCase()))
-        throw new AppError(422, 'INVALID_INPUT', 'BL-422', 'Release host is not allowlisted.');
-      const response = await fetch(releaseUrl, { redirect: 'error' });
+      await assertSafeReleaseUrl(releaseUrl);
+      const response = await fetch(releaseUrl, {
+        redirect: 'error',
+        signal: AbortSignal.timeout(10_000),
+      });
       if (!response.ok || !response.body)
         throw new AppError(422, 'INVALID_INPUT', 'BL-422', 'Release file could not be downloaded.');
+      const declaredSize = response.headers.get('content-length');
+      if (declaredSize && Number(declaredSize) > MAX_RELEASE_BYTES)
+        throw new AppError(422, 'INVALID_INPUT', 'BL-422', 'Release file is too large.');
       const digest = createHash('sha256');
       let size = 0;
+      let header = Buffer.alloc(0);
       for await (const chunk of response.body) {
         const buffer = Buffer.from(chunk);
         size += buffer.length;
+        if (size > MAX_RELEASE_BYTES)
+          throw new AppError(422, 'INVALID_INPUT', 'BL-422', 'Release file is too large.');
+        if (header.length < 2) header = Buffer.concat([header, buffer]).subarray(0, 2);
         digest.update(buffer);
       }
+      if (!header.equals(Buffer.from([0x50, 0x4b])))
+        throw new AppError(422, 'INVALID_INPUT', 'BL-422', 'Release file is not an APK archive.');
       release.apkSha256 = digest.digest('hex');
       release.apkSizeBytes = size;
       release.status = 'verified';
