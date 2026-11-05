@@ -493,6 +493,7 @@ describe('real HTTP integration journey', () => {
       });
     expect(adminVerification.status).toBe(200);
     const adminToken = adminVerification.body.data.tokens.accessToken as string;
+    const adminRefreshToken = adminVerification.body.data.tokens.refreshToken as string;
     info.mockRestore();
 
     const me = await request(app)
@@ -514,6 +515,27 @@ describe('real HTTP integration journey', () => {
     expect(reports.status).toBe(200);
     const denied = await request(app).get('/api/v1/admin/overview');
     expect(denied.status).toBe(401);
+    const refreshed = await request(app)
+      .post('/api/v1/admin/auth/refresh')
+      .send({ refreshToken: adminRefreshToken });
+    expect(refreshed.status).toBe(200);
+    const refreshedAdminToken = refreshed.body.data.tokens.accessToken as string;
+    const divisions = await request(app)
+      .get('/api/v1/admin/reference/divisions')
+      .set('authorization', `Bearer ${refreshedAdminToken}`);
+    const districts = await request(app)
+      .get('/api/v1/admin/reference/districts')
+      .set('authorization', `Bearer ${refreshedAdminToken}`);
+    const areas = await request(app)
+      .get('/api/v1/admin/reference/areas')
+      .set('authorization', `Bearer ${refreshedAdminToken}`);
+    const hospitals = await request(app)
+      .get('/api/v1/admin/reference/hospitals')
+      .set('authorization', `Bearer ${refreshedAdminToken}`);
+    expect(divisions.status).toBe(200);
+    expect(districts.status).toBe(200);
+    expect(areas.status).toBe(200);
+    expect(hospitals.status).toBe(200);
 
     const approved = await request(app)
       .post(`/api/v1/admin/requests/${moderatedRequestId}/approve`)
@@ -575,6 +597,10 @@ describe('real HTTP integration journey', () => {
         rolloutPercent: 100,
       });
     expect(release.status).toBe(201);
+    const releaseStats = await request(app)
+      .get('/api/v1/admin/releases/stats')
+      .set('authorization', `Bearer ${adminToken}`);
+    expect(releaseStats.status).toBe(200);
     const audit = await request(app)
       .get('/api/v1/admin/audit')
       .set('authorization', `Bearer ${adminToken}`);
@@ -611,5 +637,10 @@ describe('real HTTP integration journey', () => {
       .set('authorization', `Bearer ${adminToken}`)
       .send();
     expect(confirmed.status).toBe(200);
+    const logout = await request(app)
+      .post('/api/v1/admin/auth/logout')
+      .set('authorization', `Bearer ${refreshedAdminToken}`)
+      .send();
+    expect(logout.status).toBe(200);
   });
 });

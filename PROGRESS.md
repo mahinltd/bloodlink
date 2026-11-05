@@ -83,11 +83,15 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 
 - [~] `POST /api/v1/admin/auth/login`
 - [~] `POST /api/v1/admin/auth/verify-2fa`
+- [x] `POST /api/v1/admin/auth/refresh`
+- [x] `POST /api/v1/admin/auth/logout`
 - [~] `GET /api/v1/admin/me`
 - [~] `GET /api/v1/admin/overview`
 - [~] `GET /api/v1/admin/users`
 - [~] `GET /api/v1/admin/reports`
 - [~] `POST /api/v1/admin/reports/:id/action`
+- [~] `POST /api/v1/admin/requests/:id/reject`
+- [~] `POST /api/v1/admin/users/:id/action`
 - [~] `GET /api/v1/admin/app-config`
 - [~] `PUT /api/v1/admin/app-config`
 - [~] `POST /api/v1/admin/app-config/publish`
@@ -97,6 +101,10 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [~] `PUT /api/v1/admin/flags/:key`
 - [~] `GET /api/v1/admin/releases`
 - [~] `POST /api/v1/admin/releases`
+- [~] `POST /api/v1/admin/releases/:id/verify`
+- [~] `POST /api/v1/admin/releases/:id/publish`
+- [~] `POST /api/v1/admin/releases/:id/revoke`
+- [x] `GET /api/v1/admin/releases/stats`
 - [~] `GET /api/v1/admin/audit`
 - [~] `GET /api/v1/admin/audit/verify`
 - [~] `GET /api/v1/admin/audit/export`
@@ -104,6 +112,10 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [~] `GET /api/v1/admin/support/payments`
 - [~] `POST /api/v1/admin/support/payments`
 - [~] `POST /api/v1/admin/support/payments/:id/confirm`
+- [x] `GET /api/v1/admin/reference/divisions`
+- [x] `GET /api/v1/admin/reference/districts`
+- [x] `GET /api/v1/admin/reference/areas`
+- [x] `GET /api/v1/admin/reference/hospitals`
 - [ ] Admin refresh, logout, session management, user actions, request moderation, CMS publish validation, audit verify/export, release verify/publish/revoke/stats, and reference-data APIs
 
 ## Public API checklist (section 12)

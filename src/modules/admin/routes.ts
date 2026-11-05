@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { createHash } from 'node:crypto';
 import argon2 from 'argon2';
 import { z } from 'zod';
 import { nanoid } from 'nanoid';
@@ -19,6 +20,9 @@ import { verifyAuditChain, writeAudit } from '../../services/audit.js';
 import { clearSettingsCache } from '../../services/settings.js';
 import { AppError } from '../../middleware/error.js';
 import { nextCode } from '../../services/counter.js';
+import { Session } from '../../models/Session.js';
+import { GeoDivision, GeoDistrict, GeoArea, Hospital } from '../../models/Reference.js';
+import { rotateRefreshToken, hashToken } from '../../services/tokens.js';
 
 const router = Router();
 router.post('/auth/login', async (req, res, next) => {
@@ -62,6 +66,26 @@ router.post('/auth/verify-2fa', async (req, res, next) => {
       event: 'ADMIN_SIGN_IN',
       result: 'success',
       ip: req.ip,
+    });
+    router.post('/auth/refresh', async (req, res, next) => {
+      try {
+        const input = z.object({ refreshToken: z.string().min(1) }).parse(req.body);
+        const tokens = await rotateRefreshToken(input.refreshToken, 'admin');
+        res.json({ success: true, data: { tokens }, meta: {} });
+      } catch (error) {
+        next(error);
+      }
+    });
+    router.post('/auth/logout', requireAdmin, async (req, res, next) => {
+      try {
+        await Session.updateOne(
+          { _id: req.auth?.sessionId, subjectType: 'admin' },
+          { $set: { revokedAt: new Date(), refreshHash: hashToken(nanoid(32)) } },
+        );
+        res.json({ success: true, data: { loggedOut: true }, meta: {} });
+      } catch (error) {
+        next(error);
+      }
     });
     res.json({
       success: true,
@@ -207,6 +231,108 @@ router.post(
         ip: req.ip,
       });
       res.json({ success: true, data: { id: item._id.toString(), status: item.status }, meta: {} });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+router.post(
+  '/requests/:id/reject',
+  requireAdmin,
+  requireRole('super_admin', 'admin', 'moderator'),
+  async (req, res, next) => {
+    try {
+      const input = z.object({ reason: z.string().min(1).max(500) }).parse(req.body);
+      const item = await BloodRequest.findOneAndUpdate(
+        { _id: req.params.id, status: { $in: ['pending_review', 'needs_info'] } },
+        {
+          $set: {
+            status: 'rejected',
+            rejectionReason: input.reason,
+            'moderation.reviewedBy': req.auth?.userId,
+            'moderation.reviewedAt': new Date(),
+          },
+        },
+        { new: true },
+      ).lean();
+      if (!item)
+        throw new AppError(404, 'REQUEST_NOT_FOUND', 'BL-300', 'The blood request was not found.');
+      await writeAudit({
+        actorId: req.auth?.userId ?? '',
+        event: 'REQUEST_REJECTED',
+        resourceType: 'BloodRequest',
+        resourceId: item._id.toString(),
+        result: 'success',
+        after: item,
+        ip: req.ip,
+      });
+      res.json({ success: true, data: { id: item._id.toString(), status: item.status }, meta: {} });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+router.post(
+  '/reports/:id/action',
+  requireAdmin,
+  requireRole('super_admin', 'admin', 'moderator'),
+  async (req, res, next) => {
+    try {
+      const input = z
+        .object({ action: z.enum(['dismiss', 'resolve']), note: z.string().max(500).optional() })
+        .parse(req.body);
+      const status = input.action === 'dismiss' ? 'dismissed' : 'resolved';
+      const item = await Report.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: {
+            status,
+            resolutionNote: input.note,
+            reviewedBy: req.auth?.userId,
+            reviewedAt: new Date(),
+          },
+        },
+        { new: true },
+      ).lean();
+      if (!item) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'Report not found.');
+      await writeAudit({
+        actorId: req.auth?.userId ?? '',
+        event: 'REPORT_ACTIONED',
+        resourceType: 'Report',
+        resourceId: item._id.toString(),
+        result: 'success',
+        after: item,
+        ip: req.ip,
+      });
+      res.json({ success: true, data: item, meta: {} });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+router.post(
+  '/users/:id/action',
+  requireAdmin,
+  requireRole('super_admin', 'admin'),
+  async (req, res, next) => {
+    try {
+      const input = z.object({ action: z.enum(['suspend', 'restore', 'delete']) }).parse(req.body);
+      const status =
+        input.action === 'suspend' ? 'suspended' : input.action === 'delete' ? 'deleted' : 'active';
+      const item = await User.findByIdAndUpdate(req.params.id, { $set: { status } }, { new: true })
+        .select('code status')
+        .lean();
+      if (!item) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'User not found.');
+      await writeAudit({
+        actorId: req.auth?.userId ?? '',
+        event: `USER_${input.action.toUpperCase()}`,
+        resourceType: 'User',
+        resourceId: req.params.id,
+        result: 'success',
+        after: item,
+        ip: req.ip,
+      });
+      res.json({ success: true, data: item, meta: {} });
     } catch (error) {
       next(error);
     }
@@ -403,6 +529,97 @@ router.post(
     }
   },
 );
+router.post(
+  '/releases/:id/verify',
+  requireAdmin,
+  requireRole('super_admin', 'admin'),
+  async (req, res, next) => {
+    try {
+      const release = await AppRelease.findById(req.params.id);
+      if (!release) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'Release not found.');
+      const response = await fetch(release.apkUrl);
+      if (!response.ok || !response.body)
+        throw new AppError(422, 'INVALID_INPUT', 'BL-422', 'Release file could not be downloaded.');
+      const digest = createHash('sha256');
+      let size = 0;
+      for await (const chunk of response.body) {
+        const buffer = Buffer.from(chunk);
+        size += buffer.length;
+        digest.update(buffer);
+      }
+      release.apkSha256 = digest.digest('hex');
+      release.apkSizeBytes = size;
+      release.status = 'verified';
+      await release.save();
+      res.json({ success: true, data: release, meta: {} });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+router.post(
+  '/releases/:id/publish',
+  requireAdmin,
+  requireRole('super_admin', 'admin'),
+  async (req, res, next) => {
+    try {
+      const release = await AppRelease.findOneAndUpdate(
+        { _id: req.params.id, status: 'verified' },
+        { $set: { status: 'published', publishedBy: req.auth?.userId, publishedAt: new Date() } },
+        { new: true },
+      ).lean();
+      if (!release)
+        throw new AppError(
+          422,
+          'INVALID_INPUT',
+          'BL-422',
+          'Only verified releases can be published.',
+        );
+      res.json({ success: true, data: release, meta: {} });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+router.post(
+  '/releases/:id/revoke',
+  requireAdmin,
+  requireRole('super_admin', 'admin'),
+  async (req, res, next) => {
+    try {
+      const release = await AppRelease.findByIdAndUpdate(
+        req.params.id,
+        { $set: { status: 'revoked' } },
+        { new: true },
+      ).lean();
+      if (!release) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'Release not found.');
+      res.json({ success: true, data: release, meta: {} });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+router.get('/releases/stats', requireAdmin, async (_req, res, next) => {
+  try {
+    const stats = await AppRelease.aggregate([
+      {
+        $group: {
+          _id: null,
+          downloads: { $sum: '$downloads' },
+          installs: { $sum: '$installs' },
+          failures: { $sum: '$failures' },
+        },
+      },
+    ]);
+    res.json({
+      success: true,
+      data: stats[0] ?? { downloads: 0, installs: 0, failures: 0 },
+      meta: {},
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 router.get('/audit', requireAdmin, requireRole('super_admin', 'admin'), async (_req, res, next) => {
   try {
     const items = await AuditLog.find().sort({ ts: -1 }).limit(100).lean();
@@ -442,6 +659,41 @@ router.get('/support/providers', requireAdmin, async (_req, res, next) => {
   try {
     const items = await ProviderSetting.find().lean();
     res.json({ success: true, data: items, meta: {} });
+  } catch (error) {
+    next(error);
+  }
+});
+router.get('/reference/divisions', requireAdmin, async (_req, res, next) => {
+  try {
+    const items = await GeoDivision.find().sort({ order: 1, key: 1 }).lean();
+    res.json({ success: true, data: items, meta: { total: items.length } });
+  } catch (error) {
+    next(error);
+  }
+});
+router.get('/reference/districts', requireAdmin, async (req, res, next) => {
+  try {
+    const filter = typeof req.query.division === 'string' ? { division: req.query.division } : {};
+    const items = await GeoDistrict.find(filter).sort({ order: 1, key: 1 }).lean();
+    res.json({ success: true, data: items, meta: { total: items.length } });
+  } catch (error) {
+    next(error);
+  }
+});
+router.get('/reference/areas', requireAdmin, async (req, res, next) => {
+  try {
+    const filter = typeof req.query.district === 'string' ? { district: req.query.district } : {};
+    const items = await GeoArea.find(filter).sort({ order: 1, key: 1 }).lean();
+    res.json({ success: true, data: items, meta: { total: items.length } });
+  } catch (error) {
+    next(error);
+  }
+});
+router.get('/reference/hospitals', requireAdmin, async (req, res, next) => {
+  try {
+    const filter = typeof req.query.district === 'string' ? { district: req.query.district } : {};
+    const items = await Hospital.find(filter).sort({ nameEn: 1 }).limit(200).lean();
+    res.json({ success: true, data: items, meta: { total: items.length } });
   } catch (error) {
     next(error);
   }
