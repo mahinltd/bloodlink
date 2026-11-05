@@ -9,6 +9,7 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [x] Health endpoint and MongoDB status reporting
 - [x] Initial repository snapshot committed
 - [x] Full integration test infrastructure with MongoDB memory server
+- [x] `uuid` advisory mitigated with an npm override without forced upgrades
 
 ## Mobile API checklist (sections 8 and 8.1.1)
 
