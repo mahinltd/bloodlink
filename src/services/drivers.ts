@@ -1,7 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary';
 import admin from 'firebase-admin';
 import { Resend } from 'resend';
-import { RtcRole, RtcTokenBuilder } from 'agora-token';
+import agoraToken from 'agora-token';
 import { env } from '../config/env.js';
 
 export type MailMessage = { to: string; subject: string; html: string };
@@ -127,12 +127,12 @@ export class StubCaller implements Caller {
 
 export class AgoraCaller implements Caller {
   async token(channel: string, uid: number, ttlSeconds: number): Promise<CallToken> {
-    const token = RtcTokenBuilder.buildTokenWithUid(
+    const token = agoraToken.RtcTokenBuilder.buildTokenWithUid(
       env.AGORA_APP_ID ?? '',
       env.AGORA_APP_CERTIFICATE ?? '',
       channel,
       uid,
-      RtcRole.PUBLISHER,
+      agoraToken.RtcRole.PUBLISHER,
       ttlSeconds,
       ttlSeconds,
     );
