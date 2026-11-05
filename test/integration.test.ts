@@ -1,5 +1,7 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { createServer } from 'node:http';
 import request from 'supertest';
+import { io as connectSocket } from 'socket.io-client';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 
 let mongo: MongoMemoryServer;
@@ -12,6 +14,7 @@ let BloodRequest: typeof import('../src/models/BloodRequest.js').BloodRequest;
 let Pledge: typeof import('../src/models/Pledge.js').Pledge;
 let moderatedRequestId = '';
 let supportPaymentId = '';
+let socketToken = '';
 
 function configureTestEnvironment(uri: string): void {
   process.env.NODE_ENV = 'test';
@@ -128,6 +131,7 @@ describe('real HTTP integration journey', () => {
     });
     expect(donorVerified.status).toBe(200);
     const donorToken = donorVerified.body.data.tokens.accessToken as string;
+    socketToken = donorToken;
     const donorId = donorVerified.body.data.user.id as string;
     info.mockRestore();
 
@@ -713,5 +717,32 @@ describe('real HTTP integration journey', () => {
         (item: { status: string }) => item.status === 'already_completed',
       ),
     ).toBe(true);
+  });
+
+  it('covers authenticated realtime presence and flag events', async () => {
+    const { attachSocket, broadcastFlagChanged } = await import('../src/realtime/socket.js');
+    const httpServer = createServer(app);
+    const ioServer = attachSocket(httpServer);
+    await new Promise<void>((resolve) => httpServer.listen(0, resolve));
+    const address = httpServer.address();
+    if (!address || typeof address === 'string') throw new Error('Socket server did not start.');
+    const url = `http://127.0.0.1:${address.port}`;
+    const socket = connectSocket(url, { auth: { token: socketToken } });
+    const flagChanged = new Promise<{ key: string; enabled: boolean }>((resolve) => {
+      socket.once('flag:changed', resolve);
+    });
+    await new Promise<void>((resolve, reject) => {
+      socket.once('connect', () => resolve());
+      socket.once('connect_error', reject);
+    });
+    const presence = await new Promise<{ success: boolean }>((resolve) => {
+      socket.emit('presence:ping', resolve);
+    });
+    expect(presence.success).toBe(true);
+    broadcastFlagChanged('integration_flag', true);
+    await expect(flagChanged).resolves.toEqual({ key: 'integration_flag', enabled: true });
+    socket.close();
+    await new Promise<void>((resolve) => ioServer.close(() => resolve()));
+    await new Promise<void>((resolve) => httpServer.close(() => resolve()));
   });
 });
