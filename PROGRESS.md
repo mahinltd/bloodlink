@@ -132,13 +132,13 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 
 ## Jobs (section 13)
 
-- [~] `POST /internal/jobs/:name`
-- [ ] `POST /internal/tick` UptimeRobot tick
-- [ ] JobRun persistence and idempotent execution
-- [ ] OTP cleanup
-- [ ] expired request cleanup
+- [x] `POST /internal/jobs/:name`
+- [x] `POST /internal/tick` UptimeRobot tick
+- [x] JobRun persistence and idempotent execution
+- [x] OTP cleanup
+- [x] expired request cleanup
 - [ ] notification fan-out
-- [ ] 45-second call timeout
+- [x] 45-second call timeout
 - [ ] release/update maintenance
 - [ ] audit integrity monitoring
 

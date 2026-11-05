@@ -665,4 +665,23 @@ describe('real HTTP integration journey', () => {
       .send();
     expect(logout.status).toBe(200);
   });
+
+  it('executes the protected uptime tick idempotently', async () => {
+    const first = await request(app)
+      .post('/internal/tick')
+      .set('x-job-secret', 'test-job-secret-that-is-at-least-32-characters');
+    const second = await request(app)
+      .post('/internal/tick')
+      .set('x-job-secret', 'test-job-secret-that-is-at-least-32-characters');
+    expect(first.status).toBe(200);
+    expect(
+      first.body.data.results.every((item: { status: string }) => item.status === 'completed'),
+    ).toBe(true);
+    expect(second.status).toBe(200);
+    expect(
+      second.body.data.results.every(
+        (item: { status: string }) => item.status === 'already_completed',
+      ),
+    ).toBe(true);
+  });
 });
