@@ -23,6 +23,7 @@ import { nextCode } from '../../services/counter.js';
 import { Session } from '../../models/Session.js';
 import { GeoDivision, GeoDistrict, GeoArea, Hospital } from '../../models/Reference.js';
 import { rotateRefreshToken, hashToken } from '../../services/tokens.js';
+import { broadcastFlagChanged } from '../../realtime/socket.js';
 
 const router = Router();
 router.post('/auth/login', async (req, res, next) => {
@@ -477,6 +478,7 @@ router.put(
       );
       if (!item) throw new AppError(404, 'NOT_FOUND', 'BL-404', 'Feature flag not found.');
       clearSettingsCache();
+      broadcastFlagChanged(item.key, item.enabled);
       await writeAudit({
         actorId: req.auth?.userId ?? '',
         event: 'FLAG_UPDATED',

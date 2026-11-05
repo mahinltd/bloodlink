@@ -2,31 +2,203 @@ openapi: 3.1.0
 info:
   title: BloodLink API
   version: 0.1.0
-  description: Contract for the BloodLink mobile app, admin dashboard, and public website.
+  description: Contract for the BloodLink mobile app, admin dashboard, public website, and scheduled jobs.
 servers:
   - url: /api/v1
+security:
+  - bearerAuth: []
 paths:
+  /healthz: { get: { operationId: getHealth, responses: { '200': { description: OK } } } }
   /app/bootstrap:
-    get:
-      operationId: getAppBootstrap
-      summary: Get public application bootstrap data
-      parameters:
-        - in: query
-          name: platform
-          schema:
-            type: string
-            enum: [android]
-        - in: query
-          name: version
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Bootstrap data
-  /healthz:
-    get:
-      operationId: getHealth
-      summary: Health check
-      responses:
-        '200':
-          description: Service is healthy
+    { get: { operationId: getAppBootstrap, responses: { '200': { description: OK } } } }
+  /app/strings: { get: { operationId: getStrings, responses: { '200': { description: OK } } } }
+  /app/config: { get: { operationId: getConfig, responses: { '200': { description: OK } } } }
+  /app/flags: { get: { operationId: getFlags, responses: { '200': { description: OK } } } }
+  /app/update/check:
+    { get: { operationId: checkUpdate, responses: { '200': { description: OK } } } }
+  /app/update/events:
+    { post: { operationId: recordUpdateEvent, responses: { '202': { description: Accepted } } } }
+  /auth/register:
+    { post: { operationId: register, responses: { '201': { description: Created } } } }
+  /auth/verify-email:
+    { post: { operationId: verifyEmail, responses: { '200': { description: OK } } } }
+  /auth/resend-otp: { post: { operationId: resendOtp, responses: { '200': { description: OK } } } }
+  /auth/login: { post: { operationId: login, responses: { '200': { description: OK } } } }
+  /auth/refresh: { post: { operationId: refresh, responses: { '200': { description: OK } } } }
+  /auth/logout: { post: { operationId: logout, responses: { '200': { description: OK } } } }
+  /auth/forgot-password:
+    { post: { operationId: forgotPassword, responses: { '202': { description: Accepted } } } }
+  /auth/reset-password:
+    { post: { operationId: resetPassword, responses: { '200': { description: OK } } } }
+  /me:
+    {
+      get: { operationId: getMe, responses: { '200': { description: OK } } },
+      patch: { operationId: updateMe, responses: { '200': { description: OK } } },
+    }
+  /me/preferences:
+    { patch: { operationId: updatePreferences, responses: { '200': { description: OK } } } }
+  /home: { get: { operationId: getHome, responses: { '200': { description: OK } } } }
+  /me/donor-profile/steps/1:
+    { put: { operationId: saveDonorStep1, responses: { '200': { description: OK } } } }
+  /me/donor-profile/steps/2:
+    { put: { operationId: saveDonorStep2, responses: { '200': { description: OK } } } }
+  /me/donor-profile/steps/3:
+    { put: { operationId: saveDonorStep3, responses: { '200': { description: OK } } } }
+  /me/donor-profile/steps/4:
+    { put: { operationId: saveDonorStep4, responses: { '200': { description: OK } } } }
+  /me/availability:
+    { patch: { operationId: updateAvailability, responses: { '200': { description: OK } } } }
+  /donors: { get: { operationId: searchDonors, responses: { '200': { description: OK } } } }
+  /donors/{userId}:
+    {
+      get:
+        {
+          operationId: getDonor,
+          parameters: [{ $ref: '#/components/parameters/userId' }],
+          responses: { '200': { description: OK } },
+        },
+    }
+  /me/devices: { post: { operationId: registerDevice, responses: { '200': { description: OK } } } }
+  /users/{id}/block:
+    {
+      post: { operationId: blockUser, responses: { '201': { description: Created } } },
+      delete: { operationId: unblockUser, responses: { '200': { description: OK } } },
+    }
+  /geo/divisions: { get: { operationId: getDivisions, responses: { '200': { description: OK } } } }
+  /geo/districts: { get: { operationId: getDistricts, responses: { '200': { description: OK } } } }
+  /geo/areas: { get: { operationId: getAreas, responses: { '200': { description: OK } } } }
+  /geo/hospitals: { get: { operationId: getHospitals, responses: { '200': { description: OK } } } }
+  /requests:
+    {
+      get: { operationId: listRequests, responses: { '200': { description: OK } } },
+      post: { operationId: createRequest, responses: { '201': { description: Created } } },
+    }
+  /requests/{id}: { get: { operationId: getRequest, responses: { '200': { description: OK } } } }
+  /requests/{id}/pledge:
+    {
+      post: { operationId: pledgeRequest, responses: { '201': { description: Created } } },
+      delete: { operationId: withdrawPledge, responses: { '200': { description: OK } } },
+    }
+  /requests/{id}/pledges/{pledgeId}/accept:
+    { post: { operationId: acceptPledge, responses: { '200': { description: OK } } } }
+  /requests/{id}/fulfill:
+    { post: { operationId: fulfillRequest, responses: { '200': { description: OK } } } }
+  /uploads/sign: { post: { operationId: signUpload, responses: { '200': { description: OK } } } }
+  /conversations:
+    {
+      get: { operationId: listConversations, responses: { '200': { description: OK } } },
+      post: { operationId: createConversation, responses: { '201': { description: Created } } },
+    }
+  /conversations/{id}/messages:
+    {
+      get: { operationId: listMessages, responses: { '200': { description: OK } } },
+      post: { operationId: sendMessage, responses: { '201': { description: Created } } },
+    }
+  /conversations/{id}/read:
+    { post: { operationId: readConversation, responses: { '200': { description: OK } } } }
+  /calls: { post: { operationId: createCall, responses: { '201': { description: Created } } } }
+  /calls/{id}/accept:
+    { post: { operationId: acceptCall, responses: { '200': { description: OK } } } }
+  /calls/{id}/decline:
+    { post: { operationId: declineCall, responses: { '200': { description: OK } } } }
+  /calls/{id}/cancel:
+    { post: { operationId: cancelCall, responses: { '200': { description: OK } } } }
+  /calls/{id}/end: { post: { operationId: endCall, responses: { '200': { description: OK } } } }
+  /me/donations:
+    {
+      get: { operationId: listDonations, responses: { '200': { description: OK } } },
+      post: { operationId: createDonation, responses: { '201': { description: Created } } },
+    }
+  /donations/{id}/review:
+    { post: { operationId: reviewDonation, responses: { '201': { description: Created } } } }
+  /reports: { post: { operationId: createReport, responses: { '201': { description: Created } } } }
+  /notifications:
+    { get: { operationId: listNotifications, responses: { '200': { description: OK } } } }
+  /notifications/{tab}:
+    { get: { operationId: listNotificationTab, responses: { '200': { description: OK } } } }
+  /notifications/read:
+    { post: { operationId: markNotificationsRead, responses: { '200': { description: OK } } } }
+  /support/payments:
+    { post: { operationId: createSupportPayment, responses: { '201': { description: Created } } } }
+  /share/requests/{code}:
+    { get: { operationId: shareRequest, responses: { '200': { description: OK } } } }
+  /download/latest:
+    { get: { operationId: downloadLatest, responses: { '302': { description: Redirect } } } }
+  /download/{versionCode}:
+    { get: { operationId: downloadVersion, responses: { '302': { description: Redirect } } } }
+  /admin/auth/login:
+    { post: { operationId: adminLogin, responses: { '200': { description: OK } } } }
+  /admin/auth/verify-2fa:
+    { post: { operationId: adminVerify2fa, responses: { '200': { description: OK } } } }
+  /admin/auth/refresh:
+    { post: { operationId: adminRefresh, responses: { '200': { description: OK } } } }
+  /admin/auth/logout:
+    { post: { operationId: adminLogout, responses: { '200': { description: OK } } } }
+  /admin/me: { get: { operationId: adminMe, responses: { '200': { description: OK } } } }
+  /admin/overview:
+    { get: { operationId: adminOverview, responses: { '200': { description: OK } } } }
+  /admin/users: { get: { operationId: adminUsers, responses: { '200': { description: OK } } } }
+  /admin/users/{id}/action:
+    { post: { operationId: adminUserAction, responses: { '200': { description: OK } } } }
+  /admin/reports: { get: { operationId: adminReports, responses: { '200': { description: OK } } } }
+  /admin/reports/{id}/action:
+    { post: { operationId: adminReportAction, responses: { '200': { description: OK } } } }
+  /admin/requests/{id}/approve:
+    { post: { operationId: approveRequest, responses: { '200': { description: OK } } } }
+  /admin/requests/{id}/reject:
+    { post: { operationId: rejectRequest, responses: { '200': { description: OK } } } }
+  /admin/app-config:
+    { get: { operationId: getAdminConfig, responses: { '200': { description: OK } } } }
+  /admin/app-config/draft:
+    { put: { operationId: saveConfigDraft, responses: { '200': { description: OK } } } }
+  /admin/app-config/publish:
+    { post: { operationId: publishConfig, responses: { '200': { description: OK } } } }
+  /admin/cms/strings:
+    {
+      get: { operationId: listCmsStrings, responses: { '200': { description: OK } } },
+      post: { operationId: saveCmsString, responses: { '201': { description: Created } } },
+    }
+  /admin/flags: { get: { operationId: listFlags, responses: { '200': { description: OK } } } }
+  /admin/flags/{key}:
+    { put: { operationId: updateFlag, responses: { '200': { description: OK } } } }
+  /admin/releases:
+    {
+      get: { operationId: listReleases, responses: { '200': { description: OK } } },
+      post: { operationId: createRelease, responses: { '201': { description: Created } } },
+    }
+  /admin/releases/stats:
+    { get: { operationId: releaseStats, responses: { '200': { description: OK } } } }
+  /admin/releases/{id}/verify:
+    { post: { operationId: verifyRelease, responses: { '200': { description: OK } } } }
+  /admin/releases/{id}/publish:
+    { post: { operationId: publishRelease, responses: { '200': { description: OK } } } }
+  /admin/releases/{id}/revoke:
+    { post: { operationId: revokeRelease, responses: { '200': { description: OK } } } }
+  /admin/audit: { get: { operationId: listAudit, responses: { '200': { description: OK } } } }
+  /admin/audit/verify:
+    { get: { operationId: verifyAudit, responses: { '200': { description: OK } } } }
+  /admin/audit/export:
+    { get: { operationId: exportAudit, responses: { '200': { description: OK } } } }
+  /admin/support/providers:
+    { get: { operationId: listSupportProviders, responses: { '200': { description: OK } } } }
+  /admin/support/payments:
+    {
+      get: { operationId: listSupportPayments, responses: { '200': { description: OK } } },
+      post:
+        { operationId: createAdminSupportPayment, responses: { '201': { description: Created } } },
+    }
+  /admin/support/payments/{id}/confirm:
+    { post: { operationId: confirmSupportPayment, responses: { '200': { description: OK } } } }
+  /admin/reference/divisions:
+    { get: { operationId: adminDivisions, responses: { '200': { description: OK } } } }
+  /admin/reference/districts:
+    { get: { operationId: adminDistricts, responses: { '200': { description: OK } } } }
+  /admin/reference/areas:
+    { get: { operationId: adminAreas, responses: { '200': { description: OK } } } }
+  /admin/reference/hospitals:
+    { get: { operationId: adminHospitals, responses: { '200': { description: OK } } } }
+components:
+  parameters:
+    userId: { name: userId, in: path, required: true, schema: { type: string } }
+  securitySchemes:
+    bearerAuth: { type: http, scheme: bearer, bearerFormat: JWT }

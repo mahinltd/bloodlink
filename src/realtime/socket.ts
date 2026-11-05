@@ -6,8 +6,10 @@ import { Message } from '../models/Message.js';
 import { scanMoneyKeywords } from '../services/moderation.js';
 
 type Ack = (response: { success: boolean; data?: unknown; error?: { code: string } }) => void;
+let activeIo: Server | undefined;
 export function attachSocket(server: HttpServer): Server {
   const io = new Server(server, { cors: { origin: true, credentials: true } });
+  activeIo = io;
   const connectedUsers = new Map<string, number>();
   io.use((socket, next) => {
     try {
@@ -128,6 +130,10 @@ export function attachSocket(server: HttpServer): Server {
 
 export function emitFlagChanged(io: Server, key: string, enabled: boolean): void {
   io.emit('flag:changed', { key, enabled });
+}
+
+export function broadcastFlagChanged(key: string, enabled: boolean): void {
+  activeIo?.emit('flag:changed', { key, enabled });
 }
 
 async function relayToPeer(
