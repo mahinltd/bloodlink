@@ -7,6 +7,7 @@ import { AppError } from '../../middleware/error.js';
 import { issueTokens, rotateRefreshToken } from '../../services/tokens.js';
 import { nextCode } from '../../services/counter.js';
 import { sendOtp, verifyOtp } from '../../services/otp.js';
+import { authRateLimit, otpRateLimit } from '../../middleware/rateLimit.js';
 
 const router = Router();
 const registerSchema = z.object({
@@ -25,7 +26,7 @@ const loginSchema = z.object({
   fcmToken: z.string().optional(),
 });
 
-router.post('/register', async (req, res, next) => {
+router.post('/register', authRateLimit, async (req, res, next) => {
   try {
     const input = registerSchema.parse(req.body);
     const email = input.email.toLowerCase();
@@ -50,7 +51,7 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
-router.post('/verify-email', async (req, res, next) => {
+router.post('/verify-email', otpRateLimit, async (req, res, next) => {
   try {
     const input = z
       .object({
@@ -78,7 +79,7 @@ router.post('/verify-email', async (req, res, next) => {
   }
 });
 
-router.post('/resend-otp', async (req, res, next) => {
+router.post('/resend-otp', otpRateLimit, async (req, res, next) => {
   try {
     const input = z
       .object({ email: z.string().email(), purpose: z.enum(['verify_email', 'reset']) })
@@ -90,7 +91,7 @@ router.post('/resend-otp', async (req, res, next) => {
   }
 });
 
-router.post('/login', async (req, res, next) => {
+router.post('/login', authRateLimit, async (req, res, next) => {
   try {
     const input = loginSchema.parse(req.body);
     const user = await User.findOne({ email: input.email.toLowerCase() }).select('+passwordHash');
@@ -118,7 +119,7 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
-router.post('/refresh', async (req, res, next) => {
+router.post('/refresh', authRateLimit, async (req, res, next) => {
   try {
     const input = z.object({ refreshToken: z.string().min(1) }).parse(req.body);
     res.json({
@@ -147,7 +148,7 @@ router.post('/logout', async (req, res, next) => {
   }
 });
 
-router.post('/forgot-password', async (req, res, next) => {
+router.post('/forgot-password', otpRateLimit, async (req, res, next) => {
   try {
     const input = z.object({ email: z.string().email() }).parse(req.body);
     if (await User.exists({ email: input.email.toLowerCase() }))
@@ -158,7 +159,7 @@ router.post('/forgot-password', async (req, res, next) => {
   }
 });
 
-router.post('/reset-password', async (req, res, next) => {
+router.post('/reset-password', otpRateLimit, async (req, res, next) => {
   try {
     const input = z
       .object({
