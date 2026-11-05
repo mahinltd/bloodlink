@@ -207,3 +207,19 @@ components:
     userId: { name: userId, in: path, required: true, schema: { type: string } }
   securitySchemes:
     bearerAuth: { type: http, scheme: bearer, bearerFormat: JWT }
+x-socket-events:
+  - presence:ping
+  - presence:online
+  - presence:offline
+  - typing:start
+  - typing:stop
+  - message:send
+  - message:new
+  - message:read
+  - message:delivered
+  - message:seen
+  - call:invite
+  - call:accept
+  - call:decline
+  - call:end
+  - flag:changed

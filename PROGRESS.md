@@ -64,7 +64,7 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [x] `POST /api/v1/reports`
 - [x] `GET /api/v1/notifications`
 - [x] `POST /api/v1/notifications/read`
-- [~] `DELETE /api/v1/me`
+- [x] `DELETE /api/v1/me`
 - [x] `PATCH /api/v1/me/preferences`
 - [x] `GET /api/v1/home`
 - [x] `GET /api/v1/donors`
@@ -82,46 +82,45 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [~] `presence:online` and `presence:offline` fan-out
 - [~] `message:delivered` and `message:seen` receipts
 - [~] `call:invite`, `call:accept`, `call:decline`, `call:end`
-- [ ] `flag:changed`
+- [~] `flag:changed`
 
 ## Admin API checklist (section 11)
 
-- [~] `POST /api/v1/admin/auth/login`
-- [~] `POST /api/v1/admin/auth/verify-2fa`
+- [x] `POST /api/v1/admin/auth/login`
+- [x] `POST /api/v1/admin/auth/verify-2fa`
 - [x] `POST /api/v1/admin/auth/refresh`
 - [x] `POST /api/v1/admin/auth/logout`
-- [~] `GET /api/v1/admin/me`
-- [~] `GET /api/v1/admin/overview`
-- [~] `GET /api/v1/admin/users`
-- [~] `GET /api/v1/admin/reports`
+- [x] `GET /api/v1/admin/me`
+- [x] `GET /api/v1/admin/overview`
+- [x] `GET /api/v1/admin/users`
+- [x] `GET /api/v1/admin/reports`
 - [~] `POST /api/v1/admin/reports/:id/action`
 - [~] `POST /api/v1/admin/requests/:id/reject`
 - [~] `POST /api/v1/admin/users/:id/action`
-- [~] `GET /api/v1/admin/app-config`
-- [~] `PUT /api/v1/admin/app-config`
-- [~] `POST /api/v1/admin/app-config/publish`
-- [~] `GET /api/v1/admin/cms/strings`
-- [~] `POST /api/v1/admin/cms/strings/review`
-- [~] `GET /api/v1/admin/flags`
-- [~] `PUT /api/v1/admin/flags/:key`
-- [~] `GET /api/v1/admin/releases`
-- [~] `POST /api/v1/admin/releases`
+- [x] `GET /api/v1/admin/app-config`
+- [x] `PUT /api/v1/admin/app-config/draft`
+- [x] `POST /api/v1/admin/app-config/publish`
+- [x] `GET /api/v1/admin/cms/strings`
+- [x] `POST /api/v1/admin/cms/strings`
+- [x] `GET /api/v1/admin/flags`
+- [x] `PUT /api/v1/admin/flags/:key`
+- [x] `GET /api/v1/admin/releases`
+- [x] `POST /api/v1/admin/releases`
 - [~] `POST /api/v1/admin/releases/:id/verify`
 - [~] `POST /api/v1/admin/releases/:id/publish`
 - [~] `POST /api/v1/admin/releases/:id/revoke`
 - [x] `GET /api/v1/admin/releases/stats`
-- [~] `GET /api/v1/admin/audit`
-- [~] `GET /api/v1/admin/audit/verify`
-- [~] `GET /api/v1/admin/audit/export`
-- [~] `GET /api/v1/admin/support/providers`
-- [~] `GET /api/v1/admin/support/payments`
-- [~] `POST /api/v1/admin/support/payments`
-- [~] `POST /api/v1/admin/support/payments/:id/confirm`
+- [x] `GET /api/v1/admin/audit`
+- [x] `GET /api/v1/admin/audit/verify`
+- [x] `GET /api/v1/admin/audit/export`
+- [x] `GET /api/v1/admin/support/providers`
+- [x] `GET /api/v1/admin/support/payments`
+- [x] `POST /api/v1/admin/support/payments`
+- [x] `POST /api/v1/admin/support/payments/:id/confirm`
 - [x] `GET /api/v1/admin/reference/divisions`
 - [x] `GET /api/v1/admin/reference/districts`
 - [x] `GET /api/v1/admin/reference/areas`
 - [x] `GET /api/v1/admin/reference/hospitals`
-- [ ] Admin refresh, logout, session management, user actions, request moderation, CMS publish validation, audit verify/export, release verify/publish/revoke/stats, and reference-data APIs
 
 ## Public API checklist (section 12)
 
