@@ -223,6 +223,23 @@ describe('real HTTP integration journey', () => {
     expect(created.status).toBe(201);
     expect(created.body.data.status).toBe('approved');
     const requestId = created.body.data.id as string;
+    const requestCode = created.body.data.code as string;
+    const shared = await request(app).get(`/api/v1/share/requests/${requestCode}`);
+    expect(shared.status).toBe(200);
+    expect(shared.body.data).not.toHaveProperty('contactPhone');
+    const latestDownload = await request(app).get('/api/v1/download/latest');
+    expect(latestDownload.status).toBe(302);
+    const versionDownload = await request(app).get('/api/v1/download/1');
+    expect(versionDownload.status).toBe(302);
+    const requestList = await request(app)
+      .get('/api/v1/requests?tab=all')
+      .set('authorization', `Bearer ${donorToken}`);
+    expect(requestList.status).toBe(200);
+    expect(requestList.body.data.some((item: { id: string }) => item.id === requestId)).toBe(true);
+    const requestDetail = await request(app)
+      .get(`/api/v1/requests/${requestId}`)
+      .set('authorization', `Bearer ${donorToken}`);
+    expect(requestDetail.status).toBe(200);
 
     const pledgeResponse = await request(app)
       .post(`/api/v1/requests/${requestId}/pledge`)
@@ -237,6 +254,12 @@ describe('real HTTP integration journey', () => {
       .send();
     expect(accepted.status).toBe(200);
     expect(accepted.body.data.status).toBe('accepted');
+    const withdrawn = await request(app)
+      .delete(`/api/v1/requests/${requestId}/pledge`)
+      .set('authorization', `Bearer ${donorToken}`)
+      .send();
+    expect(withdrawn.status).toBe(200);
+    expect(withdrawn.body.data.withdrawn).toBe(true);
 
     const conversation = await request(app)
       .post('/api/v1/conversations')
@@ -249,6 +272,97 @@ describe('real HTTP integration journey', () => {
       .set('authorization', `Bearer ${requesterToken}`)
       .send({ clientMessageId: 'journey-message-1', type: 'text', text: 'Thank you.' });
     expect(message.status).toBe(201);
+    const conversations = await request(app)
+      .get('/api/v1/conversations')
+      .set('authorization', `Bearer ${requesterToken}`);
+    expect(conversations.status).toBe(200);
+    const messages = await request(app)
+      .get(`/api/v1/conversations/${conversationId}/messages`)
+      .set('authorization', `Bearer ${donorToken}`);
+    expect(messages.status).toBe(200);
+    expect(messages.body.data).toHaveLength(1);
+    const read = await request(app)
+      .post(`/api/v1/conversations/${conversationId}/read`)
+      .set('authorization', `Bearer ${donorToken}`)
+      .send();
+    expect(read.status).toBe(200);
+    const upload = await request(app)
+      .post('/api/v1/uploads/sign')
+      .set('authorization', `Bearer ${requesterToken}`)
+      .send({ purpose: 'chat_image', mime: 'image/png', bytes: 1024 });
+    expect(upload.status).toBe(200);
+    const call = await request(app)
+      .post('/api/v1/calls')
+      .set('authorization', `Bearer ${requesterToken}`)
+      .send({ calleeId: donorId, conversationId });
+    expect(call.status).toBe(201);
+    const callId = call.body.data.callId as string;
+    const acceptedCall = await request(app)
+      .post(`/api/v1/calls/${callId}/accept`)
+      .set('authorization', `Bearer ${donorToken}`)
+      .send();
+    expect(acceptedCall.status).toBe(200);
+    const endedCall = await request(app)
+      .post(`/api/v1/calls/${callId}/end`)
+      .set('authorization', `Bearer ${requesterToken}`)
+      .send();
+    expect(endedCall.status).toBe(200);
+    const declinedCall = await request(app)
+      .post('/api/v1/calls')
+      .set('authorization', `Bearer ${requesterToken}`)
+      .send({ calleeId: donorId, conversationId });
+    expect(declinedCall.status).toBe(201);
+    const declined = await request(app)
+      .post(`/api/v1/calls/${declinedCall.body.data.callId}/decline`)
+      .set('authorization', `Bearer ${donorToken}`)
+      .send();
+    expect(declined.status).toBe(200);
+    const cancelledCall = await request(app)
+      .post('/api/v1/calls')
+      .set('authorization', `Bearer ${requesterToken}`)
+      .send({ calleeId: donorId, conversationId });
+    expect(cancelledCall.status).toBe(201);
+    const cancelled = await request(app)
+      .post(`/api/v1/calls/${cancelledCall.body.data.callId}/cancel`)
+      .set('authorization', `Bearer ${requesterToken}`)
+      .send();
+    expect(cancelled.status).toBe(200);
+    const donation = await request(app)
+      .post('/api/v1/me/donations')
+      .set('authorization', `Bearer ${donorToken}`)
+      .send({
+        date: new Date().toISOString(),
+        hospitalName: 'Dhaka Medical College Hospital',
+        bloodGroup: 'O+',
+        units: 1,
+        recipientName: 'Patient',
+      });
+    expect(donation.status).toBe(201);
+    const donationId = donation.body.data._id as string;
+    const donations = await request(app)
+      .get('/api/v1/me/donations')
+      .set('authorization', `Bearer ${donorToken}`);
+    expect(donations.status).toBe(200);
+    const review = await request(app)
+      .post(`/api/v1/donations/${donationId}/review`)
+      .set('authorization', `Bearer ${donorToken}`)
+      .send({ rating: 5, text: 'Helpful coordination.', anonymous: true });
+    expect(review.status).toBe(201);
+    const notifications = await request(app)
+      .get('/api/v1/notifications')
+      .set('authorization', `Bearer ${donorToken}`);
+    expect(notifications.status).toBe(200);
+    const notificationsRead = await request(app)
+      .post('/api/v1/notifications/read')
+      .set('authorization', `Bearer ${donorToken}`)
+      .send({ all: true });
+    expect(notificationsRead.status).toBe(200);
+    const deleted = await request(app)
+      .delete('/api/v1/me')
+      .set('authorization', `Bearer ${donorToken}`)
+      .send({ password: 'donor-password' });
+    expect(deleted.status).toBe(200);
+    expect(deleted.body.data.deleted).toBe(true);
 
     const report = await request(app)
       .post('/api/v1/reports')
@@ -263,7 +377,7 @@ describe('real HTTP integration journey', () => {
 
     await expect(User.countDocuments()).resolves.toBe(2);
     await expect(BloodRequest.countDocuments({ status: 'approved' })).resolves.toBe(1);
-    await expect(Pledge.countDocuments({ status: 'accepted' })).resolves.toBe(1);
+    await expect(Pledge.countDocuments({ status: 'cancelled' })).resolves.toBe(1);
   });
 
   it('covers OTP verification, login, refresh rotation, reuse detection, and password reset', async () => {

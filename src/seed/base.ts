@@ -277,7 +277,7 @@ export async function seed(options: { disconnect?: boolean } = {}): Promise<void
         versionCode: 1,
         versionName: '1.0.0',
         channel: 'stable',
-        status: 'draft',
+        status: 'published',
         apkUrl: 'https://example.invalid/bloodlink.apk',
         minSupportedVersionCode: 1,
         rolloutPercent: 100,

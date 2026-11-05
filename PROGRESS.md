@@ -25,44 +25,44 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [~] `GET /api/v1/app/flags`
 - [~] `GET /api/v1/app/update/check`
 - [~] `POST /api/v1/app/update/events`
-- [~] `GET /api/v1/geo/divisions`
-- [~] `GET /api/v1/geo/districts`
-- [~] `GET /api/v1/geo/areas`
-- [~] `GET /api/v1/geo/hospitals`
-- [~] `GET /api/v1/me`
-- [~] `PATCH /api/v1/me`
-- [~] `PUT /api/v1/me/donor-profile/steps/1`
-- [~] `PUT /api/v1/me/donor-profile/steps/2`
-- [~] `PUT /api/v1/me/donor-profile/steps/3`
-- [~] `PUT /api/v1/me/donor-profile/steps/4`
-- [~] `PATCH /api/v1/me/availability`
-- [~] `GET /api/v1/donors/:userId`
-- [~] `POST /api/v1/me/devices`
-- [~] `POST /api/v1/users/:id/block`
-- [~] `DELETE /api/v1/users/:id/block`
-- [~] `POST /api/v1/requests`
-- [~] `GET /api/v1/requests`
-- [~] `GET /api/v1/requests/:id`
-- [~] `POST /api/v1/requests/:id/pledge`
-- [~] `DELETE /api/v1/requests/:id/pledge`
-- [~] `POST /api/v1/requests/:id/pledges/:pledgeId/accept`
-- [~] `POST /api/v1/uploads/sign`
-- [~] `GET /api/v1/conversations`
-- [~] `POST /api/v1/conversations`
-- [~] `GET /api/v1/conversations/:id/messages`
-- [~] `POST /api/v1/conversations/:id/messages`
-- [~] `POST /api/v1/conversations/:id/read`
-- [~] `POST /api/v1/calls`
-- [~] `POST /api/v1/calls/:id/accept`
-- [~] `POST /api/v1/calls/:id/decline`
-- [~] `POST /api/v1/calls/:id/cancel`
-- [~] `POST /api/v1/calls/:id/end`
-- [~] `GET /api/v1/me/donations`
-- [~] `POST /api/v1/me/donations`
-- [~] `POST /api/v1/donations/:id/review`
-- [~] `POST /api/v1/reports`
-- [~] `GET /api/v1/notifications`
-- [~] `POST /api/v1/notifications/read`
+- [x] `GET /api/v1/geo/divisions`
+- [x] `GET /api/v1/geo/districts`
+- [x] `GET /api/v1/geo/areas`
+- [x] `GET /api/v1/geo/hospitals`
+- [x] `GET /api/v1/me`
+- [x] `PATCH /api/v1/me`
+- [x] `PUT /api/v1/me/donor-profile/steps/1`
+- [x] `PUT /api/v1/me/donor-profile/steps/2`
+- [x] `PUT /api/v1/me/donor-profile/steps/3`
+- [x] `PUT /api/v1/me/donor-profile/steps/4`
+- [x] `PATCH /api/v1/me/availability`
+- [x] `GET /api/v1/donors/:userId`
+- [x] `POST /api/v1/me/devices`
+- [x] `POST /api/v1/users/:id/block`
+- [x] `DELETE /api/v1/users/:id/block`
+- [x] `POST /api/v1/requests`
+- [x] `GET /api/v1/requests`
+- [x] `GET /api/v1/requests/:id`
+- [x] `POST /api/v1/requests/:id/pledge`
+- [x] `DELETE /api/v1/requests/:id/pledge`
+- [x] `POST /api/v1/requests/:id/pledges/:pledgeId/accept`
+- [x] `POST /api/v1/uploads/sign`
+- [x] `GET /api/v1/conversations`
+- [x] `POST /api/v1/conversations`
+- [x] `GET /api/v1/conversations/:id/messages`
+- [x] `POST /api/v1/conversations/:id/messages`
+- [x] `POST /api/v1/conversations/:id/read`
+- [x] `POST /api/v1/calls`
+- [x] `POST /api/v1/calls/:id/accept`
+- [x] `POST /api/v1/calls/:id/decline`
+- [x] `POST /api/v1/calls/:id/cancel`
+- [x] `POST /api/v1/calls/:id/end`
+- [x] `GET /api/v1/me/donations`
+- [x] `POST /api/v1/me/donations`
+- [x] `POST /api/v1/donations/:id/review`
+- [x] `POST /api/v1/reports`
+- [x] `GET /api/v1/notifications`
+- [x] `POST /api/v1/notifications/read`
 - [~] `DELETE /api/v1/me`
 - [ ] Missing mobile preferences, home, donor search, request fulfillment, support payment, and complete notification-tab APIs
 
@@ -106,10 +106,10 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 
 ## Public API checklist (section 12)
 
-- [~] `GET /api/v1/share/requests/:code`
-- [~] `GET /api/v1/download/latest`
-- [~] `GET /api/v1/download/:versionCode`
-- [~] `DELETE /api/v1/me`
+- [x] `GET /api/v1/share/requests/:code`
+- [x] `GET /api/v1/download/latest`
+- [x] `GET /api/v1/download/:versionCode`
+- [x] `DELETE /api/v1/me`
 - [ ] Public website content and public donor/request discovery endpoints not yet implemented
 
 ## Jobs (section 13)
