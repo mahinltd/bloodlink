@@ -87,6 +87,7 @@ paths:
   /geo/districts: { get: { operationId: getDistricts, responses: { '200': { description: OK } } } }
   /geo/areas: { get: { operationId: getAreas, responses: { '200': { description: OK } } } }
   /geo/hospitals: { get: { operationId: getHospitals, responses: { '200': { description: OK } } } }
+  /hospitals: { get: { operationId: getHospitalsAlias, responses: { '200': { description: OK } } } }
   /requests:
     {
       get: { operationId: listRequests, responses: { '200': { description: OK } } },

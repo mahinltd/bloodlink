@@ -24,6 +24,9 @@ import adminRoutes from './modules/admin/routes.js';
 import publicRoutes from './modules/public/routes.js';
 import jobRoutes from './modules/jobs/routes.js';
 import { apiRateLimit } from './middleware/rateLimit.js';
+import { z } from 'zod';
+import { Hospital } from './models/Reference.js';
+import { requireUser } from './middleware/auth.js';
 
 export function createApp() {
   const app = express();
@@ -105,6 +108,17 @@ export function createApp() {
   app.use(API_PREFIX, apiRateLimit);
   app.use(`${API_PREFIX}/app`, appRoutes);
   app.use(`${API_PREFIX}/geo`, geoRoutes);
+  app.get(`${API_PREFIX}/hospitals`, requireUser, async (req, res, next) => {
+    try {
+      const q = z.string().trim().min(1).max(100).parse(req.query.q);
+      const district = typeof req.query.district === 'string' ? req.query.district : undefined;
+      const filter = district ? { $text: { $search: q }, district } : { $text: { $search: q } };
+      const items = await Hospital.find(filter).limit(20).lean();
+      res.json({ success: true, data: items, meta: { total: items.length } });
+    } catch (error) {
+      next(error);
+    }
+  });
   app.use(`${API_PREFIX}`, donorRoutes);
   app.use(`${API_PREFIX}/requests`, requestRoutes);
   app.use(`${API_PREFIX}`, chatRoutes);

@@ -215,10 +215,14 @@ describe('real HTTP integration journey', () => {
     const hospitals = await request(app)
       .get('/api/v1/geo/hospitals?q=Dhaka%20Medical&district=Dhaka')
       .set('authorization', `Bearer ${donorToken}`);
+    const hospitalsAlias = await request(app)
+      .get('/api/v1/hospitals?q=Dhaka%20Medical&district=Dhaka')
+      .set('authorization', `Bearer ${donorToken}`);
     expect(divisions.status).toBe(200);
     expect(districts.status).toBe(200);
     expect(areas.status).toBe(200);
     expect(hospitals.status).toBe(200);
+    expect(hospitalsAlias.status).toBe(200);
     expect(divisions.body.data).toHaveLength(8);
     expect(districts.body.data.length).toBeGreaterThan(0);
     expect(hospitals.body.data.length).toBeGreaterThan(0);
