@@ -16,6 +16,7 @@ let moderatedRequestId = '';
 let supportPaymentId = '';
 let socketToken = '';
 let requesterToken = '';
+let requesterUserId = '';
 let conversationIdForRealtime = '';
 let donorUserId = '';
 
@@ -116,6 +117,7 @@ describe('real HTTP integration journey', () => {
     expect(requesterVerified.status).toBe(200);
     requesterToken = requesterVerified.body.data.tokens.accessToken as string;
     const requesterId = requesterVerified.body.data.user.id as string;
+    requesterUserId = requesterId;
 
     const donorRegistration = await request(app).post('/api/v1/auth/register').send({
       name: 'Donor',
@@ -603,6 +605,47 @@ describe('real HTTP integration journey', () => {
       .set('authorization', `Bearer ${adminToken}`)
       .send();
     expect(approved.status).toBe(200);
+    const pendingRequest = await request(app)
+      .post('/api/v1/requests')
+      .set('authorization', `Bearer ${requesterToken}`)
+      .send({
+        patientName: 'Rejected patient',
+        bloodGroup: 'B+',
+        units: 1,
+        hospitalNameText: 'Dhaka Medical College Hospital',
+        division: 'dhaka',
+        district: 'Dhaka',
+        area: 'Dhanmondi',
+        neededBy: new Date(Date.now() + 86_400_000).toISOString(),
+        priority: 'routine',
+        contactPhone: '01711111111',
+        notes: 'payment is not allowed',
+      });
+    expect(pendingRequest.status).toBe(201);
+    const rejected = await request(app)
+      .post(`/api/v1/admin/requests/${pendingRequest.body.data.id}/reject`)
+      .set('authorization', `Bearer ${adminToken}`)
+      .send({ reason: 'Does not meet moderation requirements.' });
+    expect(rejected.status).toBe(200);
+    expect(rejected.body.data.status).toBe('rejected');
+    const reportId = reports.body.data[0].id ?? reports.body.data[0]._id;
+    const reportAction = await request(app)
+      .post(`/api/v1/admin/reports/${reportId}/action`)
+      .set('authorization', `Bearer ${adminToken}`)
+      .send({ action: 'resolve', note: 'Reviewed in integration test.' });
+    expect(reportAction.status).toBe(200);
+    const suspended = await request(app)
+      .post(`/api/v1/admin/users/${requesterUserId}/action`)
+      .set('authorization', `Bearer ${adminToken}`)
+      .send({ action: 'suspend' });
+    expect(suspended.status).toBe(200);
+    expect(suspended.body.data.status).toBe('suspended');
+    const restored = await request(app)
+      .post(`/api/v1/admin/users/${requesterUserId}/action`)
+      .set('authorization', `Bearer ${adminToken}`)
+      .send({ action: 'restore' });
+    expect(restored.status).toBe(200);
+    expect(restored.body.data.status).toBe('active');
     const config = await request(app)
       .get('/api/v1/admin/app-config')
       .set('authorization', `Bearer ${adminToken}`);
@@ -658,6 +701,36 @@ describe('real HTTP integration journey', () => {
         rolloutPercent: 100,
       });
     expect(release.status).toBe(201);
+    const releaseId = release.body.data._id as string;
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(Buffer.from('integration-apk-content'), {
+        status: 200,
+        headers: { 'content-type': 'application/vnd.android.package-archive' },
+      }),
+    );
+    const verifiedRelease = await request(app)
+      .post(`/api/v1/admin/releases/${releaseId}/verify`)
+      .set('authorization', `Bearer ${adminToken}`)
+      .send();
+    expect(verifiedRelease.status).toBe(200);
+    expect(verifiedRelease.body.data.status).toBe('verified');
+    expect(verifiedRelease.body.data.apkSha256).toMatch(/^[a-f0-9]{64}$/);
+    expect(verifiedRelease.body.data.apkSizeBytes).toBe(
+      Buffer.byteLength('integration-apk-content'),
+    );
+    const publishedRelease = await request(app)
+      .post(`/api/v1/admin/releases/${releaseId}/publish`)
+      .set('authorization', `Bearer ${adminToken}`)
+      .send();
+    expect(publishedRelease.status).toBe(200);
+    expect(publishedRelease.body.data.status).toBe('published');
+    const revokedRelease = await request(app)
+      .post(`/api/v1/admin/releases/${releaseId}/revoke`)
+      .set('authorization', `Bearer ${adminToken}`)
+      .send();
+    expect(revokedRelease.status).toBe(200);
+    expect(revokedRelease.body.data.status).toBe('revoked');
+    fetchMock.mockRestore();
     const releaseStats = await request(app)
       .get('/api/v1/admin/releases/stats')
       .set('authorization', `Bearer ${adminToken}`);

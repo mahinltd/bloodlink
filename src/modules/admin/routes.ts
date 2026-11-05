@@ -68,26 +68,6 @@ router.post('/auth/verify-2fa', async (req, res, next) => {
       result: 'success',
       ip: req.ip,
     });
-    router.post('/auth/refresh', async (req, res, next) => {
-      try {
-        const input = z.object({ refreshToken: z.string().min(1) }).parse(req.body);
-        const tokens = await rotateRefreshToken(input.refreshToken, 'admin');
-        res.json({ success: true, data: { tokens }, meta: {} });
-      } catch (error) {
-        next(error);
-      }
-    });
-    router.post('/auth/logout', requireAdmin, async (req, res, next) => {
-      try {
-        await Session.updateOne(
-          { _id: req.auth?.sessionId, subjectType: 'admin' },
-          { $set: { revokedAt: new Date(), refreshHash: hashToken(nanoid(32)) } },
-        );
-        res.json({ success: true, data: { loggedOut: true }, meta: {} });
-      } catch (error) {
-        next(error);
-      }
-    });
     res.json({
       success: true,
       data: {
@@ -96,6 +76,26 @@ router.post('/auth/verify-2fa', async (req, res, next) => {
       },
       meta: {},
     });
+  } catch (error) {
+    next(error);
+  }
+});
+router.post('/auth/refresh', async (req, res, next) => {
+  try {
+    const input = z.object({ refreshToken: z.string().min(1) }).parse(req.body);
+    const tokens = await rotateRefreshToken(input.refreshToken, 'admin');
+    res.json({ success: true, data: { tokens }, meta: {} });
+  } catch (error) {
+    next(error);
+  }
+});
+router.post('/auth/logout', requireAdmin, async (req, res, next) => {
+  try {
+    await Session.updateOne(
+      { _id: req.auth?.sessionId, subjectType: 'admin' },
+      { $set: { revokedAt: new Date(), refreshHash: hashToken(nanoid(32)) } },
+    );
+    res.json({ success: true, data: { loggedOut: true }, meta: {} });
   } catch (error) {
     next(error);
   }

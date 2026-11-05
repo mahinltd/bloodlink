@@ -94,9 +94,9 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [x] `GET /api/v1/admin/overview`
 - [x] `GET /api/v1/admin/users`
 - [x] `GET /api/v1/admin/reports`
-- [~] `POST /api/v1/admin/reports/:id/action`
-- [~] `POST /api/v1/admin/requests/:id/reject`
-- [~] `POST /api/v1/admin/users/:id/action`
+- [x] `POST /api/v1/admin/reports/:id/action`
+- [x] `POST /api/v1/admin/requests/:id/reject`
+- [x] `POST /api/v1/admin/users/:id/action`
 - [x] `GET /api/v1/admin/app-config`
 - [x] `PUT /api/v1/admin/app-config/draft`
 - [x] `POST /api/v1/admin/app-config/publish`
@@ -106,9 +106,9 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [x] `PUT /api/v1/admin/flags/:key`
 - [x] `GET /api/v1/admin/releases`
 - [x] `POST /api/v1/admin/releases`
-- [~] `POST /api/v1/admin/releases/:id/verify`
-- [~] `POST /api/v1/admin/releases/:id/publish`
-- [~] `POST /api/v1/admin/releases/:id/revoke`
+- [x] `POST /api/v1/admin/releases/:id/verify`
+- [x] `POST /api/v1/admin/releases/:id/publish`
+- [x] `POST /api/v1/admin/releases/:id/revoke`
 - [x] `GET /api/v1/admin/releases/stats`
 - [x] `GET /api/v1/admin/audit`
 - [x] `GET /api/v1/admin/audit/verify`
