@@ -1,11 +1,23 @@
 import { describe, expect, it } from 'vitest';
 import { isCompatible } from '../src/services/compatibility.js';
+import { verifyAuditChain } from '../src/services/audit.js';
 
 describe('compatibility matrix', () => {
   it('allows compatible donor groups and rejects incompatible groups', () => {
     expect(isCompatible('A+', 'O+')).toBe(true);
     expect(isCompatible('O-', 'O+')).toBe(false);
     expect(isCompatible('AB+', 'A-')).toBe(true);
+  });
+
+  describe('audit chain verification', () => {
+    it('accepts an empty chain and rejects a tampered record', () => {
+      expect(verifyAuditChain([])).toEqual({ valid: true });
+      expect(
+        verifyAuditChain([
+          { code: 'AUD-1', ts: '2026-01-01T00:00:00.000Z', prevHash: '', hash: 'tampered' },
+        ]),
+      ).toMatchObject({ valid: false, brokenAt: 'AUD-1' });
+    });
   });
 });
 

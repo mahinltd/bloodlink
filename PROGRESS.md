@@ -96,6 +96,8 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [~] `GET /api/v1/admin/releases`
 - [~] `POST /api/v1/admin/releases`
 - [~] `GET /api/v1/admin/audit`
+- [~] `GET /api/v1/admin/audit/verify`
+- [~] `GET /api/v1/admin/audit/export`
 - [~] `GET /api/v1/admin/support/providers`
 - [~] `GET /api/v1/admin/support/payments`
 - [~] `POST /api/v1/admin/support/payments`

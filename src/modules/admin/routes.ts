@@ -15,7 +15,7 @@ import { AppRelease } from '../../models/AppRelease.js';
 import { ProviderSetting, SupportPayment, AuditLog } from '../../models/AdminOperations.js';
 import { sendOtp, verifyOtp } from '../../services/otp.js';
 import { issueTokens } from '../../services/tokens.js';
-import { writeAudit } from '../../services/audit.js';
+import { verifyAuditChain, writeAudit } from '../../services/audit.js';
 import { clearSettingsCache } from '../../services/settings.js';
 import { AppError } from '../../middleware/error.js';
 
@@ -410,6 +410,33 @@ router.get('/audit', requireAdmin, requireRole('super_admin', 'admin'), async (_
     next(error);
   }
 });
+router.get(
+  '/audit/verify',
+  requireAdmin,
+  requireRole('super_admin', 'admin'),
+  async (_req, res, next) => {
+    try {
+      const items = await AuditLog.find().sort({ ts: 1 }).lean();
+      const result = verifyAuditChain(items as unknown as Array<Record<string, unknown>>);
+      res.json({ success: true, data: result, meta: { checked: items.length } });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+router.get(
+  '/audit/export',
+  requireAdmin,
+  requireRole('super_admin', 'admin'),
+  async (_req, res, next) => {
+    try {
+      const items = await AuditLog.find().sort({ ts: 1 }).lean();
+      res.type('application/json').send(JSON.stringify(items));
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 router.get('/support/providers', requireAdmin, async (_req, res, next) => {
   try {
     const items = await ProviderSetting.find().lean();
