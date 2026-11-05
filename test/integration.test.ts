@@ -477,6 +477,12 @@ describe('real HTTP integration journey', () => {
     const bootstrap = await request(app).get('/api/v1/app/bootstrap');
     expect(health.status).not.toBe(404);
     expect(bootstrap.status).not.toBe(404);
+    const publicRequests = await request(app).get('/api/v1/public/requests');
+    const publicDonors = await request(app).get('/api/v1/public/donors');
+    const publicContent = await request(app).get('/api/v1/public/content');
+    expect(publicRequests.status).toBe(200);
+    expect(publicDonors.status).toBe(200);
+    expect(publicContent.status).toBe(200);
     const strings = await request(app).get('/api/v1/app/strings?lang=en');
     const config = await request(app).get('/api/v1/app/config');
     const flags = await request(app).get('/api/v1/app/flags');

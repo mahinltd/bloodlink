@@ -129,7 +129,9 @@ Status legend: `[ ]` not built, `[~]` implemented but without passing endpoint t
 - [x] `GET /api/v1/download/latest`
 - [x] `GET /api/v1/download/:versionCode`
 - [x] `DELETE /api/v1/me`
-- [ ] Public website content and public donor/request discovery endpoints not yet implemented
+- [x] `GET /api/v1/public/content`
+- [x] `GET /api/v1/public/requests`
+- [x] `GET /api/v1/public/donors`
 
 ## Jobs (section 13)
 

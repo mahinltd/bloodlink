@@ -3,10 +3,80 @@ import { z } from 'zod';
 import { BloodRequest } from '../../models/BloodRequest.js';
 import { AppRelease } from '../../models/AppRelease.js';
 import { User } from '../../models/User.js';
+import { DonorProfile } from '../../models/DonorProfile.js';
+import { CmsString } from '../../models/CmsString.js';
 import { AppError } from '../../middleware/error.js';
 import { requireUser } from '../../middleware/auth.js';
 
 const router = Router();
+router.get('/public/requests', async (req, res, next) => {
+  try {
+    const filter: Record<string, unknown> = { status: 'approved' };
+    if (typeof req.query.bloodGroup === 'string') filter.bloodGroup = req.query.bloodGroup;
+    if (typeof req.query.division === 'string') filter.division = req.query.division;
+    const items = await BloodRequest.find(filter).sort({ createdAt: -1 }).limit(50).lean();
+    res.json({
+      success: true,
+      data: items.map((item) => ({
+        code: item.code,
+        patientName: item.patientName,
+        bloodGroup: item.bloodGroup,
+        units: item.units,
+        hospitalName: item.hospitalNameText,
+        area: item.area,
+        neededBy: item.neededBy,
+        priority: item.priority,
+      })),
+      meta: { total: items.length },
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+router.get('/public/donors', async (req, res, next) => {
+  try {
+    const filter: Record<string, unknown> = { available: true };
+    if (typeof req.query.bloodGroup === 'string') filter.bloodGroup = req.query.bloodGroup;
+    if (typeof req.query.district === 'string') filter.district = req.query.district;
+    const donors = await DonorProfile.find(filter).limit(50).lean();
+    const users = await User.find({
+      _id: { $in: donors.map((donor) => donor.userId) },
+      status: 'active',
+    })
+      .select('name phoneVerified')
+      .lean();
+    const byId = new Map(users.map((user) => [user._id.toString(), user]));
+    res.json({
+      success: true,
+      data: donors.flatMap((donor) => {
+        const user = byId.get(donor.userId.toString());
+        return user
+          ? [
+              {
+                displayName: user.name,
+                bloodGroup: donor.bloodGroup,
+                area: donor.area,
+                phoneVerified: user.phoneVerified,
+              },
+            ]
+          : [];
+      }),
+      meta: {},
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+router.get('/public/content', async (_req, res, next) => {
+  try {
+    const strings = await CmsString.find({ status: 'published' })
+      .select('key bn en screen version')
+      .lean();
+    res.json({ success: true, data: strings, meta: { total: strings.length } });
+  } catch (error) {
+    next(error);
+  }
+});
 router.get('/share/requests/:code', async (req, res, next) => {
   try {
     const item = await BloodRequest.findOne({ code: req.params.code, status: 'approved' }).lean();

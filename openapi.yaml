@@ -122,6 +122,11 @@ paths:
     { post: { operationId: createSupportPayment, responses: { '201': { description: Created } } } }
   /share/requests/{code}:
     { get: { operationId: shareRequest, responses: { '200': { description: OK } } } }
+  /public/requests:
+    { get: { operationId: publicRequests, responses: { '200': { description: OK } } } }
+  /public/donors: { get: { operationId: publicDonors, responses: { '200': { description: OK } } } }
+  /public/content:
+    { get: { operationId: publicContent, responses: { '200': { description: OK } } } }
   /download/latest:
     { get: { operationId: downloadLatest, responses: { '302': { description: Redirect } } } }
   /download/{versionCode}:
